@@ -194,22 +194,58 @@
 
       /* TimeRex Widget Style */
       #timerex_calendar iframe {
-        background-color: #faf7f2 !important;
+        background-color: #fefdfb !important;
       }
 
       /* Script decoration - Redo tagline */
       .script-tagline {
         font-family: "Have Heart One", cursive;
-        color: #7b024d;
+        color: #6b2059;
         pointer-events: none;
         user-select: none;
         line-height: 1.2;
         white-space: nowrap;
       }
+
+      /* Modal link animations */
+      .modal-link-btn {
+        position: relative;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .modal-link-btn:hover {
+        border-color: rgba(0, 0, 0, 0.25);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
+
+      .modal-link-icon {
+        transition: transform 0.25s ease;
+      }
+
+      .modal-link-btn:hover .modal-link-icon {
+        transform: scale(1.05);
+      }
+
+      .modal-link-badge {
+        font-family: "Hyperwave", sans-serif;
+        position: absolute;
+        right: -8px;
+        bottom: -12px;
+        transform: rotate(-6deg);
+        font-size: 1.3rem;
+        color: #6b2059;
+        opacity: 0.7;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
+      }
+
+      .modal-link-btn:hover .modal-link-badge {
+        opacity: 1;
+      }
     </style>
   </head>
 
-  <body class="text-base font-sans antialiased min-h-screen" style="background-color: #f7f2eb">
+  <body class="text-base font-sans antialiased min-h-screen" style="background-color: #faf7f2">
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-200">
       <div class="max-w-5xl mx-auto px-6 py-3">
@@ -237,7 +273,7 @@
       </div>
 
       <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden md:hidden border-t border-border-light" style="background-color: rgba(242, 233, 221, 0.95)">
+      <div id="mobile-menu" class="hidden md:hidden border-t border-border-light" style="background-color: rgba(250, 247, 242, 0.95)">
         <div class="px-6 py-3 space-y-3">
           <a href="#target" class="block text-sm text-base/60 link-flat">課題</a>
           <a href="#solution" class="block text-sm text-base/60 link-flat">ソリューション</a>
@@ -262,14 +298,14 @@
           <div>
             <!-- Services Tag -->
             <div class="reveal animate-fade-in-up mb-6 flex flex-wrap gap-2">
-              <span class="inline-flex items-center px-3 py-1 border border-border text-xs text-base/50" style="background-color: #faf7f2"> ウェブサービス開発・運用 </span>
-              <span class="inline-flex items-center px-3 py-1 border border-border text-xs text-base/50" style="background-color: #faf7f2"> iOS・Androidアプリ開発 </span>
-              <span class="inline-flex items-center px-3 py-1 border border-border text-xs text-base/50" style="background-color: #faf7f2"> AI導入・DX </span>
+              <span class="inline-flex items-center px-3 py-1 border border-border text-xs text-base/50" style="background-color: #fefdfb"> ウェブサービス開発・運用 </span>
+              <span class="inline-flex items-center px-3 py-1 border border-border text-xs text-base/50" style="background-color: #fefdfb"> iOS・Androidアプリ開発 </span>
+              <span class="inline-flex items-center px-3 py-1 border border-border text-xs text-base/50" style="background-color: #fefdfb"> AI導入・DX </span>
             </div>
 
             <!-- Headline with Have Heart One label -->
             <div class="reveal animate-fade-in-up animate-delay-100 relative">
-              <span class="section-label text-xl md:text-2xl absolute -top-4 -left-4" style="color: #7b024d; transform: rotate(-8deg)">Next Generation</span>
+              <span class="section-label text-xl md:text-2xl absolute -top-4 -left-4" style="color: #6b2059; transform: rotate(-8deg)">Next Generation</span>
               <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-medium leading-tight mb-4 tracking-tight">
                 体験しながら進行する<br />
                 <span class="text-primary">次世代アプリ開発</span>
@@ -287,17 +323,17 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
-              <a href="#contact" class="inline-flex items-center justify-center px-5 py-2.5 border border-border text-base text-sm font-medium link-flat hover:border-primary" style="background-color: #faf7f2"> 資料請求 </a>
+              <a href="#contact" class="inline-flex items-center justify-center px-5 py-2.5 border border-border text-base text-sm font-medium link-flat hover:border-primary" style="background-color: #fefdfb"> 資料請求 </a>
             </div>
 
             <!-- Badges -->
             <div class="reveal animate-fade-in-up animate-delay-400 mt-10 flex flex-wrap gap-4 items-center">
-              <div class="flex items-center gap-2 px-3 py-2 border border-border" style="background-color: #faf7f2">
+              <div class="flex items-center gap-2 px-3 py-2 border border-border" style="background-color: #fefdfb">
                 <img src="/images/prize.png" alt="受賞" class="w-6 h-6 object-contain" />
                 <span class="text-xs text-base/40">2023</span>
                 <span class="text-xs font-medium">ICTスタートアップリーグ 採択</span>
               </div>
-              <div class="flex items-center gap-2 px-3 py-2 border border-border" style="background-color: #faf7f2">
+              <div class="flex items-center gap-2 px-3 py-2 border border-border" style="background-color: #fefdfb">
                 <img src="/images/prize.png" alt="受賞" class="w-6 h-6 object-contain" />
                 <span class="text-xs text-base/40">2024</span>
                 <span class="text-xs font-medium">東京都 TIB Studio 採択</span>
@@ -340,21 +376,21 @@
         <!-- Problems Grid -->
         <div class="grid md:grid-cols-3 gap-6 mb-12">
           <!-- Problem 1 -->
-          <div class="reveal flat-hover p-6 border border-border text-center" style="background-color: #faf7f2">
+          <div class="reveal flat-hover p-6 border border-border text-center" style="background-color: #fefdfb">
             <img src="/images/assignment-1.png" alt="伝わらない悩み" class="w-36 h-36 mx-auto mb-4 object-contain opacity-80" />
             <h3 class="font-serif text-lg font-medium mb-3">伝わらない、決まらない</h3>
             <p class="text-sm text-base/50 leading-relaxed">頭の中にあるビジョンを<br />言葉にするだけで疲弊していく</p>
           </div>
 
           <!-- Problem 2 -->
-          <div class="reveal flat-hover p-6 border border-border text-center" style="background-color: #faf7f2">
+          <div class="reveal flat-hover p-6 border border-border text-center" style="background-color: #fefdfb">
             <img src="/images/assignment-2.png" alt="投資の悩み" class="w-36 h-36 mx-auto mb-4 object-contain opacity-80" />
             <h3 class="font-serif text-lg font-medium mb-3">どこまで投資すべきか</h3>
             <p class="text-sm text-base/50 leading-relaxed">将来を見据えたいけど<br />今のリソースには限りがある</p>
           </div>
 
           <!-- Problem 3 -->
-          <div class="reveal flat-hover p-6 border border-border text-center" style="background-color: #faf7f2">
+          <div class="reveal flat-hover p-6 border border-border text-center" style="background-color: #fefdfb">
             <img src="/images/assignment-3.png" alt="確認できない悩み" class="w-36 h-36 mx-auto mb-4 object-contain opacity-80" />
             <h3 class="font-serif text-lg font-medium mb-3">触れるまで、わからない</h3>
             <p class="text-sm text-base/50 leading-relaxed">完成してから「違う」と気づく<br />その恐怖と戦っている</p>
@@ -395,7 +431,7 @@
         <!-- Points Grid -->
         <div class="grid md:grid-cols-3 gap-4">
           <!-- Point 1 -->
-          <div class="reveal flat-hover p-6 border border-border" style="background-color: #faf7f2">
+          <div class="reveal flat-hover p-6 border border-border" style="background-color: #fefdfb">
             <div class="flex flex-col items-center mb-4">
               <img src="/images/stars.png" alt="" class="h-6 w-auto mb-3" />
               <div class="text-primary text-[10px] font-medium uppercase tracking-wide">Point #1</div>
@@ -405,7 +441,7 @@
           </div>
 
           <!-- Point 2 -->
-          <div class="reveal flat-hover p-6 border border-border" style="background-color: #faf7f2">
+          <div class="reveal flat-hover p-6 border border-border" style="background-color: #fefdfb">
             <div class="flex flex-col items-center mb-4">
               <img src="/images/stars.png" alt="" class="h-6 w-auto mb-3" />
               <div class="text-primary text-[10px] font-medium uppercase tracking-wide">Point #2</div>
@@ -415,7 +451,7 @@
           </div>
 
           <!-- Point 3 -->
-          <div class="reveal flat-hover p-6 border border-border" style="background-color: #faf7f2">
+          <div class="reveal flat-hover p-6 border border-border" style="background-color: #fefdfb">
             <div class="flex flex-col items-center mb-4">
               <img src="/images/stars.png" alt="" class="h-6 w-auto mb-3" />
               <div class="text-primary text-[10px] font-medium uppercase tracking-wide">Point #3</div>
@@ -423,6 +459,19 @@
             <h3 class="text-center font-serif font-medium text-base mb-2">変化を、味方に。</h3>
             <p class="text-sm text-base/45 leading-relaxed">「やっぱり変えたい」を歓迎する設計。だから長く使えて、トータルコストが下がります。</p>
           </div>
+        </div>
+
+        <!-- Why Try-On Development Link -->
+        <div class="reveal mt-12 text-center">
+          <button id="open-comparison-modal" class="modal-link-btn inline-flex items-center gap-3 px-7 py-4 text-sm border border-primary/15 rounded-sm group" style="background-color: #fefdfb">
+            <span class="modal-link-icon flex items-center justify-center w-7 h-7 rounded-full bg-black">
+              <span class="text-sm font-medium text-white">?</span>
+            </span>
+            <span class="text-base/80 group-hover:text-base/90 font-medium leading-none transition-colors duration-200">なぜ試着開発なのか</span>
+            <span class="text-base/20 leading-none">｜</span>
+            <span class="text-xs text-base/40 group-hover:text-base/50 transition-colors duration-200 leading-none">開発パートナーの選び方</span>
+            <span class="modal-link-badge">CLICK!!</span>
+          </button>
         </div>
       </div>
     </section>
@@ -445,15 +494,15 @@
             <span class="text-xs text-base/40 uppercase tracking-wide">主な事業活動</span>
           </div>
           <div class="grid md:grid-cols-3 gap-4">
-            <div class="flat-hover p-5 border border-border" style="background-color: #faf7f2">
+            <div class="flat-hover p-5 border border-border" style="background-color: #fefdfb">
               <!-- インフォグラフィック -->
               <div class="flex items-center justify-center gap-3 h-32">
                 <div class="flex flex-col items-center">
                   <div class="h-10 flex items-center justify-center">
                     <!-- 開発アイコン -->
                     <svg class="w-10 h-10" viewBox="0 0 24 24">
-                      <path fill="#fbdaf3" fill-rule="evenodd" d="M10 22h4c3.771 0 5.657 0 6.828-1.172S22 17.771 22 14v-.437c0-.873 0-1.529-.043-2.063h-4.052c-1.097 0-2.067 0-2.848-.105c-.847-.114-1.694-.375-2.385-1.066c-.692-.692-.953-1.539-1.067-2.386c-.105-.781-.105-1.75-.105-2.848l.01-2.834q0-.124.02-.244C11.121 2 10.636 2 10.03 2C6.239 2 4.343 2 3.172 3.172C2 4.343 2 6.229 2 10v4c0 3.771 0 5.657 1.172 6.828S6.229 22 10 22" clip-rule="evenodd"></path>
-                      <path fill="#7b024d" d="M10.702 14.264a.75.75 0 1 0-1.404-.527l-1.5 4a.75.75 0 1 0 1.404.527zm-3.172.266a.75.75 0 1 0-1.06-1.06l-1 1a.75.75 0 0 0 0 1.06l1 1a.75.75 0 0 0 1.06-1.06L7.06 15zm4.5.94a.75.75 0 1 0-1.06 1.06l.47.47l-.47.47a.75.75 0 1 0 1.06 1.06l1-1a.75.75 0 0 0 0-1.06zm-.52-13.21l-.01 2.835c0 1.097 0 2.066.105 2.848c.114.847.375 1.694 1.067 2.385c.69.691 1.538.953 2.385 1.067c.781.105 1.751.105 2.848.105h4.052q.02.232.028.5H22c0-.268 0-.402-.01-.56a5.3 5.3 0 0 0-.958-2.641c-.094-.128-.158-.204-.285-.357C19.954 7.494 18.91 6.312 18 5.5c-.81-.724-1.921-1.515-2.89-2.161c-.832-.556-1.248-.834-1.819-1.04a6 6 0 0 0-.506-.154c-.384-.095-.758-.128-1.285-.14z"></path>
+                      <path fill="#c48aa8" fill-rule="evenodd" d="M10 22h4c3.771 0 5.657 0 6.828-1.172S22 17.771 22 14v-.437c0-.873 0-1.529-.043-2.063h-4.052c-1.097 0-2.067 0-2.848-.105c-.847-.114-1.694-.375-2.385-1.066c-.692-.692-.953-1.539-1.067-2.386c-.105-.781-.105-1.75-.105-2.848l.01-2.834q0-.124.02-.244C11.121 2 10.636 2 10.03 2C6.239 2 4.343 2 3.172 3.172C2 4.343 2 6.229 2 10v4c0 3.771 0 5.657 1.172 6.828S6.229 22 10 22" clip-rule="evenodd"></path>
+                      <path fill="#6b2059" d="M10.702 14.264a.75.75 0 1 0-1.404-.527l-1.5 4a.75.75 0 1 0 1.404.527zm-3.172.266a.75.75 0 1 0-1.06-1.06l-1 1a.75.75 0 0 0 0 1.06l1 1a.75.75 0 0 0 1.06-1.06L7.06 15zm4.5.94a.75.75 0 1 0-1.06 1.06l.47.47l-.47.47a.75.75 0 1 0 1.06 1.06l1-1a.75.75 0 0 0 0-1.06zm-.52-13.21l-.01 2.835c0 1.097 0 2.066.105 2.848c.114.847.375 1.694 1.067 2.385c.69.691 1.538.953 2.385 1.067c.781.105 1.751.105 2.848.105h4.052q.02.232.028.5H22c0-.268 0-.402-.01-.56a5.3 5.3 0 0 0-.958-2.641c-.094-.128-.158-.204-.285-.357C19.954 7.494 18.91 6.312 18 5.5c-.81-.724-1.921-1.515-2.89-2.161c-.832-.556-1.248-.834-1.819-1.04a6 6 0 0 0-.506-.154c-.384-.095-.758-.128-1.285-.14z"></path>
                     </svg>
                   </div>
                   <span class="text-xs mt-1">開発</span>
@@ -461,16 +510,16 @@
 
                 <!-- 矢印1 -->
                 <svg class="w-5 h-5" viewBox="0 0 24 24">
-                  <path fill="#fbdaf3" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
-                  <path fill="#7b024d" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
+                  <path fill="#c48aa8" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
+                  <path fill="#6b2059" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
                 </svg>
 
                 <div class="flex flex-col items-center">
                   <div class="h-10 flex items-center justify-center">
                     <!-- サーバーアイコン -->
                     <svg class="w-10 h-10" viewBox="0 0 24 24">
-                      <path fill="#fbdaf3" d="M6 13h12c1.886 0 2.828 0 3.414.586S22 15.114 22 17s0 2.828-.586 3.414S19.886 21 18 21H6c-1.886 0-2.828 0-3.414-.586S2 18.886 2 17s0-2.828.586-3.414S4.114 13 6 13M6 3h12c1.886 0 2.828 0 3.414.586S22 5.114 22 7s0 2.828-.586 3.414S19.886 11 18 11H6c-1.886 0-2.828 0-3.414-.586S2 8.886 2 7s0-2.828.586-3.414S4.114 3 6 3"></path>
-                      <path fill="#7b024d" d="M10.25 7a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75m-5 0A.75.75 0 0 1 6 6.25h2a.75.75 0 0 1 0 1.5H6A.75.75 0 0 1 5.25 7m5 10a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75m-5 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75"></path>
+                      <path fill="#c48aa8" d="M6 13h12c1.886 0 2.828 0 3.414.586S22 15.114 22 17s0 2.828-.586 3.414S19.886 21 18 21H6c-1.886 0-2.828 0-3.414-.586S2 18.886 2 17s0-2.828.586-3.414S4.114 13 6 13M6 3h12c1.886 0 2.828 0 3.414.586S22 5.114 22 7s0 2.828-.586 3.414S19.886 11 18 11H6c-1.886 0-2.828 0-3.414-.586S2 8.886 2 7s0-2.828.586-3.414S4.114 3 6 3"></path>
+                      <path fill="#6b2059" d="M10.25 7a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75m-5 0A.75.75 0 0 1 6 6.25h2a.75.75 0 0 1 0 1.5H6A.75.75 0 0 1 5.25 7m5 10a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75m-5 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75"></path>
                     </svg>
                   </div>
                   <span class="text-xs mt-1">デプロイ</span>
@@ -478,17 +527,17 @@
 
                 <!-- 矢印2 -->
                 <svg class="w-5 h-5" viewBox="0 0 24 24">
-                  <path fill="#fbdaf3" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
-                  <path fill="#7b024d" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
+                  <path fill="#c48aa8" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
+                  <path fill="#6b2059" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
                 </svg>
 
                 <div class="flex flex-col items-center">
                   <div class="h-10 flex items-center justify-center">
                     <!-- 配信アイコン -->
                     <svg class="w-10 h-10" viewBox="0 0 24 24">
-                      <path fill="#7b024d" fill-rule="evenodd" d="M22 15v3c0 1.886 0 2.828-.586 3.414S19.886 22 18 22s-2.828 0-3.414-.586S14 19.886 14 18v-3c0-1.886 0-2.828.586-3.414S16.114 11 18 11s2.828 0 3.414.586S22 13.114 22 15m-5.75 5a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
-                      <path fill="#7b024d" d="M8 17c-2.829 0-4.243 0-5.122-.879c-.569-.569-.807-1.363-.878-2.621V13h10.516v.5c-.016.437-.016.912-.016 1.41v3.18c0 .865 0 1.659.086 2.304c.096.711.32 1.463.939 2.08l.025.026H8A.75.75 0 0 1 8 21h3.25v-4z"></path>
-                      <path fill="#fbdaf3" d="M10 2h4c3.771 0 5.657 0 6.828 1.172S22 6.229 22 10v.138c-.508-.333-1.069-.48-1.606-.551C19.75 9.5 18.955 9.5 18.09 9.5h-.18c-.865 0-1.659 0-2.304.087c-.711.095-1.463.32-2.08.938c-.588.588-.82 1.296-.924 1.975v.5H2v-.5c-.007-.45 0-.948 0-1.5v-1c0-3.771 0-5.657 1.172-6.828S6.229 2 10 2"></path>
+                      <path fill="#6b2059" fill-rule="evenodd" d="M22 15v3c0 1.886 0 2.828-.586 3.414S19.886 22 18 22s-2.828 0-3.414-.586S14 19.886 14 18v-3c0-1.886 0-2.828.586-3.414S16.114 11 18 11s2.828 0 3.414.586S22 13.114 22 15m-5.75 5a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
+                      <path fill="#6b2059" d="M8 17c-2.829 0-4.243 0-5.122-.879c-.569-.569-.807-1.363-.878-2.621V13h10.516v.5c-.016.437-.016.912-.016 1.41v3.18c0 .865 0 1.659.086 2.304c.096.711.32 1.463.939 2.08l.025.026H8A.75.75 0 0 1 8 21h3.25v-4z"></path>
+                      <path fill="#c48aa8" d="M10 2h4c3.771 0 5.657 0 6.828 1.172S22 6.229 22 10v.138c-.508-.333-1.069-.48-1.606-.551C19.75 9.5 18.955 9.5 18.09 9.5h-.18c-.865 0-1.659 0-2.304.087c-.711.095-1.463.32-2.08.938c-.588.588-.82 1.296-.924 1.975v.5H2v-.5c-.007-.45 0-.948 0-1.5v-1c0-3.771 0-5.657 1.172-6.828S6.229 2 10 2"></path>
                     </svg>
                   </div>
                   <span class="text-xs mt-1">配信</span>
@@ -498,22 +547,22 @@
               <h3 class="font-serif font-medium text-sm text-center mb-2">ウェブサービス開発・運用</h3>
               <p class="text-xs text-base/45 leading-relaxed">MVP開発など低予算で小さく始め、長期で育てやすいWebサービスを設計・開発します。</p>
             </div>
-            <div class="flat-hover p-5 border border-border" style="background-color: #faf7f2">
+            <div class="flat-hover p-5 border border-border" style="background-color: #fefdfb">
               <!-- インフォグラフィック -->
               <div class="flex items-center justify-center gap-4 h-32">
                 <!-- 左: コード（1つ） -->
                 <div class="flex flex-col items-center">
                   <div class="h-10 flex items-center justify-center">
                     <svg class="w-10 h-10" viewBox="0 0 24 24">
-                      <path fill="#fbdaf3" fill-rule="evenodd" d="M10 22h4c3.771 0 5.657 0 6.828-1.172S22 17.771 22 14v-.437c0-.873 0-1.529-.043-2.063h-4.052c-1.097 0-2.067 0-2.848-.105c-.847-.114-1.694-.375-2.385-1.066c-.692-.692-.953-1.539-1.067-2.386c-.105-.781-.105-1.75-.105-2.848l.01-2.834q0-.124.02-.244C11.121 2 10.636 2 10.03 2C6.239 2 4.343 2 3.172 3.172C2 4.343 2 6.229 2 10v4c0 3.771 0 5.657 1.172 6.828S6.229 22 10 22" clip-rule="evenodd"></path>
-                      <path fill="#7b024d" d="M10.702 14.264a.75.75 0 1 0-1.404-.527l-1.5 4a.75.75 0 1 0 1.404.527zm-3.172.266a.75.75 0 1 0-1.06-1.06l-1 1a.75.75 0 0 0 0 1.06l1 1a.75.75 0 0 0 1.06-1.06L7.06 15zm4.5.94a.75.75 0 1 0-1.06 1.06l.47.47l-.47.47a.75.75 0 1 0 1.06 1.06l1-1a.75.75 0 0 0 0-1.06zm-.52-13.21l-.01 2.835c0 1.097 0 2.066.105 2.848c.114.847.375 1.694 1.067 2.385c.69.691 1.538.953 2.385 1.067c.781.105 1.751.105 2.848.105h4.052q.02.232.028.5H22c0-.268 0-.402-.01-.56a5.3 5.3 0 0 0-.958-2.641c-.094-.128-.158-.204-.285-.357C19.954 7.494 18.91 6.312 18 5.5c-.81-.724-1.921-1.515-2.89-2.161c-.832-.556-1.248-.834-1.819-1.04a6 6 0 0 0-.506-.154c-.384-.095-.758-.128-1.285-.14z"></path>
+                      <path fill="#c48aa8" fill-rule="evenodd" d="M10 22h4c3.771 0 5.657 0 6.828-1.172S22 17.771 22 14v-.437c0-.873 0-1.529-.043-2.063h-4.052c-1.097 0-2.067 0-2.848-.105c-.847-.114-1.694-.375-2.385-1.066c-.692-.692-.953-1.539-1.067-2.386c-.105-.781-.105-1.75-.105-2.848l.01-2.834q0-.124.02-.244C11.121 2 10.636 2 10.03 2C6.239 2 4.343 2 3.172 3.172C2 4.343 2 6.229 2 10v4c0 3.771 0 5.657 1.172 6.828S6.229 22 10 22" clip-rule="evenodd"></path>
+                      <path fill="#6b2059" d="M10.702 14.264a.75.75 0 1 0-1.404-.527l-1.5 4a.75.75 0 1 0 1.404.527zm-3.172.266a.75.75 0 1 0-1.06-1.06l-1 1a.75.75 0 0 0 0 1.06l1 1a.75.75 0 0 0 1.06-1.06L7.06 15zm4.5.94a.75.75 0 1 0-1.06 1.06l.47.47l-.47.47a.75.75 0 1 0 1.06 1.06l1-1a.75.75 0 0 0 0-1.06zm-.52-13.21l-.01 2.835c0 1.097 0 2.066.105 2.848c.114.847.375 1.694 1.067 2.385c.69.691 1.538.953 2.385 1.067c.781.105 1.751.105 2.848.105h4.052q.02.232.028.5H22c0-.268 0-.402-.01-.56a5.3 5.3 0 0 0-.958-2.641c-.094-.128-.158-.204-.285-.357C19.954 7.494 18.91 6.312 18 5.5c-.81-.724-1.921-1.515-2.89-2.161c-.832-.556-1.248-.834-1.819-1.04a6 6 0 0 0-.506-.154c-.384-.095-.758-.128-1.285-.14z"></path>
                     </svg>
                   </div>
                   <span class="text-xs mt-1">1つのコード</span>
                 </div>
 
                 <!-- = マーク -->
-                <div class="text-2xl font-bold" style="color: #7b024d">=</div>
+                <div class="text-2xl font-bold" style="color: #6b2059">=</div>
 
                 <!-- 右: Android + iOS -->
                 <div class="flex gap-3 items-center">
@@ -521,30 +570,30 @@
                   <div class="flex flex-col items-center">
                     <div class="h-10 flex items-center justify-center">
                       <svg class="w-10 h-10" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#fbdaf3" d="M6 8c0-3.31 2.69-6 6-6s6 2.69 6 6v7c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V8z"></path>
-                        <rect fill="#7b024d" x="6" y="14" width="12" height="6" rx="1"></rect>
-                        <line stroke="#7b024d" stroke-width="1.5" stroke-linecap="round" x1="8" y1="2" x2="6" y2="0"></line>
-                        <line stroke="#7b024d" stroke-width="1.5" stroke-linecap="round" x1="16" y1="2" x2="18" y2="0"></line>
-                        <circle fill="#7b024d" cx="9" cy="7" r="1"></circle>
-                        <circle fill="#7b024d" cx="15" cy="7" r="1"></circle>
-                        <rect fill="#fbdaf3" x="3" y="9" width="2" height="6" rx="1"></rect>
-                        <rect fill="#fbdaf3" x="19" y="9" width="2" height="6" rx="1"></rect>
-                        <rect fill="#7b024d" x="8" y="20" width="2" height="3" rx="1"></rect>
-                        <rect fill="#7b024d" x="14" y="20" width="2" height="3" rx="1"></rect>
+                        <path fill="#c48aa8" d="M6 8c0-3.31 2.69-6 6-6s6 2.69 6 6v7c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V8z"></path>
+                        <rect fill="#6b2059" x="6" y="14" width="12" height="6" rx="1"></rect>
+                        <line stroke="#6b2059" stroke-width="1.5" stroke-linecap="round" x1="8" y1="2" x2="6" y2="0"></line>
+                        <line stroke="#6b2059" stroke-width="1.5" stroke-linecap="round" x1="16" y1="2" x2="18" y2="0"></line>
+                        <circle fill="#6b2059" cx="9" cy="7" r="1"></circle>
+                        <circle fill="#6b2059" cx="15" cy="7" r="1"></circle>
+                        <rect fill="#c48aa8" x="3" y="9" width="2" height="6" rx="1"></rect>
+                        <rect fill="#c48aa8" x="19" y="9" width="2" height="6" rx="1"></rect>
+                        <rect fill="#6b2059" x="8" y="20" width="2" height="3" rx="1"></rect>
+                        <rect fill="#6b2059" x="14" y="20" width="2" height="3" rx="1"></rect>
                       </svg>
                     </div>
                     <span class="text-xs mt-1">Android</span>
                   </div>
 
                   <!-- + マーク -->
-                  <div class="text-xl font-bold" style="color: #7b024d; opacity: 0.3">+</div>
+                  <div class="text-xl font-bold" style="color: #6b2059; opacity: 0.3">+</div>
 
                   <!-- iOS (Apple Logo) -->
                   <div class="flex flex-col items-center">
                     <div class="h-10 flex items-center justify-center">
                       <svg class="w-7 h-10" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#7b024d" d="M494.782 340.02c-.803-81.025 66.084-119.907 69.072-121.832-37.595-54.993-96.167-62.552-117.037-63.402-49.843-5.032-97.242 29.362-122.565 29.362-25.253 0-64.277-28.607-105.604-27.85-54.32.803-104.4 31.594-132.403 80.245C29.81 334.457 71.81 479.58 126.816 558.976c26.87 38.882 58.914 82.56 100.997 81 40.512-1.594 55.843-26.244 104.848-26.244 48.993 0 62.753 26.245 105.64 25.406 43.606-.803 71.232-39.638 97.925-78.65 30.887-45.12 43.548-88.75 44.316-90.994-.969-.437-85.029-32.634-85.879-129.439l.118-.035z"></path>
-                        <path fill="#fbdaf3" d="M414.23 102.178C436.553 75.095 451.636 37.5 447.514-.024c-32.162 1.311-71.163 21.437-94.253 48.485-20.729 24.012-38.836 62.28-33.993 99.036 35.918 2.8 72.591-18.248 94.926-45.272l.036-.047z"></path>
+                        <path fill="#6b2059" d="M494.782 340.02c-.803-81.025 66.084-119.907 69.072-121.832-37.595-54.993-96.167-62.552-117.037-63.402-49.843-5.032-97.242 29.362-122.565 29.362-25.253 0-64.277-28.607-105.604-27.85-54.32.803-104.4 31.594-132.403 80.245C29.81 334.457 71.81 479.58 126.816 558.976c26.87 38.882 58.914 82.56 100.997 81 40.512-1.594 55.843-26.244 104.848-26.244 48.993 0 62.753 26.245 105.64 25.406 43.606-.803 71.232-39.638 97.925-78.65 30.887-45.12 43.548-88.75 44.316-90.994-.969-.437-85.029-32.634-85.879-129.439l.118-.035z"></path>
+                        <path fill="#c48aa8" d="M414.23 102.178C436.553 75.095 451.636 37.5 447.514-.024c-32.162 1.311-71.163 21.437-94.253 48.485-20.729 24.012-38.836 62.28-33.993 99.036 35.918 2.8 72.591-18.248 94.926-45.272l.036-.047z"></path>
                       </svg>
                     </div>
                     <span class="text-xs mt-1">iOS</span>
@@ -555,21 +604,21 @@
               <h3 class="font-serif font-medium text-sm text-center mb-2">iOS・Androidアプリ開発</h3>
               <p class="text-xs text-base/45 leading-relaxed">1つのコードでiOS・Androidに対応。開発・保守コストを大幅に削減できます。</p>
             </div>
-            <div class="flat-hover p-5 border border-border" style="background-color: #faf7f2">
+            <div class="flat-hover p-5 border border-border" style="background-color: #fefdfb">
               <!-- インフォグラフィック -->
               <div class="flex items-center justify-center gap-3 h-32">
                 <!-- 左: バラバラのシステム -->
                 <div class="flex flex-col items-center">
                   <div class="h-10 flex items-center justify-center">
                     <div class="flex gap-1">
-                      <div class="w-6 h-6 rounded border flex items-center justify-center" style="border-color: #7b024d">
-                        <span class="text-[7px] font-bold" style="color: #7b024d">営業</span>
+                      <div class="w-6 h-6 rounded flex items-center justify-center" style="background-color: #6b2059">
+                        <span class="text-[7px] font-bold" style="color: #faf7f2">営業</span>
                       </div>
-                      <div class="w-6 h-6 rounded border flex items-center justify-center" style="border-color: #7b024d">
-                        <span class="text-[7px] font-bold" style="color: #7b024d">経理</span>
+                      <div class="w-6 h-6 rounded flex items-center justify-center" style="background-color: #6b2059">
+                        <span class="text-[7px] font-bold" style="color: #faf7f2">経理</span>
                       </div>
-                      <div class="w-6 h-6 rounded border flex items-center justify-center" style="border-color: #7b024d">
-                        <span class="text-[7px] font-bold" style="color: #7b024d">人事</span>
+                      <div class="w-6 h-6 rounded flex items-center justify-center" style="background-color: #6b2059">
+                        <span class="text-[7px] font-bold" style="color: #faf7f2">人事</span>
                       </div>
                     </div>
                   </div>
@@ -578,18 +627,18 @@
 
                 <!-- 矢印 -->
                 <svg class="w-5 h-5" viewBox="0 0 24 24">
-                  <path fill="#fbdaf3" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
-                  <path fill="#7b024d" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
+                  <path fill="#c48aa8" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
+                  <path fill="#6b2059" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
                 </svg>
 
                 <!-- 右: 統合クラウド -->
                 <div class="flex flex-col items-center">
                   <div class="h-10 flex items-center justify-center">
                     <svg class="w-10 h-10" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path fill="#fbdaf3" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"></path>
-                      <circle fill="#7b024d" cx="8" cy="13" r="1"></circle>
-                      <circle fill="#7b024d" cx="12" cy="13" r="1"></circle>
-                      <circle fill="#7b024d" cx="16" cy="13" r="1"></circle>
+                      <path fill="#c48aa8" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"></path>
+                      <circle fill="#6b2059" cx="8" cy="13" r="1"></circle>
+                      <circle fill="#6b2059" cx="12" cy="13" r="1"></circle>
+                      <circle fill="#6b2059" cx="16" cy="13" r="1"></circle>
                     </svg>
                   </div>
                   <span class="text-xs mt-1">統合AIクラウド</span>
@@ -609,7 +658,7 @@
           </div>
           <div class="grid md:grid-cols-2 gap-4">
             <!-- Award 1 -->
-            <div class="flat-hover p-5 border border-border" style="background-color: #faf7f2">
+            <div class="flat-hover p-5 border border-border" style="background-color: #fefdfb">
               <div class="flex items-start gap-3">
                 <div class="flex-shrink-0 w-12 h-12">
                   <img src="/images/prize.png" alt="受賞" class="w-full h-full object-contain" />
@@ -623,7 +672,7 @@
             </div>
 
             <!-- Award 2 -->
-            <div class="flat-hover p-5 border border-border" style="background-color: #faf7f2">
+            <div class="flat-hover p-5 border border-border" style="background-color: #fefdfb">
               <div class="flex items-start gap-3">
                 <div class="flex-shrink-0 w-12 h-12">
                   <img src="/images/prize.png" alt="受賞" class="w-full h-full object-contain" />
@@ -658,7 +707,7 @@
         <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-start">
           <!-- Left - Contact Form -->
           <div class="reveal">
-            <div class="border border-border p-6 md:p-8 h-full" style="background-color: #faf7f2">
+            <div class="border border-border p-6 md:p-8 h-full" style="background-color: #fefdfb">
               <h3 class="font-serif text-lg font-medium mb-4">お問い合わせフォーム</h3>
               <form id="contact-form" class="space-y-4">
                 <!-- Name -->
@@ -698,8 +747,8 @@
 
           <!-- Right - Free Consultation CTA -->
           <div class="reveal">
-            <div class="border border-border p-6 md:p-8 h-full relative" style="background-color: #faf7f2">
-              <span class="absolute -top-3 -right-2 text-xl z-10" style="font-family: 'Hyperwave', sans-serif; color: #7b024d; transform: rotate(6deg)">FREE!!</span>
+            <div class="border border-border p-6 md:p-8 h-full relative" style="background-color: #fefdfb">
+              <span class="absolute -top-3 -right-2 z-10" style="font-family: 'Hyperwave', sans-serif; color: #6b2059; transform: rotate(6deg); font-size: 1.625rem">FREE!!</span>
               <div class="mb-4">
                 <h3 class="font-serif text-xl font-medium mb-2">まずは話を聞いてみませんか？</h3>
                 <p class="text-sm text-base/50 leading-relaxed">
@@ -754,7 +803,7 @@
         <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
           <!-- Founder Message Card (Left - 60%) -->
           <div class="reveal w-full lg:w-3/5">
-            <div class="border border-border p-6 lg:p-8 h-full" style="background-color: #faf7f2">
+            <div class="border border-border p-6 lg:p-8 h-full" style="background-color: #fefdfb">
               <div class="mb-6">
                 <h3 class="font-serif text-lg font-medium">代表メッセージ</h3>
               </div>
@@ -791,7 +840,7 @@
 
           <!-- Company Info Card (Right - 40%) -->
           <div class="reveal w-full lg:w-2/5">
-            <div class="border border-border p-6 lg:p-8" style="background-color: #faf7f2">
+            <div class="border border-border p-6 lg:p-8" style="background-color: #fefdfb">
               <h3 class="font-serif text-lg font-medium mb-6">会社概要</h3>
               <div class="space-y-4">
                 <div class="flex items-start gap-4">
@@ -812,7 +861,7 @@
                 </div>
                 <div class="flex items-start gap-4">
                   <span class="text-xs text-base/40 w-16 flex-shrink-0 pt-0.5">Email</span>
-                  <a href="mailto:akihiko.takai@yakaze.com" class="text-sm hover:text-primary transition-colors">akihiko.takai@yakaze.com</a>
+                  <a id="email-link" href="#" class="text-sm hover:text-primary transition-colors"></a>
                 </div>
                 <div class="flex items-start gap-4">
                   <span class="text-xs text-base/40 w-16 flex-shrink-0 pt-0.5">電話番号</span>
@@ -837,13 +886,185 @@
       </div>
     </section>
 
+    <!-- Comparison Modal -->
+    <div id="comparison-modal" class="fixed inset-0 z-[100] hidden">
+      <!-- Overlay -->
+      <div id="comparison-modal-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+      <!-- Modal Content -->
+      <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div class="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-border" style="background-color: #faf7f2">
+          <!-- Close Button (Top Right) -->
+          <button id="close-comparison-modal-x" class="absolute top-5 right-5 z-10 w-8 h-8 flex items-center justify-center text-base/30 hover:text-base/60 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <!-- Modal Body -->
+          <div class="p-6 md:p-10">
+            <!-- Header -->
+            <div class="text-center mb-8">
+              <p class="text-xs text-base/40 uppercase tracking-widest mb-2">Why Try-On Development</p>
+              <h3 class="font-serif text-xl md:text-2xl font-medium mb-2">開発パートナー選びの視点</h3>
+              <p class="text-sm text-base/50">2〜3年スパンでの総合比較｜新規デジタル事業の場合</p>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="overflow-hidden mb-8">
+              <div class="overflow-x-auto">
+                <table class="w-full border border-border" style="min-width: 680px; border-collapse: collapse; background-color: #fefdfb">
+                  <thead>
+                    <tr>
+                      <th class="p-5 text-left text-xs font-medium text-base/40 uppercase tracking-wider border border-border" style="width: 24%"></th>
+                      <th class="p-5 text-center border border-border">
+                        <span class="block text-[11px] text-base/40 tracking-wide mb-1">コスト優先型</span>
+                        <span class="block text-base font-medium text-base/60">低価格会社</span>
+                      </th>
+                      <th class="p-5 text-center border border-border">
+                        <span class="block text-[11px] text-base/40 tracking-wide mb-1">リスク回避型</span>
+                        <span class="block text-base font-medium text-base/60">大手開発会社</span>
+                      </th>
+                      <th class="p-5 text-center border border-border">
+                        <span class="block text-[11px] text-primary/60 tracking-wide mb-1">新規事業特化型</span>
+                        <span class="block text-base font-semibold text-primary">Yakaze Tech Studio</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="px-5 py-4 text-sm font-medium text-base/80 border border-border">初期コスト</td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/60 mt-2 block">最安値帯</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-rose-500" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"/></svg><span class="text-sm text-base/60 mt-2 block">800万円〜</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-amber-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c-2.31 0-3.77 2.587-6.688 7.762l-.364.644c-2.425 4.3-3.638 6.45-2.542 8.022S6.214 21 11.636 21h.728c5.422 0 8.134 0 9.23-1.572s-.117-3.722-2.542-8.022l-.364-.645C15.77 5.587 14.311 3 12 3" opacity=".2"/><path fill="currentColor" d="M12 7.25a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 17a1 1 0 1 0 0-2a1 1 0 0 0 0 2"/></svg><span class="text-sm text-base/70 mt-2 block">200万円〜<br>最安ではない</span></div></td>
+                    </tr>
+                    <tr>
+                      <td class="px-5 py-4 text-sm font-medium text-base/80 border border-border">長期コスト<br><span class="text-xs text-base/40 font-normal">(2〜3年計)</span></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-rose-500" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"/></svg><span class="text-sm text-base/60 mt-2 block">改修・作り直しで膨張</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-amber-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c-2.31 0-3.77 2.587-6.688 7.762l-.364.644c-2.425 4.3-3.638 6.45-2.542 8.022S6.214 21 11.636 21h.728c5.422 0 8.134 0 9.23-1.572s-.117-3.722-2.542-8.022l-.364-.645C15.77 5.587 14.311 3 12 3" opacity=".2"/><path fill="currentColor" d="M12 7.25a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 17a1 1 0 1 0 0-2a1 1 0 0 0 0 2"/></svg><span class="text-sm text-base/60 mt-2 block">変更のたびに追加費用</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/70 mt-2 block">変更前提設計で抑制</span></div></td>
+                    </tr>
+                    <tr>
+                      <td class="px-5 py-4 text-sm font-medium text-base/80 border border-border">品質・拡張性</td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-rose-500" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"/></svg><span class="text-sm text-base/60 mt-2 block">技術的負債が蓄積</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/60 mt-2 block">標準化された品質</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/70 mt-2 block">拡張前提のオリジナル設計</span></div></td>
+                    </tr>
+                    <tr>
+                      <td class="px-5 py-4 text-sm font-medium text-base/80 border border-border">発注者の関与</td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/60 mt-2 block">丸投げ可能</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/60 mt-2 block">丸投げ可能</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-rose-500" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"/></svg><span class="text-sm text-base/70 mt-2 block">議論への参加が必要<br>→その分、品質向上</span></div></td>
+                    </tr>
+                    <tr>
+                      <td class="px-5 py-4 text-sm font-medium text-base/80 border border-border">検証・軌道修正</td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-rose-500" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"/></svg><span class="text-sm text-base/60 mt-2 block">納品まで確認不可</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-rose-500" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"/></svg><span class="text-sm text-base/60 mt-2 block">資料ベースで想像</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/70 mt-2 block">動くもので試着<br>最短1〜2週間で検証</span></div></td>
+                    </tr>
+                    <tr>
+                      <td class="px-5 py-4 text-sm font-medium text-base/80 border border-border">ブランド・知名度</td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-amber-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c-2.31 0-3.77 2.587-6.688 7.762l-.364.644c-2.425 4.3-3.638 6.45-2.542 8.022S6.214 21 11.636 21h.728c5.422 0 8.134 0 9.23-1.572s-.117-3.722-2.542-8.022l-.364-.645C15.77 5.587 14.311 3 12 3" opacity=".2"/><path fill="currentColor" d="M12 7.25a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 17a1 1 0 1 0 0-2a1 1 0 0 0 0 2"/></svg><span class="text-sm text-base/60 mt-2 block">玉石混交</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/60 mt-2 block">稟議が通りやすい</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-rose-500" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"/></svg><span class="text-sm text-base/70 mt-2 block">新興・成長中</span></div></td>
+                    </tr>
+                    <tr>
+                      <td class="px-5 py-4 text-sm font-medium text-base/80 border border-border">対話スタイル</td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/60 mt-2 block">依頼通りに対応</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"/></svg><span class="text-sm text-base/60 mt-2 block">丁寧で安心感</span></div></td>
+                      <td class="px-5 py-4 text-center border border-border align-top"><div class="flex flex-col items-center"><svg class="w-7 h-7 text-rose-500" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".2"/><path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"/></svg><span class="text-sm text-base/70 mt-2 block">忖度なし・率直<br>→本質的な改善重視</span></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Fit Cards -->
+            <div class="grid md:grid-cols-3 gap-4 mb-8">
+              <!-- 低価格会社 -->
+              <div class="p-5 border border-border" style="background-color: #fefdfb">
+                <h4 class="text-sm font-medium text-base/70 mb-4 pb-3 border-b border-border">低価格会社</h4>
+                <p class="text-[10px] font-medium text-emerald-600 uppercase tracking-wide mb-2">向いている案件</p>
+                <ul class="text-sm text-base/60 space-y-1.5 mb-4">
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>小規模な社内業務アプリ</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>仕様が固まった定型システム</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>機能追加予定のないツール</li>
+                </ul>
+                <p class="text-[10px] font-medium text-base/40 uppercase tracking-wide mb-2">向いていない案件</p>
+                <ul class="text-sm text-base/50 space-y-1.5">
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>長期運用するサービス</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>機能追加・改善を繰り返す</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>ユーザー体験が重要</li>
+                </ul>
+              </div>
+              <!-- 大手開発会社 -->
+              <div class="p-5 border border-border" style="background-color: #fefdfb">
+                <h4 class="text-sm font-medium text-base/70 mb-4 pb-3 border-b border-border">大手開発会社</h4>
+                <p class="text-[10px] font-medium text-emerald-600 uppercase tracking-wide mb-2">向いている案件</p>
+                <ul class="text-sm text-base/60 space-y-1.5 mb-4">
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>仕様を自社で詳細に決められる</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>大規模・多人数体制の案件</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>社内稟議でブランドが必要</li>
+                </ul>
+                <p class="text-[10px] font-medium text-base/40 uppercase tracking-wide mb-2">向いていない案件</p>
+                <ul class="text-sm text-base/50 space-y-1.5">
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>仕様が流動的な新規事業</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>スピード重視のスタートアップ</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>予算500万円以下</li>
+                </ul>
+              </div>
+              <!-- Yakaze Tech Studio -->
+              <div class="p-5 border border-border" style="background-color: #fefdfb">
+                <h4 class="text-sm font-medium text-primary mb-4 pb-3 border-b border-border">Yakaze Tech Studio</h4>
+                <p class="text-[10px] font-medium text-emerald-600 uppercase tracking-wide mb-2">向いている案件</p>
+                <ul class="text-sm text-base/60 space-y-1.5 mb-4">
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>新規デジタル事業・MVP開発</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>仕様を一緒に考えたい</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>長期で育てるプロダクト</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-emerald-600 font-bold">✓</span>UX・使い心地が差別化要因</li>
+                </ul>
+                <p class="text-[10px] font-medium text-base/40 uppercase tracking-wide mb-2">向いていない案件</p>
+                <ul class="text-sm text-base/50 space-y-1.5">
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>定型ECサイト・テンプレ開発</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>とにかく最安値で作りたい</li>
+                  <li class="flex items-start gap-2"><span class="text-base text-red-500 font-bold">×</span>議論なしで丸投げしたい</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Message Box - Info Card Style -->
+            <div class="max-w-xl mx-auto">
+              <div class="flex gap-4 p-5 rounded-lg border border-border" style="background-color: #fefdfb">
+                <div class="flex-shrink-0">
+                  <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-black text-white text-sm font-medium">i</span>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-base/80 mb-2">Yakaze Tech Studioの考え方</p>
+                  <p class="text-sm text-base/70 leading-relaxed">
+                    私たちは<span class="font-medium" style="color: #6b2059">「新規デジタル事業の職人」</span>です。
+                    最安値では作れません。議論への参加もお願いします。耳に心地よいだけの対応もしません。
+                    その代わり、<span class="font-medium" style="color: #6b2059">動くプロダクトを触りながら</span>一緒に「どうあるべきか」を本音で考え、
+                    長く使える、本当に価値のあるものを作ります。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Close Button (Bottom) -->
+            <div class="mt-8 text-center">
+              <button id="close-comparison-modal-btn" class="px-10 py-2.5 text-sm text-base/50 hover:text-base/70 transition-colors">閉じる</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Booking Modal -->
     <div id="booking-modal" class="fixed inset-0 z-[100] hidden">
       <!-- Overlay -->
       <div id="booking-modal-overlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
       <!-- Modal Content -->
       <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto" style="background-color: #faf7f2">
+        <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto" style="background-color: #fefdfb">
           <!-- Close Button (Top Right) -->
           <button id="close-booking-modal-x" class="absolute top-5 right-5 z-10 w-10 h-10 flex items-center justify-center rounded-full border border-border-light text-base/30 hover:text-primary hover:border-primary transition-all duration-200">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -890,13 +1111,25 @@
 
     <!-- JavaScript -->
     <script>
+      // Email obfuscation
+      (function() {
+        const u = 'support';
+        const d = 'yakaze.com';
+        const e = u + '@' + d;
+        const link = document.getElementById('email-link');
+        if (link) {
+          link.href = 'mailto:' + e;
+          link.textContent = e;
+        }
+      })();
+
       // Navbar scroll effect
       const navbar = document.getElementById("navbar");
 
       window.addEventListener("scroll", () => {
         if (window.scrollY > 20) {
           navbar.classList.add("border-b", "border-border-light");
-          navbar.style.backgroundColor = "rgba(247, 242, 235, 0.95)";
+          navbar.style.backgroundColor = "rgba(250, 247, 242, 0.95)";
           navbar.style.backdropFilter = "blur(8px)";
         } else {
           navbar.classList.remove("border-b", "border-border-light");
@@ -988,6 +1221,28 @@
         }
       });
 
+      // Comparison Modal
+      const comparisonModal = document.getElementById("comparison-modal");
+      const openComparisonBtn = document.getElementById("open-comparison-modal");
+      const closeComparisonX = document.getElementById("close-comparison-modal-x");
+      const closeComparisonBtn = document.getElementById("close-comparison-modal-btn");
+      const comparisonOverlay = document.getElementById("comparison-modal-overlay");
+
+      function openComparisonModal() {
+        comparisonModal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeComparisonModal() {
+        comparisonModal.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+
+      openComparisonBtn.addEventListener("click", openComparisonModal);
+      closeComparisonX.addEventListener("click", closeComparisonModal);
+      closeComparisonBtn.addEventListener("click", closeComparisonModal);
+      comparisonOverlay.addEventListener("click", closeComparisonModal);
+
       // Booking Modal
       const bookingModal = document.getElementById("booking-modal");
       const openBookingBtn = document.getElementById("open-booking-modal");
@@ -1012,8 +1267,13 @@
 
       // Close on Escape key
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && !bookingModal.classList.contains("hidden")) {
-          closeModal();
+        if (e.key === "Escape") {
+          if (!bookingModal.classList.contains("hidden")) {
+            closeModal();
+          }
+          if (!comparisonModal.classList.contains("hidden")) {
+            closeComparisonModal();
+          }
         }
       });
     </script>
