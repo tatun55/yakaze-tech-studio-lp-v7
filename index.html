@@ -207,23 +207,38 @@
         white-space: nowrap;
       }
 
-      /* Modal link animations */
-      .modal-link-btn {
-        position: relative;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      /* Modal animations */
+      .modal-backdrop {
+        opacity: 0;
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      .modal-link-btn:hover {
-        border-color: rgba(0, 0, 0, 0.25);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      .modal-backdrop.active {
+        opacity: 1;
       }
 
-      .modal-link-icon {
-        transition: transform 0.25s ease;
+      .modal-content {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      .modal-link-btn:hover .modal-link-icon {
-        transform: scale(1.05);
+      .modal-content.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .modal-closing .modal-backdrop {
+        opacity: 0;
+        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .modal-closing .modal-content {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .modal-link-badge {
@@ -405,74 +420,61 @@
     </section>
 
     <!-- Solution Section -->
-    <section id="solution" class="py-20 md:py-24 relative overflow-hidden">
+    <section id="solution" class="py-12 md:py-16 relative overflow-hidden">
       <!-- Hyperwave background decoration -->
       <div class="absolute right-6 md:right-20 top-20 hyperwave-deco text-[4rem] md:text-[7rem]" style="transform: rotate(-10deg)">Inspire</div>
       <div class="absolute left-1/4 bottom-16 hyperwave-deco text-[2rem] md:text-[4rem]" style="transform: rotate(12deg)">Evolve</div>
       <div class="max-w-5xl mx-auto px-6 relative z-10">
         <!-- Section Header -->
-        <div class="reveal text-center max-w-2xl mx-auto mb-10 relative">
+        <div class="reveal text-center max-w-2xl mx-auto mb-6 relative">
           <span class="section-label text-lg md:text-xl">Our Solution</span>
-          <h2 class="font-serif text-2xl md:text-3xl font-medium mt-3 mb-4 tracking-tight">試着して育てる開発</h2>
-          <p class="text-sm text-base/50 leading-relaxed">
-            動くものを触りながら、一緒に直していく。<br />
-            だから「思ってたのと違う」がなくなります。<br />
-            それを可能にするのが、独自設計とカスタムAIです。
-          </p>
+          <h2 class="font-serif text-2xl md:text-3xl font-medium mt-3 tracking-tight">試着して育てる開発</h2>
         </div>
 
         <!-- Why Try-On Development -->
-        <div class="reveal flex justify-center items-center mb-14">
-          <div class="w-full md:w-2/3">
+        <div class="reveal flex justify-center items-center">
+          <div class="w-full md:w-4/5">
             <img src="/images/seam-d.png" alt="開発手法の比較：ウォーターフォール、アジャイル、試着して育てる開発" class="w-full" />
           </div>
         </div>
 
-        <!-- Points Grid -->
-        <div class="grid md:grid-cols-3 gap-4">
-          <!-- Point 1 -->
-          <div class="reveal flat-hover p-6 border border-border" style="background-color: #fefdfb">
-            <div class="flex flex-col items-center mb-4">
-              <img src="/images/stars.png" alt="" class="h-6 w-auto mb-3" />
-              <div class="text-primary text-[10px] font-medium uppercase tracking-wide">Point #1</div>
-            </div>
-            <h3 class="text-center font-serif font-medium text-base mb-2">触れて、直す。その場で。</h3>
-            <p class="text-sm text-base/45 leading-relaxed">言葉で伝えるのではなく、動くものを触りながら一緒に育てていきます。</p>
-          </div>
+        <!-- Main Message -->
+        <div class="reveal text-center -mt-4 mb-10">
+          <p class="font-serif text-base md:text-lg text-foreground">
+            動くものを触りながら、一緒に直していく。<br class="hidden md:inline" />
+            だから「思ってたのと違う」がなくなります。
+          </p>
+        </div>
 
-          <!-- Point 2 -->
-          <div class="reveal flat-hover p-6 border border-border" style="background-color: #fefdfb">
-            <div class="flex flex-col items-center mb-4">
-              <img src="/images/stars.png" alt="" class="h-6 w-auto mb-3" />
-              <div class="text-primary text-[10px] font-medium uppercase tracking-wide">Point #2</div>
+        <!-- 3 Points -->
+        <div class="reveal flex justify-center">
+          <div class="border border-border bg-[#fefdfb] p-6 md:p-8">
+            <div class="grid grid-cols-[auto_1fr] gap-x-8 items-center">
+              <div class="flex flex-col items-center gap-1">
+                <img src="/images/stars.png" alt="" class="h-5 w-auto" />
+                <span class="text-primary text-[10px] font-medium uppercase tracking-wide">3 Points</span>
+              </div>
+              <ul class="space-y-3">
+                <li class="flex items-baseline gap-3">
+                  <span class="text-primary opacity-60 text-xs font-medium">01</span>
+                  <span class="font-serif text-base tracking-wide">触れて、直す。</span>
+                  <span class="text-foreground opacity-40 text-xs tracking-wider">動くものを触りながら一緒に育てる</span>
+                </li>
+                <li class="flex items-baseline gap-3">
+                  <span class="text-primary opacity-60 text-xs font-medium">02</span>
+                  <span class="font-serif text-base tracking-wide">使い心地で、差がつく。</span>
+                  <span class="text-foreground opacity-40 text-xs tracking-wider">離脱を防ぎ、ファンを生むUI</span>
+                </li>
+                <li class="flex items-baseline gap-3">
+                  <span class="text-primary opacity-60 text-xs font-medium">03</span>
+                  <span class="font-serif text-base tracking-wide">変化を、味方に。</span>
+                  <span class="text-foreground opacity-40 text-xs tracking-wider">変更を歓迎する設計でコスト削減</span>
+                </li>
+              </ul>
             </div>
-            <h3 class="text-center font-serif font-medium text-base mb-2">使い心地で、差がつく。</h3>
-            <p class="text-sm text-base/45 leading-relaxed">ユーザーが「また使いたい」と感じるUI。それが離脱を防ぎ、ファンを生みます。</p>
-          </div>
-
-          <!-- Point 3 -->
-          <div class="reveal flat-hover p-6 border border-border" style="background-color: #fefdfb">
-            <div class="flex flex-col items-center mb-4">
-              <img src="/images/stars.png" alt="" class="h-6 w-auto mb-3" />
-              <div class="text-primary text-[10px] font-medium uppercase tracking-wide">Point #3</div>
-            </div>
-            <h3 class="text-center font-serif font-medium text-base mb-2">変化を、味方に。</h3>
-            <p class="text-sm text-base/45 leading-relaxed">「やっぱり変えたい」を歓迎する設計。だから長く使えて、トータルコストが下がります。</p>
           </div>
         </div>
 
-        <!-- Why Try-On Development Link -->
-        <div class="reveal mt-12 text-center">
-          <button id="open-comparison-modal" class="modal-link-btn inline-flex items-center gap-3 px-7 py-4 text-sm border border-primary/15 rounded-sm group" style="background-color: #fefdfb">
-            <span class="modal-link-icon flex items-center justify-center w-7 h-7 rounded-full bg-black">
-              <span class="text-sm font-medium text-white">?</span>
-            </span>
-            <span class="text-base/80 group-hover:text-base/90 font-medium leading-none transition-colors duration-200">なぜ試着開発なのか</span>
-            <span class="text-base/20 leading-none">｜</span>
-            <span class="text-xs text-base/40 group-hover:text-base/50 transition-colors duration-200 leading-none">開発パートナーの選び方</span>
-            <span class="modal-link-badge">CLICK!!</span>
-          </button>
-        </div>
       </div>
     </section>
 
@@ -495,154 +497,24 @@
           </div>
           <div class="grid md:grid-cols-3 gap-4">
             <div class="flat-hover p-5 border border-border" style="background-color: #fefdfb">
-              <!-- インフォグラフィック -->
-              <div class="flex items-center justify-center gap-3 h-32">
-                <div class="flex flex-col items-center">
-                  <div class="h-10 flex items-center justify-center">
-                    <!-- 開発アイコン -->
-                    <svg class="w-10 h-10" viewBox="0 0 24 24">
-                      <path fill="#c48aa8" fill-rule="evenodd" d="M10 22h4c3.771 0 5.657 0 6.828-1.172S22 17.771 22 14v-.437c0-.873 0-1.529-.043-2.063h-4.052c-1.097 0-2.067 0-2.848-.105c-.847-.114-1.694-.375-2.385-1.066c-.692-.692-.953-1.539-1.067-2.386c-.105-.781-.105-1.75-.105-2.848l.01-2.834q0-.124.02-.244C11.121 2 10.636 2 10.03 2C6.239 2 4.343 2 3.172 3.172C2 4.343 2 6.229 2 10v4c0 3.771 0 5.657 1.172 6.828S6.229 22 10 22" clip-rule="evenodd"></path>
-                      <path fill="#6b2059" d="M10.702 14.264a.75.75 0 1 0-1.404-.527l-1.5 4a.75.75 0 1 0 1.404.527zm-3.172.266a.75.75 0 1 0-1.06-1.06l-1 1a.75.75 0 0 0 0 1.06l1 1a.75.75 0 0 0 1.06-1.06L7.06 15zm4.5.94a.75.75 0 1 0-1.06 1.06l.47.47l-.47.47a.75.75 0 1 0 1.06 1.06l1-1a.75.75 0 0 0 0-1.06zm-.52-13.21l-.01 2.835c0 1.097 0 2.066.105 2.848c.114.847.375 1.694 1.067 2.385c.69.691 1.538.953 2.385 1.067c.781.105 1.751.105 2.848.105h4.052q.02.232.028.5H22c0-.268 0-.402-.01-.56a5.3 5.3 0 0 0-.958-2.641c-.094-.128-.158-.204-.285-.357C19.954 7.494 18.91 6.312 18 5.5c-.81-.724-1.921-1.515-2.89-2.161c-.832-.556-1.248-.834-1.819-1.04a6 6 0 0 0-.506-.154c-.384-.095-.758-.128-1.285-.14z"></path>
-                    </svg>
-                  </div>
-                  <span class="text-xs mt-1">開発</span>
-                </div>
-
-                <!-- 矢印1 -->
-                <svg class="w-5 h-5" viewBox="0 0 24 24">
-                  <path fill="#c48aa8" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
-                  <path fill="#6b2059" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
-                </svg>
-
-                <div class="flex flex-col items-center">
-                  <div class="h-10 flex items-center justify-center">
-                    <!-- サーバーアイコン -->
-                    <svg class="w-10 h-10" viewBox="0 0 24 24">
-                      <path fill="#c48aa8" d="M6 13h12c1.886 0 2.828 0 3.414.586S22 15.114 22 17s0 2.828-.586 3.414S19.886 21 18 21H6c-1.886 0-2.828 0-3.414-.586S2 18.886 2 17s0-2.828.586-3.414S4.114 13 6 13M6 3h12c1.886 0 2.828 0 3.414.586S22 5.114 22 7s0 2.828-.586 3.414S19.886 11 18 11H6c-1.886 0-2.828 0-3.414-.586S2 8.886 2 7s0-2.828.586-3.414S4.114 3 6 3"></path>
-                      <path fill="#6b2059" d="M10.25 7a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75m-5 0A.75.75 0 0 1 6 6.25h2a.75.75 0 0 1 0 1.5H6A.75.75 0 0 1 5.25 7m5 10a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75m-5 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75"></path>
-                    </svg>
-                  </div>
-                  <span class="text-xs mt-1">デプロイ</span>
-                </div>
-
-                <!-- 矢印2 -->
-                <svg class="w-5 h-5" viewBox="0 0 24 24">
-                  <path fill="#c48aa8" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
-                  <path fill="#6b2059" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
-                </svg>
-
-                <div class="flex flex-col items-center">
-                  <div class="h-10 flex items-center justify-center">
-                    <!-- 配信アイコン -->
-                    <svg class="w-10 h-10" viewBox="0 0 24 24">
-                      <path fill="#6b2059" fill-rule="evenodd" d="M22 15v3c0 1.886 0 2.828-.586 3.414S19.886 22 18 22s-2.828 0-3.414-.586S14 19.886 14 18v-3c0-1.886 0-2.828.586-3.414S16.114 11 18 11s2.828 0 3.414.586S22 13.114 22 15m-5.75 5a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
-                      <path fill="#6b2059" d="M8 17c-2.829 0-4.243 0-5.122-.879c-.569-.569-.807-1.363-.878-2.621V13h10.516v.5c-.016.437-.016.912-.016 1.41v3.18c0 .865 0 1.659.086 2.304c.096.711.32 1.463.939 2.08l.025.026H8A.75.75 0 0 1 8 21h3.25v-4z"></path>
-                      <path fill="#c48aa8" d="M10 2h4c3.771 0 5.657 0 6.828 1.172S22 6.229 22 10v.138c-.508-.333-1.069-.48-1.606-.551C19.75 9.5 18.955 9.5 18.09 9.5h-.18c-.865 0-1.659 0-2.304.087c-.711.095-1.463.32-2.08.938c-.588.588-.82 1.296-.924 1.975v.5H2v-.5c-.007-.45 0-.948 0-1.5v-1c0-3.771 0-5.657 1.172-6.828S6.229 2 10 2"></path>
-                    </svg>
-                  </div>
-                  <span class="text-xs mt-1">配信</span>
-                </div>
+              <div class="flex items-center justify-center h-32 mb-2">
+                <img src="/images/web-app.png" alt="ウェブサービス開発" class="h-[6.5rem] w-auto object-contain" />
               </div>
 
               <h3 class="font-serif font-medium text-sm text-center mb-2">ウェブサービス開発・運用</h3>
               <p class="text-xs text-base/45 leading-relaxed">MVP開発など低予算で小さく始め、長期で育てやすいWebサービスを設計・開発します。</p>
             </div>
             <div class="flat-hover p-5 border border-border" style="background-color: #fefdfb">
-              <!-- インフォグラフィック -->
-              <div class="flex items-center justify-center gap-4 h-32">
-                <!-- 左: コード（1つ） -->
-                <div class="flex flex-col items-center">
-                  <div class="h-10 flex items-center justify-center">
-                    <svg class="w-10 h-10" viewBox="0 0 24 24">
-                      <path fill="#c48aa8" fill-rule="evenodd" d="M10 22h4c3.771 0 5.657 0 6.828-1.172S22 17.771 22 14v-.437c0-.873 0-1.529-.043-2.063h-4.052c-1.097 0-2.067 0-2.848-.105c-.847-.114-1.694-.375-2.385-1.066c-.692-.692-.953-1.539-1.067-2.386c-.105-.781-.105-1.75-.105-2.848l.01-2.834q0-.124.02-.244C11.121 2 10.636 2 10.03 2C6.239 2 4.343 2 3.172 3.172C2 4.343 2 6.229 2 10v4c0 3.771 0 5.657 1.172 6.828S6.229 22 10 22" clip-rule="evenodd"></path>
-                      <path fill="#6b2059" d="M10.702 14.264a.75.75 0 1 0-1.404-.527l-1.5 4a.75.75 0 1 0 1.404.527zm-3.172.266a.75.75 0 1 0-1.06-1.06l-1 1a.75.75 0 0 0 0 1.06l1 1a.75.75 0 0 0 1.06-1.06L7.06 15zm4.5.94a.75.75 0 1 0-1.06 1.06l.47.47l-.47.47a.75.75 0 1 0 1.06 1.06l1-1a.75.75 0 0 0 0-1.06zm-.52-13.21l-.01 2.835c0 1.097 0 2.066.105 2.848c.114.847.375 1.694 1.067 2.385c.69.691 1.538.953 2.385 1.067c.781.105 1.751.105 2.848.105h4.052q.02.232.028.5H22c0-.268 0-.402-.01-.56a5.3 5.3 0 0 0-.958-2.641c-.094-.128-.158-.204-.285-.357C19.954 7.494 18.91 6.312 18 5.5c-.81-.724-1.921-1.515-2.89-2.161c-.832-.556-1.248-.834-1.819-1.04a6 6 0 0 0-.506-.154c-.384-.095-.758-.128-1.285-.14z"></path>
-                    </svg>
-                  </div>
-                  <span class="text-xs mt-1">1つのコード</span>
-                </div>
-
-                <!-- = マーク -->
-                <div class="text-2xl font-bold" style="color: #6b2059">=</div>
-
-                <!-- 右: Android + iOS -->
-                <div class="flex gap-3 items-center">
-                  <!-- Android -->
-                  <div class="flex flex-col items-center">
-                    <div class="h-10 flex items-center justify-center">
-                      <svg class="w-10 h-10" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#c48aa8" d="M6 8c0-3.31 2.69-6 6-6s6 2.69 6 6v7c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V8z"></path>
-                        <rect fill="#6b2059" x="6" y="14" width="12" height="6" rx="1"></rect>
-                        <line stroke="#6b2059" stroke-width="1.5" stroke-linecap="round" x1="8" y1="2" x2="6" y2="0"></line>
-                        <line stroke="#6b2059" stroke-width="1.5" stroke-linecap="round" x1="16" y1="2" x2="18" y2="0"></line>
-                        <circle fill="#6b2059" cx="9" cy="7" r="1"></circle>
-                        <circle fill="#6b2059" cx="15" cy="7" r="1"></circle>
-                        <rect fill="#c48aa8" x="3" y="9" width="2" height="6" rx="1"></rect>
-                        <rect fill="#c48aa8" x="19" y="9" width="2" height="6" rx="1"></rect>
-                        <rect fill="#6b2059" x="8" y="20" width="2" height="3" rx="1"></rect>
-                        <rect fill="#6b2059" x="14" y="20" width="2" height="3" rx="1"></rect>
-                      </svg>
-                    </div>
-                    <span class="text-xs mt-1">Android</span>
-                  </div>
-
-                  <!-- + マーク -->
-                  <div class="text-xl font-bold" style="color: #6b2059; opacity: 0.3">+</div>
-
-                  <!-- iOS (Apple Logo) -->
-                  <div class="flex flex-col items-center">
-                    <div class="h-10 flex items-center justify-center">
-                      <svg class="w-7 h-10" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#6b2059" d="M494.782 340.02c-.803-81.025 66.084-119.907 69.072-121.832-37.595-54.993-96.167-62.552-117.037-63.402-49.843-5.032-97.242 29.362-122.565 29.362-25.253 0-64.277-28.607-105.604-27.85-54.32.803-104.4 31.594-132.403 80.245C29.81 334.457 71.81 479.58 126.816 558.976c26.87 38.882 58.914 82.56 100.997 81 40.512-1.594 55.843-26.244 104.848-26.244 48.993 0 62.753 26.245 105.64 25.406 43.606-.803 71.232-39.638 97.925-78.65 30.887-45.12 43.548-88.75 44.316-90.994-.969-.437-85.029-32.634-85.879-129.439l.118-.035z"></path>
-                        <path fill="#c48aa8" d="M414.23 102.178C436.553 75.095 451.636 37.5 447.514-.024c-32.162 1.311-71.163 21.437-94.253 48.485-20.729 24.012-38.836 62.28-33.993 99.036 35.918 2.8 72.591-18.248 94.926-45.272l.036-.047z"></path>
-                      </svg>
-                    </div>
-                    <span class="text-xs mt-1">iOS</span>
-                  </div>
-                </div>
+              <div class="flex items-center justify-center h-32 mb-2">
+                <img src="/images/mobile-app.png" alt="iOS・Androidアプリ開発" class="h-28 w-auto object-contain" />
               </div>
 
               <h3 class="font-serif font-medium text-sm text-center mb-2">iOS・Androidアプリ開発</h3>
               <p class="text-xs text-base/45 leading-relaxed">1つのコードでiOS・Androidに対応。開発・保守コストを大幅に削減できます。</p>
             </div>
             <div class="flat-hover p-5 border border-border" style="background-color: #fefdfb">
-              <!-- インフォグラフィック -->
-              <div class="flex items-center justify-center gap-3 h-32">
-                <!-- 左: バラバラのシステム -->
-                <div class="flex flex-col items-center">
-                  <div class="h-10 flex items-center justify-center">
-                    <div class="flex gap-1">
-                      <div class="w-6 h-6 rounded flex items-center justify-center" style="background-color: #6b2059">
-                        <span class="text-[7px] font-bold" style="color: #faf7f2">営業</span>
-                      </div>
-                      <div class="w-6 h-6 rounded flex items-center justify-center" style="background-color: #6b2059">
-                        <span class="text-[7px] font-bold" style="color: #faf7f2">経理</span>
-                      </div>
-                      <div class="w-6 h-6 rounded flex items-center justify-center" style="background-color: #6b2059">
-                        <span class="text-[7px] font-bold" style="color: #faf7f2">人事</span>
-                      </div>
-                    </div>
-                  </div>
-                  <span class="text-xs mt-1">部門ごとに分断</span>
-                </div>
-
-                <!-- 矢印 -->
-                <svg class="w-5 h-5" viewBox="0 0 24 24">
-                  <path fill="#c48aa8" fill-rule="evenodd" d="M3.25 12a.75.75 0 0 1 .75-.75h9.25v1.5H4a.75.75 0 0 1-.75-.75" clip-rule="evenodd"></path>
-                  <path fill="#6b2059" d="M13.25 12.75V18a.75.75 0 0 0 1.28.53l6-6a.75.75 0 0 0 0-1.06l-6-6a.75.75 0 0 0-1.28.53z"></path>
-                </svg>
-
-                <!-- 右: 統合クラウド -->
-                <div class="flex flex-col items-center">
-                  <div class="h-10 flex items-center justify-center">
-                    <svg class="w-10 h-10" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path fill="#c48aa8" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"></path>
-                      <circle fill="#6b2059" cx="8" cy="13" r="1"></circle>
-                      <circle fill="#6b2059" cx="12" cy="13" r="1"></circle>
-                      <circle fill="#6b2059" cx="16" cy="13" r="1"></circle>
-                    </svg>
-                  </div>
-                  <span class="text-xs mt-1">統合AIクラウド</span>
-                </div>
+              <div class="flex items-center justify-center h-32 mb-2">
+                <img src="/images/ai-dx.png" alt="AI導入・DX" class="h-28 w-auto object-contain" />
               </div>
 
               <h3 class="font-serif font-medium text-sm text-center mb-2">AI導入・DX</h3>
@@ -698,10 +570,7 @@
         <div class="reveal text-center max-w-2xl mx-auto mb-10 relative">
           <span class="section-label text-lg md:text-xl">Contact Us</span>
           <h2 class="font-serif text-2xl md:text-3xl font-medium mt-3 mb-4 tracking-tight">お問い合わせ</h2>
-          <p class="text-sm text-base/50 leading-relaxed">
-            「試着して育てる開発」について詳しくお話しします。<br />
-            あなたのプロジェクトに最適なソリューションを一緒に見つけましょう。
-          </p>
+          <button id="open-comparison-modal" class="text-sm text-base/50 hover:text-primary underline underline-offset-2 transition-colors">なぜ試着開発なのか？</button>
         </div>
 
         <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-start">
@@ -889,10 +758,10 @@
     <!-- Comparison Modal -->
     <div id="comparison-modal" class="fixed inset-0 z-[100] hidden">
       <!-- Overlay -->
-      <div id="comparison-modal-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+      <div id="comparison-modal-overlay" class="modal-backdrop absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
       <!-- Modal Content -->
       <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-border" style="background-color: #faf7f2">
+        <div id="comparison-modal-content" class="modal-content relative w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-border" style="background-color: #faf7f2">
           <!-- Close Button (Top Right) -->
           <button id="close-comparison-modal-x" class="absolute top-5 right-5 z-10 w-8 h-8 flex items-center justify-center text-base/30 hover:text-base/60 transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -1227,15 +1096,28 @@
       const closeComparisonX = document.getElementById("close-comparison-modal-x");
       const closeComparisonBtn = document.getElementById("close-comparison-modal-btn");
       const comparisonOverlay = document.getElementById("comparison-modal-overlay");
+      const comparisonContent = document.getElementById("comparison-modal-content");
 
       function openComparisonModal() {
         comparisonModal.classList.remove("hidden");
         document.body.style.overflow = "hidden";
+        // Trigger reflow for animation
+        void comparisonOverlay.offsetWidth;
+        requestAnimationFrame(() => {
+          comparisonOverlay.classList.add("active");
+          comparisonContent.classList.add("active");
+        });
       }
 
       function closeComparisonModal() {
-        comparisonModal.classList.add("hidden");
-        document.body.style.overflow = "";
+        comparisonModal.classList.add("modal-closing");
+        comparisonOverlay.classList.remove("active");
+        comparisonContent.classList.remove("active");
+        setTimeout(() => {
+          comparisonModal.classList.add("hidden");
+          comparisonModal.classList.remove("modal-closing");
+          document.body.style.overflow = "";
+        }, 300);
       }
 
       openComparisonBtn.addEventListener("click", openComparisonModal);
