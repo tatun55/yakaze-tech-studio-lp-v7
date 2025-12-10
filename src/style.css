@@ -64,6 +64,21 @@
 .morphing-link:hover .morphing-icon {
   transform: rotate(360deg) scale(1.2);
 }
+.morphing-link:hover .morphing-icon svg {
+  fill: url(#rainbow-gradient);
+}
+.morphing-link .morphing-icon {
+  position: relative;
+}
+.morphing-link .morphing-icon svg path {
+  transition: fill 0.3s ease;
+}
+.morphing-link:hover .morphing-icon svg path[opacity] {
+  fill: #ec4899;
+}
+.morphing-link:hover .morphing-icon svg path:not([opacity]) {
+  fill: #6366f1;
+}
 .morphing-link .morphing-text {
   position: relative;
   display: inline-block;
