@@ -50,7 +50,7 @@
       /* alert-soft custom styles */
       .alert-soft {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         gap: 0.75rem;
         padding: 1rem;
         border-radius: 0.5rem;
@@ -59,14 +59,26 @@
       .alert-soft.alert-warning {
         background-color: oklch(var(--wa) / 0.15);
       }
+      .alert-soft.alert-warning > svg {
+        color: oklch(var(--wa));
+      }
       .alert-soft.alert-success {
         background-color: oklch(var(--su) / 0.15);
+      }
+      .alert-soft.alert-success > svg {
+        color: oklch(var(--su));
       }
       .alert-soft.alert-info {
         background-color: oklch(var(--in) / 0.15);
       }
+      .alert-soft.alert-info > svg {
+        color: oklch(var(--in));
+      }
       .alert-soft.alert-error {
         background-color: oklch(var(--er) / 0.15);
+      }
+      .alert-soft.alert-error > svg {
+        color: oklch(var(--er));
       }
       .alert-soft > svg {
         flex-shrink: 0;
