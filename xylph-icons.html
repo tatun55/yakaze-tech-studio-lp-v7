@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Prism.js Dracula theme -->
-    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-dracula.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-dracula.min.css" rel="stylesheet" />
     <style>
       [x-cloak] {
         display: none !important;
@@ -58,94 +58,10 @@
         font-size: 0.875rem;
       }
     </style>
-    <style>
-      /* Make clicks pass-through */
-
-      #nprogress {
-        pointer-events: none;
-      }
-
-      #nprogress .bar {
-        background: var(--livewire-progress-bar-color, #29d);
-
-        position: fixed;
-        z-index: 1031;
-        top: 0;
-        left: 0;
-
-        width: 100%;
-        height: 2px;
-      }
-
-      /* Fancy blur effect */
-      #nprogress .peg {
-        display: block;
-        position: absolute;
-        right: 0px;
-        width: 100px;
-        height: 100%;
-        box-shadow: 0 0 10px var(--livewire-progress-bar-color, #29d), 0 0 5px var(--livewire-progress-bar-color, #29d);
-        opacity: 1;
-
-        -webkit-transform: rotate(3deg) translate(0px, -4px);
-        -ms-transform: rotate(3deg) translate(0px, -4px);
-        transform: rotate(3deg) translate(0px, -4px);
-      }
-
-      /* Remove these to get rid of the spinner */
-      #nprogress .spinner {
-        display: block;
-        position: fixed;
-        z-index: 1031;
-        top: 15px;
-        right: 15px;
-      }
-
-      #nprogress .spinner-icon {
-        width: 18px;
-        height: 18px;
-        box-sizing: border-box;
-
-        border: solid 2px transparent;
-        border-top-color: var(--livewire-progress-bar-color, #29d);
-        border-left-color: var(--livewire-progress-bar-color, #29d);
-        border-radius: 50%;
-
-        -webkit-animation: nprogress-spinner 400ms linear infinite;
-        animation: nprogress-spinner 400ms linear infinite;
-      }
-
-      .nprogress-custom-parent {
-        overflow: hidden;
-        position: relative;
-      }
-
-      .nprogress-custom-parent #nprogress .spinner,
-      .nprogress-custom-parent #nprogress .bar {
-        position: absolute;
-      }
-
-      @-webkit-keyframes nprogress-spinner {
-        0% {
-          -webkit-transform: rotate(0deg);
-        }
-        100% {
-          -webkit-transform: rotate(360deg);
-        }
-      }
-      @keyframes nprogress-spinner {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
   </head>
 
   <body class="min-h-screen bg-base-100">
-    <div wire:snapshot='{"data":{"currentVariant":"bold-duotone","variants":[["bold-duotone","bold","broken","linear"],{"s":"arr"}],"allVariants":[["bold-duotone","bold","broken","line-duotone","linear","outline"],{"s":"arr"}],"demoIcons":[["home","user","heart","star","settings","notification","search","cart-3"],{"s":"arr"}]},"memo":{"id":"cQAYTgNZ6S4PcR59VXxr","name":"pages.icon-demo","path":"icon-demo","method":"GET","release":"a-a-a","children":[],"scripts":[],"assets":[],"errors":[],"locale":"en"},"checksum":"88ebff2af281a5a4e6a6b501b6858eca5b00d1625eab04605b87318b8b306aaa"}' wire:effects="[]" wire:id="cQAYTgNZ6S4PcR59VXxr" class="min-h-screen bg-base-200 py-12" style="font-size: 120%">
+    <div class="min-h-screen bg-base-200 py-12" style="font-size: 120%">
       <div class="mx-auto px-4" style="max-width: 760px">
         <a href="/" class="inline-flex items-center gap-1 text-base-content/50 hover:text-primary transition-colors text-sm mb-8">
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -805,14 +721,14 @@
             </h2>
             <p class="text-base-content/70 mb-4">ここまで読んでいただいて、大変恐縮なのですが...導入は本当に簡単です。 あまりに簡単すぎて申し訳ない気持ちすらあります。</p>
 
-            <div wire:ignore="">
+            <div>
               <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">1. インストール</h3>
               <pre class="mb-6 language-bash" tabindex="0"><code class="language-bash">composer require xylph-official/xylph-icons</code></pre>
 
               <p class="text-base-content/70 mb-4">以上です。本当にこれだけです。設定ファイルの公開も不要。すぐに使えます。</p>
 
               <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">2. 基本的な使い方</h3>
-              <pre class="mb-6 language-html" tabindex="0"><code class="language-html">&lt;!-- 基本形：typeでアイコン名を指定 --&gt;
+              <pre class="mb-6 language-markup" tabindex="0"><code class="language-markup">&lt;!-- 基本形：typeでアイコン名を指定 --&gt;
 &lt;x-i type="home" class="w-6 h-6" /&gt;
 
 &lt;!-- variantを個別に指定したい場合 --&gt;
@@ -1032,10 +948,7 @@ $variants = [
       </template>
     </div>
     <!-- Prism.js for syntax highlighting -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup-templating.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
   </body>
 </html>
