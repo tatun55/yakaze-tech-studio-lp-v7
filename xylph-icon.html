@@ -47,6 +47,30 @@
       dialog#livewire-error::backdrop {
         background-color: rgba(0, 0, 0, 0.6);
       }
+      /* alert-soft custom styles */
+      .alert-soft {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: oklch(var(--b2));
+      }
+      .alert-soft.alert-warning {
+        background-color: oklch(var(--wa) / 0.15);
+      }
+      .alert-soft.alert-success {
+        background-color: oklch(var(--su) / 0.15);
+      }
+      .alert-soft.alert-info {
+        background-color: oklch(var(--in) / 0.15);
+      }
+      .alert-soft.alert-error {
+        background-color: oklch(var(--er) / 0.15);
+      }
+      .alert-soft > svg {
+        flex-shrink: 0;
+      }
     </style>
     <script id="browser-logger-active">
       (function () {
