@@ -50,214 +50,9 @@
       }
     </style>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              base: "#1a1a1a",
-              primary: "#000000",
-              "primary-dark": "#000000",
-              background: "transparent",
-              border: "#e0d5c7",
-              "border-light": "#e8ddd0",
-            },
-            fontFamily: {
-              sans: ["Noto Sans JP", "sans-serif"],
-              serif: ["Noto Serif JP", "serif"],
-              script: ["Have Heart One", "cursive"],
-            },
-            fontSize: {
-              xs: ["0.6875rem", { lineHeight: "1rem" }],
-              sm: ["0.8125rem", { lineHeight: "1.25rem" }],
-              base: ["0.875rem", { lineHeight: "1.5rem" }],
-              lg: ["0.9375rem", { lineHeight: "1.625rem" }],
-              xl: ["1.0625rem", { lineHeight: "1.75rem" }],
-              "2xl": ["1.25rem", { lineHeight: "1.875rem" }],
-              "3xl": ["1.625rem", { lineHeight: "2.125rem" }],
-              "4xl": ["2rem", { lineHeight: "2.5rem" }],
-              "5xl": ["2.5rem", { lineHeight: "3rem" }],
-            },
-          },
-        },
-      };
-    </script>
+    <!-- Vite CSS -->
+    <script type="module" src="/src/index.js"></script>
 
-    <style>
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      .animate-fade-in-up {
-        animation: fadeInUp 0.5s ease-out forwards;
-      }
-
-      .animate-fade-in {
-        animation: fadeIn 0.6s ease-out forwards;
-      }
-
-      .animate-delay-100 {
-        animation-delay: 0.1s;
-      }
-      .animate-delay-200 {
-        animation-delay: 0.2s;
-      }
-      .animate-delay-300 {
-        animation-delay: 0.3s;
-      }
-      .animate-delay-400 {
-        animation-delay: 0.4s;
-      }
-
-      .reveal {
-        opacity: 0;
-      }
-      .revealed {
-        opacity: 1;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      .flat-hover {
-        transition: border-color 0.2s ease;
-      }
-
-      .flat-hover:hover {
-        border-color: #000000;
-      }
-
-      .btn-flat {
-        transition: background-color 0.15s ease;
-      }
-
-      .btn-flat:hover {
-        background-color: #333333;
-      }
-
-      .link-flat {
-        transition: color 0.15s ease;
-      }
-
-      .link-flat:hover {
-        color: #000000;
-      }
-
-      @keyframes scrollPulse {
-        0%,
-        100% {
-          opacity: 0.5;
-        }
-        50% {
-          opacity: 0.8;
-        }
-      }
-
-      .scroll-pulse {
-        animation: scrollPulse 2s ease-in-out infinite;
-      }
-
-      /* Hyperwave background decoration */
-      .hyperwave-deco {
-        font-family: "Have Heart One", cursive;
-        color: rgba(254, 149, 246, 0.25);
-        pointer-events: none;
-        user-select: none;
-        line-height: 1;
-      }
-
-      /* Section label with Have Heart One */
-      .section-label {
-        font-family: "Have Heart One", cursive;
-        color: rgba(0, 0, 0, 0.4);
-        display: inline-block;
-      }
-
-      /* TimeRex Widget Style */
-      #timerex_calendar iframe {
-        background-color: #fefdfb !important;
-      }
-
-      /* Script decoration - Redo tagline */
-      .script-tagline {
-        font-family: "Have Heart One", cursive;
-        color: #6b2059;
-        pointer-events: none;
-        user-select: none;
-        line-height: 1.2;
-        white-space: nowrap;
-      }
-
-      /* Modal animations */
-      .modal-backdrop {
-        opacity: 0;
-        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .modal-backdrop.active {
-        opacity: 1;
-      }
-
-      .modal-content {
-        opacity: 0;
-        transform: translateY(24px) scale(0.97);
-        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-                    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .modal-content.active {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-
-      .modal-closing .modal-backdrop {
-        opacity: 0;
-        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .modal-closing .modal-content {
-        opacity: 0;
-        transform: translateY(12px) scale(0.98);
-        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .modal-link-badge {
-        font-family: "Hyperwave", sans-serif;
-        position: absolute;
-        right: -8px;
-        bottom: -12px;
-        transform: rotate(-6deg);
-        font-size: 1.3rem;
-        color: #6b2059;
-        opacity: 0.7;
-        transition: opacity 0.25s ease;
-        pointer-events: none;
-      }
-
-      .modal-link-btn:hover .modal-link-badge {
-        opacity: 1;
-      }
-    </style>
   </head>
 
   <body class="text-base font-sans antialiased min-h-screen" style="background-color: #faf7f2">
@@ -964,12 +759,14 @@
     </div>
 
     <!-- Footer -->
-    <footer class="py-6">
+    <footer class="py-8 border-t border-border-light">
       <div class="max-w-5xl mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-3">
-          <div class="flex items-center">
-            <img src="/images/brand-logo.png" alt="Yakaze Tech Studio" class="h-6 w-auto" />
-          </div>
+        <div class="flex flex-col items-center gap-4">
+          <!-- Author credit -->
+          <p class="text-xs text-base/50">このサイトは Yakaze Tech Studio の高井が制作しました。</p>
+          <!-- Brand logo -->
+          <img src="/images/brand-logo.png" alt="Yakaze Tech Studio" class="h-7 w-auto" />
+          <!-- Services -->
           <div class="flex items-center gap-3 text-xs text-base/40">
             <span>AI開発</span>
             <span>・</span>
@@ -979,8 +776,9 @@
             <span>・</span>
             <span>アプリ開発</span>
           </div>
+          <!-- Copyright -->
+          <div class="text-[10px] text-base/30">All rights reserved © Yakaze Tech Studio</div>
         </div>
-        <div class="mt-4 text-center text-[10px] text-base/30">All rights reserved © Yakaze Tech Studio</div>
       </div>
     </footer>
 
