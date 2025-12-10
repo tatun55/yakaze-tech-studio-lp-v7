@@ -57,6 +57,56 @@
       code[class*="language-"] {
         font-size: 0.875rem;
       }
+      /* Morphing Link - 変幻自在 */
+      .morphing-link {
+        position: relative;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        color: oklch(var(--p));
+        transition: all 0.3s;
+      }
+      .morphing-link:hover {
+        color: oklch(var(--s));
+      }
+      .morphing-link .morphing-icon {
+        display: inline-block;
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      .morphing-link:hover .morphing-icon {
+        transform: rotate(360deg) scale(1.2);
+      }
+      .morphing-link .morphing-text {
+        position: relative;
+        display: inline-block;
+      }
+      .morphing-link .morphing-text::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(90deg, #6366f1, #ec4899, #f59e0b);
+        transition: width 0.4s ease;
+      }
+      .morphing-link:hover .morphing-text::after {
+        width: 100%;
+      }
+      /* Rainbow shimmer on hover */
+      @keyframes rainbow-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .morphing-link:hover .morphing-text {
+        background: linear-gradient(90deg, #6366f1, #ec4899, #f59e0b, #10b981, #6366f1);
+        background-size: 400% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: rainbow-shift 3s ease infinite;
+      }
     </style>
   </head>
 
