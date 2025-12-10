@@ -1,0 +1,1228 @@
+<html lang="en" class="h-full" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>アイコン沼からの生還 - xylph-icons デモ</title>
+    <script type="module" src="http://127.0.0.1:5174/@vite/client" data-navigate-track="reload"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:5174/resources/css/app.css" data-navigate-track="reload" />
+    <script type="module" src="http://127.0.0.1:5174/resources/js/app.js" data-navigate-track="reload"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Livewire Styles -->
+    <style>
+      [wire\:loading][wire\:loading],
+      [wire\:loading\.delay][wire\:loading\.delay],
+      [wire\:loading\.inline-block][wire\:loading\.inline-block],
+      [wire\:loading\.inline][wire\:loading\.inline],
+      [wire\:loading\.block][wire\:loading\.block],
+      [wire\:loading\.flex][wire\:loading\.flex],
+      [wire\:loading\.table][wire\:loading\.table],
+      [wire\:loading\.grid][wire\:loading\.grid],
+      [wire\:loading\.inline-flex][wire\:loading\.inline-flex] {
+        display: none;
+      }
+      [wire\:loading\.delay\.none][wire\:loading\.delay\.none],
+      [wire\:loading\.delay\.shortest][wire\:loading\.delay\.shortest],
+      [wire\:loading\.delay\.shorter][wire\:loading\.delay\.shorter],
+      [wire\:loading\.delay\.short][wire\:loading\.delay\.short],
+      [wire\:loading\.delay\.default][wire\:loading\.delay\.default],
+      [wire\:loading\.delay\.long][wire\:loading\.delay\.long],
+      [wire\:loading\.delay\.longer][wire\:loading\.delay\.longer],
+      [wire\:loading\.delay\.longest][wire\:loading\.delay\.longest] {
+        display: none;
+      }
+      [wire\:offline][wire\:offline] {
+        display: none;
+      }
+      [wire\:dirty]:not(textarea):not(input):not(select) {
+        display: none;
+      }
+      :root {
+        --livewire-progress-bar-color: #2299dd;
+      }
+      [x-cloak] {
+        display: none !important;
+      }
+      [wire\:cloak] {
+        display: none !important;
+      }
+      dialog#livewire-error::backdrop {
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+    </style>
+    <script id="browser-logger-active">
+      (function () {
+        const ENDPOINT = "http://team-pj-base.pizza/_boost/browser-logs";
+        const logQueue = [];
+        let flushTimeout = null;
+
+        console.log("🔍 Browser logger active (MCP server detected). Posting to: " + ENDPOINT);
+
+        // Store original console methods
+        const originalConsole = {
+          log: console.log,
+          info: console.info,
+          error: console.error,
+          warn: console.warn,
+          table: console.table,
+        };
+
+        // Helper to safely stringify values
+        function safeStringify(obj) {
+          const seen = new WeakSet();
+          return JSON.stringify(obj, (key, value) => {
+            if (typeof value === "object" && value !== null) {
+              if (seen.has(value)) return "[Circular]";
+              seen.add(value);
+            }
+            if (value instanceof Error) {
+              return {
+                name: value.name,
+                message: value.message,
+                stack: value.stack,
+              };
+            }
+            return value;
+          });
+        }
+
+        // Batch and send logs
+        function flushLogs() {
+          if (logQueue.length === 0) return;
+
+          const batch = logQueue.splice(0, logQueue.length);
+
+          fetch(ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Requested-With": "XMLHttpRequest",
+            },
+            body: JSON.stringify({ logs: batch }),
+          }).catch((err) => {
+            // Silently fail to avoid infinite loops
+            originalConsole.error("Failed to send logs:", err);
+          });
+        }
+
+        // Debounced flush (100ms)
+        function scheduleFlush() {
+          if (flushTimeout) clearTimeout(flushTimeout);
+          flushTimeout = setTimeout(flushLogs, 100);
+        }
+
+        // Intercept console methods
+        ["log", "info", "error", "warn", "table"].forEach((method) => {
+          console[method] = function (...args) {
+            // Call original method
+            originalConsole[method].apply(console, args);
+
+            // Capture log data
+            try {
+              logQueue.push({
+                type: method,
+                timestamp: new Date().toISOString(),
+                data: args.map((arg) => {
+                  try {
+                    return typeof arg === "object" ? JSON.parse(safeStringify(arg)) : arg;
+                  } catch (e) {
+                    return String(arg);
+                  }
+                }),
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+              });
+
+              scheduleFlush();
+            } catch (e) {
+              // Fail silently
+            }
+          };
+        });
+
+        // Global error handlers for uncaught errors
+        const originalOnError = window.onerror;
+        window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
+          try {
+            logQueue.push({
+              type: "uncaught_error",
+              timestamp: new Date().toISOString(),
+              data: [
+                {
+                  message: errorMsg,
+                  filename: url,
+                  lineno: lineNumber,
+                  colno: colNumber,
+                  error: error
+                    ? {
+                        name: error.name,
+                        message: error.message,
+                        stack: error.stack,
+                      }
+                    : null,
+                },
+              ],
+              url: window.location.href,
+              userAgent: navigator.userAgent,
+            });
+
+            scheduleFlush();
+          } catch (e) {
+            // Fail silently
+          }
+
+          // Call original handler if it exists
+          if (originalOnError && typeof originalOnError === "function") {
+            return originalOnError(errorMsg, url, lineNumber, colNumber, error);
+          }
+
+          // Let the error continue to propagate
+          return false;
+        };
+        window.addEventListener("error", (event) => {
+          try {
+            logQueue.push({
+              type: "window_error",
+              timestamp: new Date().toISOString(),
+              data: [
+                {
+                  message: event.message,
+                  filename: event.filename,
+                  lineno: event.lineno,
+                  colno: event.colno,
+                  error: event.error
+                    ? {
+                        name: event.error.name,
+                        message: event.error.message,
+                        stack: event.error.stack,
+                      }
+                    : null,
+                },
+              ],
+              url: window.location.href,
+              userAgent: navigator.userAgent,
+            });
+
+            scheduleFlush();
+          } catch (e) {
+            // Fail silently
+          }
+
+          // Let the error continue to propagate
+          return false;
+        });
+        window.addEventListener("unhandledrejection", (event) => {
+          try {
+            logQueue.push({
+              type: "error",
+              timestamp: new Date().toISOString(),
+              data: [
+                {
+                  message: "Unhandled Promise Rejection",
+                  reason:
+                    event.reason instanceof Error
+                      ? {
+                          name: event.reason.name,
+                          message: event.reason.message,
+                          stack: event.reason.stack,
+                        }
+                      : event.reason,
+                },
+              ],
+              url: window.location.href,
+              userAgent: navigator.userAgent,
+            });
+
+            scheduleFlush();
+          } catch (e) {
+            // Fail silently
+          }
+
+          // Let the rejection continue to propagate
+          return false;
+        });
+
+        // Flush on page unload
+        window.addEventListener("beforeunload", () => {
+          if (logQueue.length > 0) {
+            navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
+          }
+        });
+      })();
+    </script>
+    <style>
+      /* Make clicks pass-through */
+
+      #nprogress {
+        pointer-events: none;
+      }
+
+      #nprogress .bar {
+        background: var(--livewire-progress-bar-color, #29d);
+
+        position: fixed;
+        z-index: 1031;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 2px;
+      }
+
+      /* Fancy blur effect */
+      #nprogress .peg {
+        display: block;
+        position: absolute;
+        right: 0px;
+        width: 100px;
+        height: 100%;
+        box-shadow: 0 0 10px var(--livewire-progress-bar-color, #29d), 0 0 5px var(--livewire-progress-bar-color, #29d);
+        opacity: 1;
+
+        -webkit-transform: rotate(3deg) translate(0px, -4px);
+        -ms-transform: rotate(3deg) translate(0px, -4px);
+        transform: rotate(3deg) translate(0px, -4px);
+      }
+
+      /* Remove these to get rid of the spinner */
+      #nprogress .spinner {
+        display: block;
+        position: fixed;
+        z-index: 1031;
+        top: 15px;
+        right: 15px;
+      }
+
+      #nprogress .spinner-icon {
+        width: 18px;
+        height: 18px;
+        box-sizing: border-box;
+
+        border: solid 2px transparent;
+        border-top-color: var(--livewire-progress-bar-color, #29d);
+        border-left-color: var(--livewire-progress-bar-color, #29d);
+        border-radius: 50%;
+
+        -webkit-animation: nprogress-spinner 400ms linear infinite;
+        animation: nprogress-spinner 400ms linear infinite;
+      }
+
+      .nprogress-custom-parent {
+        overflow: hidden;
+        position: relative;
+      }
+
+      .nprogress-custom-parent #nprogress .spinner,
+      .nprogress-custom-parent #nprogress .bar {
+        position: absolute;
+      }
+
+      @-webkit-keyframes nprogress-spinner {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+      @keyframes nprogress-spinner {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen bg-base-100">
+    <div wire:snapshot='{"data":{"currentVariant":"bold-duotone","variants":[["bold-duotone","bold","broken","linear"],{"s":"arr"}],"allVariants":[["bold-duotone","bold","broken","line-duotone","linear","outline"],{"s":"arr"}],"demoIcons":[["home","user","heart","star","settings","notification","search","cart-3"],{"s":"arr"}]},"memo":{"id":"cQAYTgNZ6S4PcR59VXxr","name":"pages.icon-demo","path":"icon-demo","method":"GET","release":"a-a-a","children":[],"scripts":[],"assets":[],"errors":[],"locale":"en"},"checksum":"88ebff2af281a5a4e6a6b501b6858eca5b00d1625eab04605b87318b8b306aaa"}' wire:effects="[]" wire:id="cQAYTgNZ6S4PcR59VXxr" class="min-h-screen bg-base-200 py-12" style="font-size: 120%">
+      <div class="mx-auto px-4" style="max-width: 760px">
+        <a href="/" class="inline-flex items-center gap-1 text-base-content/50 hover:text-primary transition-colors text-sm mb-8">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          <span>トップへ戻る</span>
+        </a>
+        <div class="mb-12 text-center">
+          <h1 class="mb-4 text-4xl font-bold">アイコン沼からの生還</h1>
+          <p class="text-base-content/70 text-lg">〜 深夜3時、「home」アイコンを探し続けた男の記録 〜</p>
+        </div>
+
+        <section class="card bg-base-100 mb-8 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title mb-2 text-2xl">
+              <svg class="text-primary h-8 w-8" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M8.422 20.618C10.178 21.54 11.056 22 12 22V12L2.638 7.073l-.04.067C2 8.154 2 9.417 2 11.942v.117c0 2.524 0 3.787.597 4.801c.598 1.015 1.674 1.58 3.825 2.709z"></path>
+                <path fill="currentColor" d="m17.577 4.432l-2-1.05C13.822 2.461 12.944 2 12 2c-.945 0-1.822.46-3.578 1.382l-2 1.05C4.318 5.536 3.242 6.1 2.638 7.072L12 12l9.362-4.927c-.606-.973-1.68-1.537-3.785-2.641" opacity=".7"></path>
+                <path fill="currentColor" d="m21.403 7.14l-.041-.067L12 12v10c.944 0 1.822-.46 3.578-1.382l2-1.05c2.151-1.129 3.227-1.693 3.825-2.708c.597-1.014.597-2.277.597-4.8v-.117c0-2.525 0-3.788-.597-4.802" opacity=".3"></path>
+                <path fill="currentColor" d="m6.323 4.484l.1-.052l1.493-.784l9.1 5.005l4.025-2.011q.205.232.362.498c.15.254.262.524.346.825L17.75 9.964V13a.75.75 0 0 1-1.5 0v-2.286l-3.5 1.75v9.44A3 3 0 0 1 12 22c-.248 0-.493-.032-.75-.096v-9.44l-8.998-4.5c.084-.3.196-.57.346-.824q.156-.266.362-.498l9.04 4.52l3.387-1.693z"></path>
+              </svg>
+              はじめに：なぜこのパッケージを作ったのか
+            </h2>
+            <p class="text-base-content/70 mb-4">
+              突然ですが、Composerパッケージを作りました。
+              <code class="bg-base-200 rounded px-2 py-1">xylph-official/xylph-icons</code> といいます。 Laravel用のアイコンパッケージです。
+            </p>
+            <p class="text-base-content/70 mb-4">「え、アイコンパッケージなんて山ほどあるじゃん」と思いましたよね。私もそう思います。 Font Awesome、Heroicons、Feather、Material Icons、Phosphor、Lucide、Tabler... 選択肢は無限にあります。なのに、なぜわざわざ新しいパッケージを？</p>
+            <p class="text-base-content/70 mb-4">答えは簡単です。<strong>「後から変えたくなる」から</strong>です。</p>
+            <p class="text-base-content/70 mb-4">アイコンを選ぶとき、「これだ！」と思って実装しますよね。 でも1週間後、「やっぱり線だけのアイコンにしたい」と思う。 1ヶ月後、「もっと太い方がいいかも」と思う。 リリース直前、デザイナーから「全体的にもう少し柔らかい印象に」と言われる。</p>
+            <p class="text-base-content/70 mb-4">そのたびに何が起きるか？ <strong>全ファイルgrep、手動置換、動作確認、レビュー、デプロイ</strong>。 「home」を「home-outline」に変えるだけで、半日が溶ける。 これを何度か経験すると、人は悟ります。「アイコン選びは呪いだ」と。</p>
+            <p class="text-base-content/70 mb-4">
+              このパッケージは、その呪いを解くために生まれました。
+              <strong>1,234種類のアイコン × 6種類のバリエーション = 7,404通りのSVG</strong>が、 たった1つの設定で切り替え可能。コード変更ゼロ。grep不要。
+            </p>
+            <div class="alert alert-soft">
+              <svg class="text-base-content/70 h-5 w-5" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3"></path>
+                <path fill="currentColor" d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2"></path>
+              </svg>
+              <span>このページでは、アイコン沼の恐ろしさと、そこからの脱出方法をお見せします。最後まで読む価値があるかどうかは、あなたが「home」アイコンを探すのに何時間費やしたことがあるかによります。</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card bg-base-100 mb-8 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title mb-2 text-2xl">
+              <svg class="text-warning h-8 w-8" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12 3c-2.31 0-3.77 2.587-6.688 7.762l-.364.644c-2.425 4.3-3.638 6.45-2.542 8.022S6.214 21 11.636 21h.728c5.422 0 8.134 0 9.23-1.572s-.117-3.722-2.542-8.022l-.364-.645C15.77 5.587 14.311 3 12 3" opacity=".3"></path>
+                <path fill="currentColor" d="M12 7.25a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 17a1 1 0 1 0 0-2a1 1 0 0 0 0 2"></path>
+              </svg>
+              第1章：沼の入口
+            </h2>
+            <p class="text-base-content/70 mb-4">あなたは今、アプリを作っています。ナビゲーションに「ホーム」ボタンを置きたい。 簡単な話です。「home」アイコンを探すだけ。5分で終わる。そう思っていました。</p>
+            <p class="text-base-content/70 mb-4">
+              Font Awesome を開きます。「home」で検索。あれ、10種類以上ある。 「home」「house」「house-chimney」「house-user」...どれだ？ とりあえず一番シンプルなやつを選びます。貼り付けます。
+              <strong>「...なんか違う」</strong>
+            </p>
+            <p class="text-base-content/70 mb-4">
+              Heroicons も見てみます。24x24と20x20がある。outline と solid がある。 どっちがいい？ solid は重すぎる気がする。でも outline は線が細すぎる気もする。
+              <strong>「...なんか違う」</strong>
+            </p>
+            <p class="text-base-content/70 mb-4">Feather Icons、Material Icons、Phosphor Icons、Lucide、Tabler Icons... 気づいたら2時間が経過しています。ブラウザのタブは47個開いています。 目は乾き、肩は凝り、そして心には虚無が広がっています。</p>
+            <p class="text-base-content/70 mb-6">
+              <strong>「home」というたった4文字のために、あなたの人生の2時間が消えました。</strong><br />
+              これが、アイコン沼です。
+            </p>
+
+            <div class="bg-base-200 rounded-xl p-6">
+              <h3 class="text-base-content/60 mb-4 text-center text-sm font-semibold">「home」アイコン × 4 variants（同じアイコン、違う表情）</h3>
+              <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+                <!--[if BLOCK]> <![endif]-->
+                <div class="bg-base-100 flex flex-col items-center rounded-lg p-4 shadow">
+                  <svg class="text-primary mb-3 h-12 w-12" viewBox="0 0 24 24">
+                    <defs><path id="SVG1WEi9bFG" d="M10.75 9.5a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0"></path></defs>
+                    <path fill="currentColor" fill-rule="evenodd" d="m21.532 11.586l-.782-.626v10.29H22a.75.75 0 0 1 0 1.5H2a.75.75 0 1 1 0-1.5h1.25V10.96l-.781.626a.75.75 0 1 1-.937-1.172l8.125-6.5a3.75 3.75 0 0 1 4.686 0l8.125 6.5a.75.75 0 1 1-.936 1.172M12 6.75a2.75 2.75 0 1 0 0 5.5a2.75 2.75 0 0 0 0-5.5m1.746 6.562c-.459-.062-1.032-.062-1.697-.062h-.098c-.665 0-1.238 0-1.697.062c-.491.066-.963.215-1.345.597s-.531.854-.597 1.345c-.062.459-.062 1.032-.062 1.697v4.299h7.5v-4.423c0-.612-.004-1.143-.062-1.573c-.066-.491-.215-.963-.597-1.345s-.853-.531-1.345-.597" clip-rule="evenodd"></path>
+                    <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" opacity=".3">
+                      <use href="#SVG1WEi9bFG"></use>
+                      <use href="#SVG1WEi9bFG"></use>
+                    </g>
+                    <path fill="currentColor" d="M12.05 13.25c.664 0 1.237 0 1.696.062c.492.066.963.215 1.345.597s.531.853.597 1.345c.058.43.062.96.062 1.573v4.423h-7.5v-4.3c0-.664 0-1.237.062-1.696c.066-.492.215-.963.597-1.345s.854-.531 1.345-.597c.459-.062 1.032-.062 1.697-.062zM16 3h2.5a.5.5 0 0 1 .5.5v4.14l-3.5-2.8V3.5A.5.5 0 0 1 16 3" opacity=".3"></path>
+                  </svg>
+                  <span class="text-base-content/60 text-xs">bold-duotone</span>
+                </div>
+                <div class="bg-base-100 flex flex-col items-center rounded-lg p-4 shadow">
+                  <svg class="text-accent mb-3 h-12 w-12" viewBox="0 0 24 24">
+                    <defs><path id="SVGEuPeJeiy" fill="currentColor" d="M10.75 9.5a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0"></path></defs>
+                    <path fill="currentColor" d="M18.5 3H16a.5.5 0 0 0-.5.5v.059l3.5 2.8V3.5a.5.5 0 0 0-.5-.5"></path>
+                    <use href="#SVGEuPeJeiy" fill-rule="evenodd" clip-rule="evenodd"></use>
+                    <path fill="currentColor" fill-rule="evenodd" d="m20.75 10.96l.782.626a.75.75 0 0 0 .936-1.172l-8.125-6.5a3.75 3.75 0 0 0-4.686 0l-8.125 6.5a.75.75 0 0 0 .937 1.172l.781-.626v10.29H2a.75.75 0 0 0 0 1.5h20a.75.75 0 0 0 0-1.5h-1.25zM9.25 9.5a2.75 2.75 0 1 1 5.5 0a2.75 2.75 0 0 1-5.5 0m2.8 3.75c.664 0 1.237 0 1.696.062c.492.066.963.215 1.345.597s.531.853.597 1.345c.058.43.062.96.062 1.573v4.423h-1.5V17c0-.728-.002-1.2-.048-1.546c-.044-.325-.114-.427-.172-.484s-.159-.128-.484-.172c-.347-.046-.818-.048-1.546-.048s-1.2.002-1.546.048c-.325.044-.427.115-.484.172s-.128.159-.172.484c-.046.347-.048.818-.048 1.546v4.25h-1.5v-4.3c0-.664 0-1.237.062-1.696c.066-.492.215-.963.597-1.345s.854-.531 1.345-.597c.459-.062 1.032-.062 1.697-.062z" clip-rule="evenodd"></path>
+                    <use href="#SVGEuPeJeiy" fill-rule="evenodd" clip-rule="evenodd"></use>
+                  </svg>
+                  <span class="text-base-content/60 text-xs">bold</span>
+                </div>
+                <div class="bg-base-100 flex flex-col items-center rounded-lg p-4 shadow">
+                  <svg class="text-info mb-3 h-12 w-12" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path stroke-linecap="round" d="M22 22H2m0-11l4.063-3.25M22 11l-8.126-6.5a3 3 0 0 0-3.748 0l-.782.625M15.5 5.5v-2A.5.5 0 0 1 16 3h2.5a.5.5 0 0 1 .5.5v5M4 22V9.5m16 0v4m0 8.5v-4.5"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 22v-5c0-1.414 0-2.121-.44-2.56C14.122 14 13.415 14 12 14s-2.121 0-2.56.44M9 22v-5"></path>
+                      <path d="M14 9.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0Z"></path>
+                    </g>
+                  </svg>
+                  <span class="text-base-content/60 text-xs">broken</span>
+                </div>
+                <div class="bg-base-100 flex flex-col items-center rounded-lg p-4 shadow">
+                  <svg class="text-secondary mb-3 h-12 w-12" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path stroke-linecap="round" d="M22 22H2m0-11l8.126-6.5a3 3 0 0 1 3.748 0L22 11m-6.5-5.5v-2A.5.5 0 0 1 16 3h2.5a.5.5 0 0 1 .5.5v5M4 22V9.5M20 22V9.5"></path>
+                      <path d="M15 22v-5c0-1.414 0-2.121-.44-2.56C14.122 14 13.415 14 12 14s-2.121 0-2.56.44C9 14.878 9 15.585 9 17v5m5-12.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0Z"></path>
+                    </g>
+                  </svg>
+                  <span class="text-base-content/60 text-xs">linear</span>
+                </div>
+                <!--[if ENDBLOCK]> <![endif]-->
+              </div>
+            </div>
+
+            <div class="alert alert-soft alert-warning mt-6">
+              <svg class="text-warning h-6 w-6" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10" opacity=".3"></path>
+                <path fill="currentColor" d="M14.898 11.224c.533-.143.792-.908.578-1.708s-.821-1.333-1.355-1.19c-.533.143-.792.907-.577 1.708c.214.8.82 1.333 1.354 1.19m-5.796 1.553c.534-.143.792-.908.578-1.708s-.82-1.333-1.354-1.19s-.792.907-.578 1.708s.82 1.333 1.354 1.19m-.917 2.974a.75.75 0 0 1 .91-.545c1.13.283 2.428.287 3.746-.066c1.318-.354 2.44-1.006 3.278-1.816a.75.75 0 1 1 1.043 1.078a8.4 8.4 0 0 1-1.15.928l.159.322a1.5 1.5 0 1 1-2.693 1.322l-.196-.4l-.053.014c-1.555.417-3.112.42-4.499.073a.75.75 0 0 1-.545-.91"></path>
+              </svg>
+              <div>
+                <p class="font-bold">おめでとうございます、沼へようこそ。</p>
+                <p class="text-sm">この画面を見て「どれも良いな...」と思った方。その感覚、正常です。そして危険です。「どれも良い」は「決められない」と同義であり、「決められない」は「永遠に終わらない」を意味します。でも大丈夫。私たちには武器があります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card bg-base-100 mb-8 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title mb-2 text-2xl">
+              <svg class="text-info h-8 w-8" viewBox="0 0 24 24">
+                <path fill="currentColor" fill-rule="evenodd" d="M14.279 2.152C13.909 2 13.439 2 12.5 2s-1.408 0-1.779.152a2 2 0 0 0-1.09 1.083c-.094.223-.13.484-.145.863a1.62 1.62 0 0 1-.796 1.353a1.64 1.64 0 0 1-1.579.008c-.338-.178-.583-.276-.825-.308a2.03 2.03 0 0 0-1.49.396c-.318.242-.553.646-1.022 1.453c-.47.807-.704 1.21-.757 1.605c-.07.526.074 1.058.4 1.479c.148.192.357.353.68.555c.477.297.783.803.783 1.361s-.306 1.064-.782 1.36c-.324.203-.533.364-.682.556a2 2 0 0 0-.399 1.479c.053.394.287.798.757 1.605s.704 1.21 1.022 1.453c.424.323.96.465 1.49.396c.242-.032.487-.13.825-.308a1.64 1.64 0 0 1 1.58.008c.486.28.774.795.795 1.353c.015.38.051.64.145.863c.204.49.596.88 1.09 1.083c.37.152.84.152 1.779.152s1.409 0 1.779-.152a2 2 0 0 0 1.09-1.083c.094-.223.13-.483.145-.863c.02-.558.309-1.074.796-1.353a1.64 1.64 0 0 1 1.579-.008c.338.178.583.276.825.308c.53.07 1.066-.073 1.49-.396c.318-.242.553-.646 1.022-1.453c.47-.807.704-1.21.757-1.605a2 2 0 0 0-.4-1.479c-.148-.192-.357-.353-.68-.555c-.477-.297-.783-.803-.783-1.361s.306-1.064.782-1.36c.324-.203.533-.364.682-.556a2 2 0 0 0 .399-1.479c-.053-.394-.287-.798-.757-1.605s-.704-1.21-1.022-1.453a2.03 2.03 0 0 0-1.49-.396c-.242.032-.487.13-.825.308a1.64 1.64 0 0 1-1.58-.008a1.62 1.62 0 0 1-.795-1.353c-.015-.38-.051-.64-.145-.863a2 2 0 0 0-1.09-1.083" clip-rule="evenodd" opacity=".3"></path>
+                <path fill="currentColor" d="M15.523 12c0 1.657-1.354 3-3.023 3s-3.023-1.343-3.023-3S10.83 9 12.5 9s3.023 1.343 3.023 3"></path>
+              </svg>
+              第2章：同じUIなのに、全然違う
+            </h2>
+            <p class="text-base-content/70 mb-4">ここからが本題です。同じナビゲーション、同じアイコン、同じ配置。 変わるのは「variant」だけ。たったそれだけで、アプリの印象がここまで変わります。</p>
+            <p class="text-base-content/70 mb-4">bold-duotone は「親しみやすいけど安っぽくない」絶妙なバランス。 linear は「洗練されたミニマリズム」を演出。 bold は「力強さと信頼感」を与え、 broken は「軽やかで現代的」な印象を作り出します。</p>
+            <p class="text-base-content/70 mb-6">
+              どれが正解か？ <strong>それはあなたのアプリが決めることです。</strong>
+              金融アプリなら bold の信頼感が欲しいかもしれない。 ライフスタイルアプリなら broken の軽やかさが合うかもしれない。 でも、今この瞬間に決める必要はありません。後から変えられるので。
+            </p>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+              <div class="bg-base-200 rounded-xl p-4">
+                <span class="badge badge-primary mb-3">bold-duotone（リッチ＆フレンドリー）</span>
+                <div class="bg-base-100 rounded-lg p-4 shadow">
+                  <nav class="flex items-center justify-around">
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-primary h-6 w-6" viewBox="0 0 24 24">
+                        <defs><path id="SVG1WEi9bFG" d="M10.75 9.5a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0"></path></defs>
+                        <path fill="currentColor" fill-rule="evenodd" d="m21.532 11.586l-.782-.626v10.29H22a.75.75 0 0 1 0 1.5H2a.75.75 0 1 1 0-1.5h1.25V10.96l-.781.626a.75.75 0 1 1-.937-1.172l8.125-6.5a3.75 3.75 0 0 1 4.686 0l8.125 6.5a.75.75 0 1 1-.936 1.172M12 6.75a2.75 2.75 0 1 0 0 5.5a2.75 2.75 0 0 0 0-5.5m1.746 6.562c-.459-.062-1.032-.062-1.697-.062h-.098c-.665 0-1.238 0-1.697.062c-.491.066-.963.215-1.345.597s-.531.854-.597 1.345c-.062.459-.062 1.032-.062 1.697v4.299h7.5v-4.423c0-.612-.004-1.143-.062-1.573c-.066-.491-.215-.963-.597-1.345s-.853-.531-1.345-.597" clip-rule="evenodd"></path>
+                        <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" opacity=".3">
+                          <use href="#SVG1WEi9bFG"></use>
+                          <use href="#SVG1WEi9bFG"></use>
+                        </g>
+                        <path fill="currentColor" d="M12.05 13.25c.664 0 1.237 0 1.696.062c.492.066.963.215 1.345.597s.531.853.597 1.345c.058.43.062.96.062 1.573v4.423h-7.5v-4.3c0-.664 0-1.237.062-1.696c.066-.492.215-.963.597-1.345s.854-.531 1.345-.597c.459-.062 1.032-.062 1.697-.062zM16 3h2.5a.5.5 0 0 1 .5.5v4.14l-3.5-2.8V3.5A.5.5 0 0 1 16 3" opacity=".3"></path>
+                      </svg>
+                      <span class="text-xs">ホーム</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-primary h-6 w-6" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M20.313 11.157a9.157 9.157 0 1 1-18.313 0a9.157 9.157 0 0 1 18.313 0" opacity=".3"></path>
+                        <path fill="currentColor" d="m17.1 18.122l3.666 3.666a.723.723 0 0 0 1.023-1.022L18.122 17.1a9 9 0 0 1-1.022 1.022"></path>
+                      </svg>
+                      <span class="text-xs">検索</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-primary h-6 w-6" viewBox="0 0 24 24">
+                        <path fill="currentColor" fill-rule="evenodd" d="M8.106 18.247C5.298 16.083 2 13.542 2 9.137C2 4.274 7.5.825 12 5.501V20.5c-1 0-2-.77-3.038-1.59q-.417-.326-.856-.663" clip-rule="evenodd" opacity=".3"></path>
+                        <path fill="currentColor" d="M15.038 18.91C17.981 16.592 22 14 22 9.138S16.5.825 12 5.501V20.5c1 0 2-.77 3.038-1.59"></path>
+                      </svg>
+                      <span class="text-xs">お気に入り</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-primary h-6 w-6" viewBox="0 0 24 24">
+                        <circle cx="12" cy="6" r="4" fill="currentColor"></circle>
+                        <path fill="currentColor" d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5" opacity=".3"></path>
+                      </svg>
+                      <span class="text-xs">マイページ</span>
+                    </a>
+                  </nav>
+                </div>
+                <p class="text-base-content/50 mt-2 text-xs">2色の組み合わせが立体感を生み出す。親しみやすさと上質さの両立。</p>
+              </div>
+
+              <div class="bg-base-200 rounded-xl p-4">
+                <span class="badge badge-secondary mb-3">linear（ミニマル＆クリーン）</span>
+                <div class="bg-base-100 rounded-lg p-4 shadow">
+                  <nav class="flex items-center justify-around">
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-secondary h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path stroke-linecap="round" d="M22 22H2m0-11l8.126-6.5a3 3 0 0 1 3.748 0L22 11m-6.5-5.5v-2A.5.5 0 0 1 16 3h2.5a.5.5 0 0 1 .5.5v5M4 22V9.5M20 22V9.5"></path>
+                          <path d="M15 22v-5c0-1.414 0-2.121-.44-2.56C14.122 14 13.415 14 12 14s-2.121 0-2.56.44C9 14.878 9 15.585 9 17v5m5-12.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0Z"></path>
+                        </g>
+                      </svg>
+                      <span class="text-xs">ホーム</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-secondary h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <circle cx="11.5" cy="11.5" r="9.5"></circle>
+                          <path stroke-linecap="round" d="M18.5 18.5L22 22"></path>
+                        </g>
+                      </svg>
+                      <span class="text-xs">検索</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-secondary h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" d="m8.962 18.91l.464-.588zM12 5.5l-.54.52a.75.75 0 0 0 1.08 0zm3.038 13.41l.465.59zm-5.612-.588C7.91 17.127 6.253 15.96 4.938 14.48C3.65 13.028 2.75 11.335 2.75 9.137h-1.5c0 2.666 1.11 4.7 2.567 6.339c1.43 1.61 3.254 2.9 4.68 4.024zM2.75 9.137c0-2.15 1.215-3.954 2.874-4.713c1.612-.737 3.778-.541 5.836 1.597l1.08-1.04C10.1 2.444 7.264 2.025 5 3.06C2.786 4.073 1.25 6.425 1.25 9.137zM8.497 19.5c.513.404 1.063.834 1.62 1.16s1.193.59 1.883.59v-1.5c-.31 0-.674-.12-1.126-.385c-.453-.264-.922-.628-1.448-1.043zm7.006 0c1.426-1.125 3.25-2.413 4.68-4.024c1.457-1.64 2.567-3.673 2.567-6.339h-1.5c0 2.198-.9 3.891-2.188 5.343c-1.315 1.48-2.972 2.647-4.488 3.842zM22.75 9.137c0-2.712-1.535-5.064-3.75-6.077c-2.264-1.035-5.098-.616-7.54 1.92l1.08 1.04c2.058-2.137 4.224-2.333 5.836-1.596c1.659.759 2.874 2.562 2.874 4.713zm-8.176 9.185c-.526.415-.995.779-1.448 1.043s-.816.385-1.126.385v1.5c.69 0 1.326-.265 1.883-.59c.558-.326 1.107-.756 1.62-1.16z"></path></svg>
+                      <span class="text-xs">お気に入り</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-secondary h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <circle cx="12" cy="6" r="4"></circle>
+                          <path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z"></path>
+                        </g>
+                      </svg>
+                      <span class="text-xs">マイページ</span>
+                    </a>
+                  </nav>
+                </div>
+                <p class="text-base-content/50 mt-2 text-xs">線だけで構成されたシンプルな美しさ。余白が活きるデザインに。</p>
+              </div>
+
+              <div class="bg-base-200 rounded-xl p-4">
+                <span class="badge badge-accent mb-3">bold（ソリッド＆信頼感）</span>
+                <div class="bg-base-100 rounded-lg p-4 shadow">
+                  <nav class="flex items-center justify-around">
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-accent h-6 w-6" viewBox="0 0 24 24">
+                        <defs><path id="SVGEuPeJeiy" fill="currentColor" d="M10.75 9.5a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0"></path></defs>
+                        <path fill="currentColor" d="M18.5 3H16a.5.5 0 0 0-.5.5v.059l3.5 2.8V3.5a.5.5 0 0 0-.5-.5"></path>
+                        <use href="#SVGEuPeJeiy" fill-rule="evenodd" clip-rule="evenodd"></use>
+                        <path fill="currentColor" fill-rule="evenodd" d="m20.75 10.96l.782.626a.75.75 0 0 0 .936-1.172l-8.125-6.5a3.75 3.75 0 0 0-4.686 0l-8.125 6.5a.75.75 0 0 0 .937 1.172l.781-.626v10.29H2a.75.75 0 0 0 0 1.5h20a.75.75 0 0 0 0-1.5h-1.25zM9.25 9.5a2.75 2.75 0 1 1 5.5 0a2.75 2.75 0 0 1-5.5 0m2.8 3.75c.664 0 1.237 0 1.696.062c.492.066.963.215 1.345.597s.531.853.597 1.345c.058.43.062.96.062 1.573v4.423h-1.5V17c0-.728-.002-1.2-.048-1.546c-.044-.325-.114-.427-.172-.484s-.159-.128-.484-.172c-.347-.046-.818-.048-1.546-.048s-1.2.002-1.546.048c-.325.044-.427.115-.484.172s-.128.159-.172.484c-.046.347-.048.818-.048 1.546v4.25h-1.5v-4.3c0-.664 0-1.237.062-1.696c.066-.492.215-.963.597-1.345s.854-.531 1.345-.597c.459-.062 1.032-.062 1.697-.062z" clip-rule="evenodd"></path>
+                        <use href="#SVGEuPeJeiy" fill-rule="evenodd" clip-rule="evenodd"></use>
+                      </svg>
+                      <span class="text-xs">ホーム</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-accent h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M21.788 21.788a.723.723 0 0 0 0-1.022L18.122 17.1a9.157 9.157 0 1 0-1.022 1.022l3.666 3.666a.723.723 0 0 0 1.022 0" clip-rule="evenodd"></path></svg>
+                      <span class="text-xs">検索</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-accent h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" d="M2 9.137C2 14 6.02 16.591 8.962 18.911C10 19.729 11 20.5 12 20.5s2-.77 3.038-1.59C17.981 16.592 22 14 22 9.138S16.5.825 12 5.501C7.5.825 2 4.274 2 9.137"></path></svg>
+                      <span class="text-xs">お気に入り</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-accent h-6 w-6" viewBox="0 0 24 24">
+                        <circle cx="12" cy="6" r="4" fill="currentColor"></circle>
+                        <path fill="currentColor" d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5"></path>
+                      </svg>
+                      <span class="text-xs">マイページ</span>
+                    </a>
+                  </nav>
+                </div>
+                <p class="text-base-content/50 mt-2 text-xs">塗りつぶされた力強さ。金融・ビジネス系に最適。</p>
+              </div>
+
+              <div class="bg-base-200 rounded-xl p-4">
+                <span class="badge badge-info mb-3">broken（軽やか＆モダン）</span>
+                <div class="bg-base-100 rounded-lg p-4 shadow">
+                  <nav class="flex items-center justify-around">
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-info h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path stroke-linecap="round" d="M22 22H2m0-11l4.063-3.25M22 11l-8.126-6.5a3 3 0 0 0-3.748 0l-.782.625M15.5 5.5v-2A.5.5 0 0 1 16 3h2.5a.5.5 0 0 1 .5.5v5M4 22V9.5m16 0v4m0 8.5v-4.5"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 22v-5c0-1.414 0-2.121-.44-2.56C14.122 14 13.415 14 12 14s-2.121 0-2.56.44M9 22v-5"></path>
+                          <path d="M14 9.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0Z"></path>
+                        </g>
+                      </svg>
+                      <span class="text-xs">ホーム</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-info h-6 w-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M18.5 18.5L22 22M6.75 3.27a9.5 9.5 0 1 1-3.48 3.48"></path></svg>
+                      <span class="text-xs">検索</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-info h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" d="m8.962 18.91l.464-.588zM12 5.5l-.54.52a.75.75 0 0 0 1.08 0zm3.038 13.41l.465.59zm-8.037-2.49a.75.75 0 0 0-.954 1.16zm-4.659-3.009a.75.75 0 1 0 1.316-.72zm.408-4.274c0-2.15 1.215-3.954 2.874-4.713c1.612-.737 3.778-.541 5.836 1.597l1.08-1.04C10.1 2.444 7.264 2.025 5 3.06C2.786 4.073 1.25 6.425 1.25 9.137zM8.497 19.5c.513.404 1.063.834 1.62 1.16s1.193.59 1.883.59v-1.5c-.31 0-.674-.12-1.126-.385c-.453-.264-.922-.628-1.448-1.043zm7.006 0c1.426-1.125 3.25-2.413 4.68-4.024c1.457-1.64 2.567-3.673 2.567-6.339h-1.5c0 2.198-.9 3.891-2.188 5.343c-1.315 1.48-2.972 2.647-4.488 3.842zM22.75 9.137c0-2.712-1.535-5.064-3.75-6.077c-2.264-1.035-5.098-.616-7.54 1.92l1.08 1.04c2.058-2.137 4.224-2.333 5.836-1.596c1.659.759 2.874 2.562 2.874 4.713zm-8.176 9.185c-.526.415-.995.779-1.448 1.043s-.816.385-1.126.385v1.5c.69 0 1.326-.265 1.883-.59c.558-.326 1.107-.756 1.62-1.16zm-5.148 0c-.796-.627-1.605-1.226-2.425-1.901l-.954 1.158c.83.683 1.708 1.335 2.45 1.92zm-5.768-5.63a7.25 7.25 0 0 1-.908-3.555h-1.5c0 1.638.42 3.046 1.092 4.275z"></path></svg>
+                      <span class="text-xs">お気に入り</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-1 p-2">
+                      <svg class="text-info h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <circle cx="12" cy="6" r="4"></circle>
+                          <path stroke-linecap="round" d="M19.998 18q.002-.246.002-.5c0-2.485-3.582-4.5-8-4.5s-8 2.015-8 4.5S4 22 12 22c2.231 0 3.84-.157 5-.437"></path>
+                        </g>
+                      </svg>
+                      <span class="text-xs">マイページ</span>
+                    </a>
+                  </nav>
+                </div>
+                <p class="text-base-content/50 mt-2 text-xs">途切れた線が生む軽快さ。カジュアル・ライフスタイル系に。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card bg-base-100 mb-8 shadow-xl" x-data="{ variant: 'bold-duotone' }">
+          <div class="card-body">
+            <h2 class="card-title mb-2 text-2xl">
+              <svg class="text-success h-8 w-8" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M3.845 3.845a2.883 2.883 0 0 0 0 4.077L5.432 9.51c.012-.014.555.503.568.49l4-4c.013-.013-.504-.556-.49-.568L7.922 3.845a2.883 2.883 0 0 0-4.077 0m1.288 11.462a.483.483 0 0 1 .9 0l.157.4a.48.48 0 0 0 .272.273l.398.157a.486.486 0 0 1 0 .903l-.398.158a.48.48 0 0 0-.272.273l-.157.4a.483.483 0 0 1-.9 0l-.157-.4a.48.48 0 0 0-.272-.273l-.398-.158a.486.486 0 0 1 0-.903l.398-.157a.48.48 0 0 0 .272-.274z" opacity=".3"></path>
+                <path fill="currentColor" d="M19.967 9.13a.483.483 0 0 1 .9 0l.156.399c.05.125.148.224.273.273l.398.158a.486.486 0 0 1 0 .902l-.398.158a.5.5 0 0 0-.273.273l-.156.4a.483.483 0 0 1-.9 0l-.157-.4a.5.5 0 0 0-.272-.273l-.398-.158a.486.486 0 0 1 0-.902l.398-.158a.5.5 0 0 0 .272-.273z" opacity=".3"></path>
+                <path fill="currentColor" d="M16.1 2.307a.483.483 0 0 1 .9 0l.43 1.095a.48.48 0 0 0 .272.274l1.091.432a.486.486 0 0 1 0 .903l-1.09.432a.5.5 0 0 0-.273.273L17 6.81a.483.483 0 0 1-.9 0l-.43-1.095a.5.5 0 0 0-.273-.273l-1.09-.432a.486.486 0 0 1 0-.903l1.09-.432a.5.5 0 0 0 .273-.274z" opacity=".7"></path>
+                <path fill="currentColor" d="M10.568 6.49c-.012.014-.555-.503-.568-.49l-4 4c-.013.013.504.556.49.568l9.588 9.587a2.883 2.883 0 1 0 4.078-4.077z"></path>
+              </svg>
+              第3章：解放の瞬間
+            </h2>
+            <p class="text-base-content/70 mb-4">さて、ここからが本番です。下のボタンを押してみてください。</p>
+            <p class="text-base-content/70 mb-4">...押しましたか？ 全部のアイコンが、一瞬で変わりましたよね。 これ、コードの変更は0行です。CSSの変更も0行。 やったことは「variantを変える」という、たった1つの操作だけ。</p>
+            <p class="text-base-content/70 mb-6">
+              従来のアイコン運用では、デザインを変えたくなったら全ファイルをgrepして、 一つ一つ手作業で置換して、抜け漏れがないか確認して、 テストして、レビューして、デプロイして...という地獄が待っていました。
+              <strong>その地獄から、あなたは今、解放されました。</strong>
+            </p>
+
+            <div class="bg-base-200 mb-6 rounded-xl p-4">
+              <p class="text-base-content/60 mb-3 text-center text-sm">現在のvariant: <span class="badge badge-primary" x-text="variant">linear</span></p>
+              <div class="flex flex-wrap justify-center gap-2">
+                <button x-on:click="variant = 'bold-duotone'" class="btn btn-sm" x-bind:class="variant === 'bold-duotone' ? 'btn-primary' : 'btn-outline'">bold-duotone</button>
+                <button x-on:click="variant = 'bold'" class="btn btn-sm" x-bind:class="variant === 'bold' ? 'btn-primary' : 'btn-outline'">bold</button>
+                <button x-on:click="variant = 'broken'" class="btn btn-sm" x-bind:class="variant === 'broken' ? 'btn-primary' : 'btn-outline'">broken</button>
+                <button x-on:click="variant = 'linear'" class="btn btn-sm" x-bind:class="variant === 'linear' ? 'btn-primary' : 'btn-outline'">linear</button>
+              </div>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-6">
+              <div class="bg-base-100 mx-auto max-w-md rounded-2xl p-6 shadow-lg">
+                <div class="mb-6 flex items-center justify-between">
+                  <span class="h-6 w-6">
+                    <span x-show="variant === 'bold-duotone'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12 22c-4.714 0-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22" opacity=".3"></path>
+                        <path fill="currentColor" d="M18.75 8a.75.75 0 0 1-.75.75H6a.75.75 0 0 1 0-1.5h12a.75.75 0 0 1 .75.75m0 4a.75.75 0 0 1-.75.75H6a.75.75 0 0 1 0-1.5h12a.75.75 0 0 1 .75.75m0 4a.75.75 0 0 1-.75.75H6a.75.75 0 0 1 0-1.5h12a.75.75 0 0 1 .75.75"></path>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'bold'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M3.464 20.536C4.93 22 7.286 22 12 22s7.071 0 8.535-1.465C22 19.072 22 16.714 22 12s0-7.071-1.465-8.536C19.072 2 16.714 2 12 2S4.929 2 3.464 3.464C2 4.93 2 7.286 2 12s0 7.071 1.464 8.535M18.75 16a.75.75 0 0 1-.75.75H6a.75.75 0 0 1 0-1.5h12a.75.75 0 0 1 .75.75M18 12.75a.75.75 0 0 0 0-1.5H6a.75.75 0 0 0 0 1.5zM18.75 8a.75.75 0 0 1-.75.75H6a.75.75 0 0 1 0-1.5h12a.75.75 0 0 1 .75.75" clip-rule="evenodd"></path></svg>
+                    </span>
+                    <span x-show="variant === 'broken'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M4 7h3m13 0h-9m9 10h-3M4 17h9m-9-5h16"></path></svg>
+                    </span>
+                    <span x-show="variant === 'linear'" style=""
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M20 7H4m16 5H4m16 5H4"></path></svg>
+                    </span>
+                  </span>
+                  <h3 class="text-lg font-bold">My App</h3>
+                  <span class="h-6 w-6">
+                    <span x-show="variant === 'bold-duotone'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M18.75 9v.704c0 .845.24 1.671.692 2.374l1.108 1.723c1.011 1.574.239 3.713-1.52 4.21a25.8 25.8 0 0 1-14.06 0c-1.759-.497-2.531-2.636-1.52-4.21l1.108-1.723a4.4 4.4 0 0 0 .693-2.374V9c0-3.866 3.022-7 6.749-7s6.75 3.134 6.75 7" opacity=".3"></path>
+                        <path fill="currentColor" d="M7.243 18.545a5.002 5.002 0 0 0 9.513 0c-3.145.59-6.367.59-9.513 0"></path>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'bold'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" d="M8.352 20.242A4.63 4.63 0 0 0 12 22a4.63 4.63 0 0 0 3.648-1.758a27.2 27.2 0 0 1-7.296 0M18.75 9v.704c0 .845.24 1.671.692 2.374l1.108 1.723c1.011 1.574.239 3.713-1.52 4.21a25.8 25.8 0 0 1-14.06 0c-1.759-.497-2.531-2.636-1.52-4.21l1.108-1.723a4.4 4.4 0 0 0 .693-2.374V9c0-3.866 3.022-7 6.749-7s6.75 3.134 6.75 7"></path></svg>
+                    </span>
+                    <span x-show="variant === 'broken'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M9.107 2.674A6.5 6.5 0 0 1 12 2c3.727 0 6.75 3.136 6.75 7.005v.705a4.4 4.4 0 0 0 .692 2.375l1.108 1.724c1.011 1.575.239 3.716-1.52 4.214a25.8 25.8 0 0 1-14.06 0c-1.759-.498-2.531-2.639-1.52-4.213l1.108-1.725A4.4 4.4 0 0 0 5.25 9.71v-.705c0-1.074.233-2.092.65-3.002M7.5 19c.655 1.748 2.422 3 4.5 3q.367 0 .72-.05M16.5 19a4.5 4.5 0 0 1-1.302 1.84"></path></svg>
+                    </span>
+                    <span x-show="variant === 'linear'" style=""
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path d="M18.75 9.71v-.705C18.75 5.136 15.726 2 12 2S5.25 5.136 5.25 9.005v.705a4.4 4.4 0 0 1-.692 2.375L3.45 13.81c-1.011 1.575-.239 3.716 1.52 4.214a25.8 25.8 0 0 0 14.06 0c1.759-.498 2.531-2.639 1.52-4.213l-1.108-1.725a4.4 4.4 0 0 1-.693-2.375Z"></path>
+                          <path stroke-linecap="round" d="M7.5 19c.655 1.748 2.422 3 4.5 3s3.845-1.252 4.5-3"></path>
+                        </g>
+                      </svg>
+                    </span>
+                  </span>
+                </div>
+
+                <div class="mb-6 grid grid-cols-2 gap-3">
+                  <div class="bg-base-200 flex flex-col items-center rounded-lg p-4">
+                    <span class="text-primary mb-2 h-8 w-8">
+                      <span x-show="variant === 'bold-duotone'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M5.75 7a.75.75 0 0 0 0 1.5h4a.75.75 0 0 0 0-1.5z"></path>
+                          <path fill="currentColor" fill-rule="evenodd" d="M21.188 8.004q-.094-.005-.2-.004h-2.773C15.944 8 14 9.736 14 12s1.944 4 4.215 4h2.773q.106.001.2-.004c.923-.056 1.739-.757 1.808-1.737c.004-.064.004-.133.004-.197V9.938c0-.064 0-.133-.004-.197c-.069-.98-.885-1.68-1.808-1.737m-3.217 5.063c.584 0 1.058-.478 1.058-1.067c0-.59-.474-1.067-1.058-1.067s-1.06.478-1.06 1.067c0 .59.475 1.067 1.06 1.067" clip-rule="evenodd"></path>
+                          <path fill="currentColor" d="M21.14 8.002c0-1.181-.044-2.448-.798-3.355a4 4 0 0 0-.233-.256c-.749-.748-1.698-1.08-2.87-1.238C16.099 3 14.644 3 12.806 3h-2.112C8.856 3 7.4 3 6.26 3.153c-1.172.158-2.121.49-2.87 1.238c-.748.749-1.08 1.698-1.238 2.87C2 8.401 2 9.856 2 11.694v.112c0 1.838 0 3.294.153 4.433c.158 1.172.49 2.121 1.238 2.87c.749.748 1.698 1.08 2.87 1.238c1.14.153 2.595.153 4.433.153h2.112c1.838 0 3.294 0 4.433-.153c1.172-.158 2.121-.49 2.87-1.238q.305-.308.526-.66c.45-.72.504-1.602.504-2.45l-.15.001h-2.774C15.944 16 14 14.264 14 12s1.944-4 4.215-4h2.773q.079 0 .151.002" opacity=".3"></path>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'bold'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
+                            <path d="M21.1 8.004q-.085-.005-.181-.004h-2.525c-2.068 0-3.837 1.628-3.837 3.75s1.77 3.75 3.837 3.75h2.525q.096.001.182-.004a1.755 1.755 0 0 0 1.645-1.628c.004-.06.004-.125.004-.185V9.817c0-.06 0-.125-.004-.185a1.755 1.755 0 0 0-1.645-1.628m-2.928 4.746c.532 0 .963-.448.963-1s-.431-1-.963-1c-.533 0-.964.448-.964 1s.431 1 .964 1"></path>
+                            <path d="M20.918 17a.22.22 0 0 1 .221.278c-.2.712-.519 1.32-1.03 1.83c-.749.75-1.698 1.081-2.87 1.239c-1.14.153-2.595.153-4.433.153h-2.112c-1.838 0-3.294 0-4.433-.153c-1.172-.158-2.121-.49-2.87-1.238c-.748-.749-1.08-1.698-1.238-2.87C2 15.099 2 13.644 2 11.806v-.112C2 9.856 2 8.4 2.153 7.26c.158-1.172.49-2.121 1.238-2.87c.749-.748 1.698-1.08 2.87-1.238C7.401 3 8.856 3 10.694 3h2.112c1.838 0 3.294 0 4.433.153c1.172.158 2.121.49 2.87 1.238c.511.512.83 1.119 1.03 1.831a.22.22 0 0 1-.221.278h-2.524c-2.837 0-5.337 2.24-5.337 5.25s2.5 5.25 5.337 5.25zM5.75 7a.75.75 0 0 0 0 1.5h4a.75.75 0 0 0 0-1.5z"></path>
+                          </g>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'broken'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="none">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 8h4"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M22 10.5c0-.077 0-.533-.002-.565c-.036-.501-.465-.9-1.005-.933C20.959 9 20.918 9 20.834 9h-2.602C16.446 9 15 10.343 15 12s1.447 3 3.23 3h2.603c.084 0 .125 0 .16-.002c.54-.033.97-.432 1.005-.933c.002-.032.002-.488.002-.565"></path>
+                            <circle cx="18" cy="12" r="1" fill="currentColor"></circle>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M13 4c3.771 0 5.657 0 6.828 1.172c.809.808 1.06 1.956 1.137 3.828M10 20h3c3.771 0 5.657 0 6.828-1.172c.809-.808 1.06-1.956 1.137-3.828M9 4c-3.114.01-4.765.108-5.828 1.172C2 6.343 2 8.229 2 12s0 5.657 1.172 6.828c.653.654 1.528.943 2.828 1.07"></path>
+                          </g>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'linear'" style=""
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 8h4"></path>
+                            <path stroke-width="1.5" d="M20.833 9h-2.602C16.446 9 15 10.343 15 12s1.447 3 3.23 3h2.603c.084 0 .125 0 .16-.002c.54-.033.97-.432 1.005-.933c.002-.032.002-.071.002-.148v-3.834c0-.077 0-.116-.002-.148c-.036-.501-.465-.9-1.005-.933C20.959 9 20.918 9 20.834 9Z"></path>
+                            <path stroke-width="1.5" d="M20.965 9c-.078-1.872-.328-3.02-1.137-3.828C18.657 4 16.771 4 13 4h-3C6.229 4 4.343 4 3.172 5.172S2 8.229 2 12s0 5.657 1.172 6.828S6.229 20 10 20h3c3.771 0 5.657 0 6.828-1.172c.809-.808 1.06-1.956 1.137-3.828"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.991 12h.01"></path>
+                          </g>
+                        </svg>
+                      </span>
+                    </span>
+                    <span class="text-sm">ウォレット</span>
+                  </div>
+                  <div class="bg-base-200 flex flex-col items-center rounded-lg p-4">
+                    <span class="text-secondary mb-2 h-8 w-8">
+                      <span x-show="variant === 'bold-duotone'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <path fill="currentColor" fill-rule="evenodd" d="M14 20.5V4.25c0-.728-.002-1.2-.048-1.546c-.044-.325-.115-.427-.172-.484s-.159-.128-.484-.172C12.949 2.002 12.478 2 11.75 2s-1.2.002-1.546.048c-.325.044-.427.115-.484.172s-.128.159-.172.484c-.046.347-.048.818-.048 1.546V20.5z" clip-rule="evenodd"></path>
+                          <path fill="currentColor" d="M8 8.75A.75.75 0 0 0 7.25 8h-3a.75.75 0 0 0-.75.75V20.5H8zm12 5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75v6.75H20z" opacity=".7"></path>
+                          <path fill="currentColor" d="M1.75 20.5a.75.75 0 0 0 0 1.5h20a.75.75 0 0 0 0-1.5z" opacity=".3"></path>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'bold'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24"><path fill="currentColor" d="M20 13.75a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75v6.75H14V4.25c0-.728-.002-1.2-.048-1.546c-.044-.325-.115-.427-.172-.484s-.159-.128-.484-.172C12.949 2.002 12.478 2 11.75 2s-1.2.002-1.546.048c-.325.044-.427.115-.484.172s-.128.159-.172.484c-.046.347-.048.818-.048 1.546V20.5H8V8.75A.75.75 0 0 0 7.25 8h-3a.75.75 0 0 0-.75.75V20.5H1.75a.75.75 0 0 0 0 1.5h20a.75.75 0 0 0 0-1.5H20z"></path></svg>
+                      </span>
+                      <span x-show="variant === 'broken'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" d="M22 22H2"></path>
+                            <path d="M21 22v-7.5a1.5 1.5 0 0 0-1.5-1.5h-3a1.5 1.5 0 0 0-1.5 1.5V22"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 22V9M9 22V5c0-1.414 0-2.121.44-2.56C9.878 2 10.585 2 12 2s2.121 0 2.56.44C15 2.878 15 3.585 15 5v0"></path>
+                            <path stroke-linecap="round" d="M9 22V9.5A1.5 1.5 0 0 0 7.5 8h-3A1.5 1.5 0 0 0 3 9.5V16m0 6v-2.25"></path>
+                          </g>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'linear'" style=""
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" d="M22 22H2"></path>
+                            <path d="M21 22v-7.5a1.5 1.5 0 0 0-1.5-1.5h-3a1.5 1.5 0 0 0-1.5 1.5V22m0 0V5c0-1.414 0-2.121-.44-2.56C14.122 2 13.415 2 12 2s-2.121 0-2.56.44C9 2.878 9 3.585 9 5v17m0 0V9.5A1.5 1.5 0 0 0 7.5 8h-3A1.5 1.5 0 0 0 3 9.5V22"></path>
+                          </g>
+                        </svg>
+                      </span>
+                    </span>
+                    <span class="text-sm">統計</span>
+                  </div>
+                  <div class="bg-base-200 flex flex-col items-center rounded-lg p-4">
+                    <span class="text-accent mb-2 h-8 w-8">
+                      <span x-show="variant === 'bold-duotone'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M6.94 2c.416 0 .753.324.753.724v1.46c.668-.012 1.417-.012 2.26-.012h4.015c.842 0 1.591 0 2.259.013v-1.46c0-.4.337-.725.753-.725s.753.324.753.724V4.25c1.445.111 2.394.384 3.09 1.055c.698.67.982 1.582 1.097 2.972L22 9H2v-.724c.116-1.39.4-2.302 1.097-2.972s1.645-.944 3.09-1.055V2.724c0-.4.337-.724.753-.724"></path>
+                          <path fill="currentColor" d="M22 14v-2c0-.839-.004-2.335-.017-3H2.01c-.013.665-.01 2.161-.01 3v2c0 3.771 0 5.657 1.172 6.828S6.228 22 10 22h4c3.77 0 5.656 0 6.828-1.172S22 17.772 22 14" opacity=".3"></path>
+                          <path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"></path>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'bold'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <path fill="currentColor" d="M7.75 2.5a.75.75 0 0 0-1.5 0v1.58c-1.44.115-2.384.397-3.078 1.092c-.695.694-.977 1.639-1.093 3.078h19.842c-.116-1.44-.398-2.384-1.093-3.078c-.694-.695-1.639-.977-3.078-1.093V2.5a.75.75 0 0 0-1.5 0v1.513C15.585 4 14.839 4 14 4h-4c-.839 0-1.585 0-2.25.013z"></path>
+                          <path fill="currentColor" fill-rule="evenodd" d="M2 12c0-.839 0-1.585.013-2.25h19.974C22 10.415 22 11.161 22 12v2c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14zm15 2a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2a1 1 0 0 0 0 2m-4-5a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-6-3a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2a1 1 0 0 0 0 2" clip-rule="evenodd"></path>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'broken'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="none">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14v-2c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828c-.653.654-1.528.943-2.828 1.07M7 4V2.5M17 4V2.5M21.5 9H10.75M2 9h3.875"></path>
+                            <path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"></path>
+                          </g>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'linear'" style=""
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="none">
+                            <path stroke="currentColor" stroke-width="1.5" d="M2 12c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14z"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M7 4V2.5M17 4V2.5M2.5 9h19"></path>
+                            <path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"></path>
+                          </g>
+                        </svg>
+                      </span>
+                    </span>
+                    <span class="text-sm">カレンダー</span>
+                  </div>
+                  <div class="bg-base-200 flex flex-col items-center rounded-lg p-4">
+                    <span class="text-info mb-2 h-8 w-8">
+                      <span x-show="variant === 'bold-duotone'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <path fill="currentColor" fill-rule="evenodd" d="M14.279 2.152C13.909 2 13.439 2 12.5 2s-1.408 0-1.779.152a2 2 0 0 0-1.09 1.083c-.094.223-.13.484-.145.863a1.62 1.62 0 0 1-.796 1.353a1.64 1.64 0 0 1-1.579.008c-.338-.178-.583-.276-.825-.308a2.03 2.03 0 0 0-1.49.396c-.318.242-.553.646-1.022 1.453c-.47.807-.704 1.21-.757 1.605c-.07.526.074 1.058.4 1.479c.148.192.357.353.68.555c.477.297.783.803.783 1.361s-.306 1.064-.782 1.36c-.324.203-.533.364-.682.556a2 2 0 0 0-.399 1.479c.053.394.287.798.757 1.605s.704 1.21 1.022 1.453c.424.323.96.465 1.49.396c.242-.032.487-.13.825-.308a1.64 1.64 0 0 1 1.58.008c.486.28.774.795.795 1.353c.015.38.051.64.145.863c.204.49.596.88 1.09 1.083c.37.152.84.152 1.779.152s1.409 0 1.779-.152a2 2 0 0 0 1.09-1.083c.094-.223.13-.483.145-.863c.02-.558.309-1.074.796-1.353a1.64 1.64 0 0 1 1.579-.008c.338.178.583.276.825.308c.53.07 1.066-.073 1.49-.396c.318-.242.553-.646 1.022-1.453c.47-.807.704-1.21.757-1.605a2 2 0 0 0-.4-1.479c-.148-.192-.357-.353-.68-.555c-.477-.297-.783-.803-.783-1.361s.306-1.064.782-1.36c.324-.203.533-.364.682-.556a2 2 0 0 0 .399-1.479c-.053-.394-.287-.798-.757-1.605s-.704-1.21-1.022-1.453a2.03 2.03 0 0 0-1.49-.396c-.242.032-.487.13-.825.308a1.64 1.64 0 0 1-1.58-.008a1.62 1.62 0 0 1-.795-1.353c-.015-.38-.051-.64-.145-.863a2 2 0 0 0-1.09-1.083" clip-rule="evenodd" opacity=".3"></path>
+                          <path fill="currentColor" d="M15.523 12c0 1.657-1.354 3-3.023 3s-3.023-1.343-3.023-3S10.83 9 12.5 9s3.023 1.343 3.023 3"></path>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'bold'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.279 2.152C13.909 2 13.439 2 12.5 2s-1.408 0-1.779.152a2 2 0 0 0-1.09 1.083c-.094.223-.13.484-.145.863a1.62 1.62 0 0 1-.796 1.353a1.64 1.64 0 0 1-1.579.008c-.338-.178-.583-.276-.825-.308a2.03 2.03 0 0 0-1.49.396c-.318.242-.553.646-1.022 1.453c-.47.807-.704 1.21-.757 1.605c-.07.526.074 1.058.4 1.479c.148.192.357.353.68.555c.477.297.783.803.783 1.361s-.306 1.064-.782 1.36c-.324.203-.533.364-.682.556a2 2 0 0 0-.399 1.479c.053.394.287.798.757 1.605s.704 1.21 1.022 1.453c.424.323.96.465 1.49.396c.242-.032.487-.13.825-.308a1.64 1.64 0 0 1 1.58.008c.486.28.774.795.795 1.353c.015.38.051.64.145.863c.204.49.596.88 1.09 1.083c.37.152.84.152 1.779.152s1.409 0 1.779-.152a2 2 0 0 0 1.09-1.083c.094-.223.13-.483.145-.863c.02-.558.309-1.074.796-1.353a1.64 1.64 0 0 1 1.579-.008c.338.178.583.276.825.308c.53.07 1.066-.073 1.49-.396c.318-.242.553-.646 1.022-1.453c.47-.807.704-1.21.757-1.605a2 2 0 0 0-.4-1.479c-.148-.192-.357-.353-.68-.555c-.477-.297-.783-.803-.783-1.361s.306-1.064.782-1.36c.324-.203.533-.364.682-.556a2 2 0 0 0 .399-1.479c-.053-.394-.287-.798-.757-1.605s-.704-1.21-1.022-1.453a2.03 2.03 0 0 0-1.49-.396c-.242.032-.487.13-.825.308a1.64 1.64 0 0 1-1.58-.008a1.62 1.62 0 0 1-.795-1.353c-.015-.38-.051-.64-.145-.863a2 2 0 0 0-1.09-1.083M12.5 15c1.67 0 3.023-1.343 3.023-3S14.169 9 12.5 9s-3.023 1.343-3.023 3s1.354 3 3.023 3" clip-rule="evenodd"></path></svg>
+                      </span>
+                      <span x-show="variant === 'broken'" style="display: none"
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path stroke-linecap="round" d="M3.661 10.64c.473.296.777.802.777 1.36s-.304 1.064-.777 1.36c-.321.203-.529.364-.676.556a2 2 0 0 0-.396 1.479c.052.394.285.798.75 1.605c.467.807.7 1.21 1.015 1.453a2 2 0 0 0 1.479.396c.24-.032.483-.13.819-.308a1.62 1.62 0 0 1 1.567.008c.483.28.77.795.79 1.353c.014.38.05.64.143.863a2 2 0 0 0 1.083 1.083C10.602 22 11.068 22 12 22s1.398 0 1.765-.152a2 2 0 0 0 1.083-1.083c.092-.223.129-.483.143-.863c.02-.558.307-1.074.79-1.353a1.62 1.62 0 0 1 1.567-.008c.336.178.58.276.82.308a2 2 0 0 0 1.478-.396c.315-.242.548-.646 1.014-1.453c.208-.36.369-.639.489-.873m-.81-2.766a1.62 1.62 0 0 1-.777-1.36c0-.559.304-1.065.777-1.362c.321-.202.528-.363.676-.555a2 2 0 0 0 .396-1.479c-.052-.394-.285-.798-.75-1.605c-.467-.807-.7-1.21-1.015-1.453a2 2 0 0 0-1.479-.396c-.24.032-.483.13-.82.308a1.62 1.62 0 0 1-1.566-.008a1.62 1.62 0 0 1-.79-1.353c-.014-.38-.05-.64-.143-.863a2 2 0 0 0-1.083-1.083C13.398 2 12.932 2 12 2s-1.398 0-1.765.152a2 2 0 0 0-1.083 1.083c-.092.223-.129.483-.143.863a1.62 1.62 0 0 1-.79 1.353a1.62 1.62 0 0 1-1.567.008c-.336-.178-.58-.276-.82-.308a2 2 0 0 0-1.478.396C4.04 5.79 3.806 6.193 3.34 7c-.208.36-.369.639-.489.873"></path>
+                          </g>
+                        </svg>
+                      </span>
+                      <span x-show="variant === 'linear'" style=""
+                        ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                          <g fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M13.765 2.152C13.398 2 12.932 2 12 2s-1.398 0-1.765.152a2 2 0 0 0-1.083 1.083c-.092.223-.129.484-.143.863a1.62 1.62 0 0 1-.79 1.353a1.62 1.62 0 0 1-1.567.008c-.336-.178-.579-.276-.82-.308a2 2 0 0 0-1.478.396C4.04 5.79 3.806 6.193 3.34 7s-.7 1.21-.751 1.605a2 2 0 0 0 .396 1.479c.148.192.355.353.676.555c.473.297.777.803.777 1.361s-.304 1.064-.777 1.36c-.321.203-.529.364-.676.556a2 2 0 0 0-.396 1.479c.052.394.285.798.75 1.605c.467.807.7 1.21 1.015 1.453a2 2 0 0 0 1.479.396c.24-.032.483-.13.819-.308a1.62 1.62 0 0 1 1.567.008c.483.28.77.795.79 1.353c.014.38.05.64.143.863a2 2 0 0 0 1.083 1.083C10.602 22 11.068 22 12 22s1.398 0 1.765-.152a2 2 0 0 0 1.083-1.083c.092-.223.129-.483.143-.863c.02-.558.307-1.074.79-1.353a1.62 1.62 0 0 1 1.567-.008c.336.178.579.276.819.308a2 2 0 0 0 1.479-.396c.315-.242.548-.646 1.014-1.453s.7-1.21.751-1.605a2 2 0 0 0-.396-1.479c-.148-.192-.355-.353-.676-.555A1.62 1.62 0 0 1 19.562 12c0-.558.304-1.064.777-1.36c.321-.203.529-.364.676-.556a2 2 0 0 0 .396-1.479c-.052-.394-.285-.798-.75-1.605c-.467-.807-.7-1.21-1.015-1.453a2 2 0 0 0-1.479-.396c-.24.032-.483.13-.82.308a1.62 1.62 0 0 1-1.566-.008a1.62 1.62 0 0 1-.79-1.353c-.014-.38-.05-.64-.143-.863a2 2 0 0 0-1.083-1.083Z"></path>
+                          </g>
+                        </svg>
+                      </span>
+                    </span>
+                    <span class="text-sm">設定</span>
+                  </div>
+                </div>
+
+                <div class="border-base-300 flex items-center justify-around border-t pt-4">
+                  <span class="text-primary h-6 w-6">
+                    <span x-show="variant === 'bold-duotone'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M2 12.204c0-2.289 0-3.433.52-4.381c.518-.949 1.467-1.537 3.364-2.715l2-1.241C9.889 2.622 10.892 2 12 2s2.11.622 4.116 1.867l2 1.241c1.897 1.178 2.846 1.766 3.365 2.715S22 9.915 22 12.203v1.522c0 3.9 0 5.851-1.172 7.063S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.212S2 17.626 2 13.725z" opacity=".3"></path>
+                        <path fill="currentColor" d="M11.25 18a.75.75 0 0 0 1.5 0v-3a.75.75 0 0 0-1.5 0z"></path>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'bold'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M2.52 7.823C2 8.77 2 9.915 2 12.203v1.522c0 3.9 0 5.851 1.172 7.063S6.229 22 10 22h4c3.771 0 5.657 0 6.828-1.212S22 17.626 22 13.725v-1.521c0-2.289 0-3.433-.52-4.381c-.518-.949-1.467-1.537-3.364-2.715l-2-1.241C14.111 2.622 13.108 2 12 2s-2.11.622-4.116 1.867l-2 1.241C3.987 6.286 3.038 6.874 2.519 7.823M11.25 18a.75.75 0 0 0 1.5 0v-3a.75.75 0 0 0-1.5 0z" clip-rule="evenodd"></path></svg>
+                    </span>
+                    <span x-show="variant === 'broken'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M12 15v3m10-5.796v1.521c0 3.9 0 5.851-1.172 7.063S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.212S2 17.626 2 13.725v-1.521c0-2.289 0-3.433.52-4.381c.518-.949 1.467-1.537 3.364-2.715l2-1.241C9.889 2.622 10.892 2 12 2s2.11.622 4.116 1.867l2 1.241c1.897 1.178 2.846 1.766 3.365 2.715"></path></svg>
+                    </span>
+                    <span x-show="variant === 'linear'" style=""
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path d="M2 12.204c0-2.289 0-3.433.52-4.381c.518-.949 1.467-1.537 3.364-2.715l2-1.241C9.889 2.622 10.892 2 12 2s2.11.622 4.116 1.867l2 1.241c1.897 1.178 2.846 1.766 3.365 2.715S22 9.915 22 12.203v1.522c0 3.9 0 5.851-1.172 7.063S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.212S2 17.626 2 13.725z"></path>
+                          <path stroke-linecap="round" d="M12 15v3"></path>
+                        </g>
+                      </svg>
+                    </span>
+                  </span>
+                  <span class="h-6 w-6">
+                    <span x-show="variant === 'bold-duotone'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M20.313 11.157a9.157 9.157 0 1 1-18.313 0a9.157 9.157 0 0 1 18.313 0" opacity=".3"></path>
+                        <path fill="currentColor" d="m17.1 18.122l3.666 3.666a.723.723 0 0 0 1.023-1.022L18.122 17.1a9 9 0 0 1-1.022 1.022"></path>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'bold'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M21.788 21.788a.723.723 0 0 0 0-1.022L18.122 17.1a9.157 9.157 0 1 0-1.022 1.022l3.666 3.666a.723.723 0 0 0 1.022 0" clip-rule="evenodd"></path></svg>
+                    </span>
+                    <span x-show="variant === 'broken'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M18.5 18.5L22 22M6.75 3.27a9.5 9.5 0 1 1-3.48 3.48"></path></svg>
+                    </span>
+                    <span x-show="variant === 'linear'" style=""
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <circle cx="11.5" cy="11.5" r="9.5"></circle>
+                          <path stroke-linecap="round" d="M18.5 18.5L22 22"></path>
+                        </g>
+                      </svg>
+                    </span>
+                  </span>
+                  <span class="text-primary h-8 w-8">
+                    <span x-show="variant === 'bold-duotone'" style="display: none"
+                      ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3"></path>
+                        <path fill="currentColor" d="M12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25z"></path>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'bold'" style="display: none"
+                      ><svg class="h-8 w-8" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m.75-13a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25z" clip-rule="evenodd"></path></svg>
+                    </span>
+                    <span x-show="variant === 'broken'" style="display: none"
+                      ><svg class="h-8 w-8" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M15 12h-3m0 0H9m3 0V9m0 3v3M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"></path></svg>
+                    </span>
+                    <span x-show="variant === 'linear'" style=""
+                      ><svg class="h-8 w-8" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <path stroke-linecap="round" d="M15 12h-3m0 0H9m3 0V9m0 3v3"></path>
+                        </g>
+                      </svg>
+                    </span>
+                  </span>
+                  <span class="h-6 w-6">
+                    <span x-show="variant === 'bold-duotone'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M7.456 3.09A10 10 0 0 0 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.764.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.134A9.96 9.96 0 0 0 12 22c4.885 0 8.952-3.503 9.826-8.134A9 9 0 0 1 7.456 3.09"></path>
+                        <path fill="currentColor" d="M21.826 13.866q.172-.909.174-1.866c0-5.523-4.477-10-10-10a9.96 9.96 0 0 0-4.544 1.09a9 9 0 0 0 14.37 10.776" opacity=".3"></path>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'bold'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22"></path></svg>
+                    </span>
+                    <span x-show="variant === 'broken'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M17 3.338A9.95 9.95 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10c0-1.821-.487-3.53-1.338-5"></path></svg>
+                    </span>
+                    <span x-show="variant === 'linear'" style=""
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12c0 1.6.376 3.112 1.043 4.453c.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 0 0 1.591 1.592l2.226-.596a1.63 1.63 0 0 1 1.149.133A9.96 9.96 0 0 0 12 22Z"></path></svg>
+                    </span>
+                  </span>
+                  <span class="h-6 w-6">
+                    <span x-show="variant === 'bold-duotone'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <circle cx="12" cy="6" r="4" fill="currentColor"></circle>
+                        <path fill="currentColor" d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5" opacity=".3"></path>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'bold'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <circle cx="12" cy="6" r="4" fill="currentColor"></circle>
+                        <path fill="currentColor" d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5"></path>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'broken'" style="display: none"
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <circle cx="12" cy="6" r="4"></circle>
+                          <path stroke-linecap="round" d="M19.998 18q.002-.246.002-.5c0-2.485-3.582-4.5-8-4.5s-8 2.015-8 4.5S4 22 12 22c2.231 0 3.84-.157 5-.437"></path>
+                        </g>
+                      </svg>
+                    </span>
+                    <span x-show="variant === 'linear'" style=""
+                      ><svg class="h-6 w-6" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="1.5">
+                          <circle cx="12" cy="6" r="4"></circle>
+                          <path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z"></path>
+                        </g>
+                      </svg>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-soft alert-success mt-6">
+              <svg class="h-6 w-6" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3"></path>
+                <path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"></path>
+              </svg>
+              <div>
+                <p class="font-bold">お気づきでしょうか？</p>
+                <p class="text-sm">上のボタンを押すだけで、UIの印象が完全に変わりました。コードの変更は0行です。これがxylph-iconsの真髄。「選ばなくていい」という自由。そして「後から変えられる」という安心。もうアイコン探しで深夜3時まで起きている必要はありません。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card bg-base-100 mb-8 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title mb-2 text-2xl">
+              <svg class="text-primary h-8 w-8" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M16.443 7.328a.75.75 0 0 1 1.059-.056l1.737 1.564c.737.663 1.347 1.212 1.767 1.71c.44.525.754 1.088.754 1.784c0 .695-.313 1.258-.754 1.782c-.42.499-1.03 1.049-1.767 1.711l-1.737 1.564a.75.75 0 1 1-1.004-1.115l1.697-1.527c.788-.709 1.319-1.19 1.663-1.598c.33-.393.402-.622.402-.817c0-.196-.072-.425-.402-.818c-.344-.409-.875-.889-1.663-1.598l-1.697-1.527a.75.75 0 0 1-.056-1.06m-8.94 1.06a.75.75 0 0 0-1.004-1.115L4.761 8.836c-.737.663-1.347 1.212-1.767 1.71c-.44.525-.754 1.088-.754 1.784c0 .695.313 1.258.754 1.782c.42.499 1.03 1.049 1.767 1.711l1.737 1.564a.75.75 0 1 0 1.004-1.115l-1.697-1.527c-.788-.709-1.319-1.19-1.663-1.598c-.33-.393-.402-.622-.402-.817c0-.196.072-.425.402-.818c.344-.409.875-.889 1.663-1.598z"></path>
+                <path fill="currentColor" d="M14.182 4.276a.75.75 0 0 1 .53.918l-3.974 14.83a.75.75 0 1 1-1.449-.389l3.974-14.83a.75.75 0 0 1 .919-.53" opacity=".3"></path>
+              </svg>
+              導入方法（驚くほど簡単）
+            </h2>
+            <p class="text-base-content/70 mb-4">ここまで読んでいただいて、大変恐縮なのですが...導入は本当に簡単です。 あまりに簡単すぎて申し訳ない気持ちすらあります。</p>
+
+            <div wire:ignore="">
+              <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">1. インストール</h3>
+              <pre class="mb-6 language-bash" tabindex="0"><code class="language-bash">composer require xylph-official/xylph-icons</code></pre>
+
+              <p class="text-base-content/70 mb-4">以上です。本当にこれだけです。設定ファイルの公開も不要。すぐに使えます。</p>
+
+              <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">2. 基本的な使い方</h3>
+              <pre class="mb-6 language-html" tabindex="0"><code class="language-html"><span class="token comment">&lt;!-- 基本形：typeでアイコン名を指定 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>x-i</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>home<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>w-6 h-6<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+
+<span class="token comment">&lt;!-- variantを個別に指定したい場合 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>x-i</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>home<span class="token punctuation">"</span></span> <span class="token attr-name">variant</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>linear<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>w-6 h-6<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+
+<span class="token comment">&lt;!-- Tailwindのクラスで色やサイズを自由に --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>x-i</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>heart<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>w-8 h-8 text-red-500<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span></code></pre>
+
+              <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">3. デフォルトvariantの変更</h3>
+              <p class="text-base-content/70 mb-4">アプリ全体のアイコンスタイルを一括で変えたい？ <code class="bg-base-200 rounded px-2 py-1">.env</code> を1行編集するだけです：</p>
+              <pre class="mb-6 language-bash" tabindex="0"><code class="language-bash"># デフォルトは bold-duotone
+# 以下のように変更すると、アプリ全体のアイコンが変わる
+ICON_DEFAULT_STYLE=linear</code></pre>
+
+              <p class="text-base-content/70 mb-4">たったこれだけで、アプリ全体のアイコンが一斉に変わります。 grep不要、置換不要、確認作業不要。コーヒーを飲んでいる間に終わります。</p>
+
+              <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">4. 利用可能なvariants</h3>
+              <pre class="mb-6 language-php" tabindex="0"><code class="language-php"><span class="token comment">// 6種類のvariantから選べます</span>
+<span class="token variable">$variants</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token string single-quoted-string">'bold-duotone'</span><span class="token punctuation">,</span>  <span class="token comment">// 2色使いでリッチな印象（デフォルト）</span>
+    <span class="token string single-quoted-string">'bold'</span><span class="token punctuation">,</span>          <span class="token comment">// 塗りつぶしで力強い印象</span>
+    <span class="token string single-quoted-string">'broken'</span><span class="token punctuation">,</span>        <span class="token comment">// 途切れ線で軽やかな印象</span>
+    <span class="token string single-quoted-string">'line-duotone'</span><span class="token punctuation">,</span>  <span class="token comment">// 線＋2色で繊細かつリッチ</span>
+    <span class="token string single-quoted-string">'linear'</span><span class="token punctuation">,</span>        <span class="token comment">// 線のみでミニマルな印象</span>
+    <span class="token string single-quoted-string">'outline'</span><span class="token punctuation">,</span>       <span class="token comment">// アウトラインで繊細な印象</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+            </div>
+
+            <div class="alert alert-soft alert-info mt-6">
+              <svg class="h-6 w-6" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3"></path>
+                <path fill="currentColor" d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2"></path>
+              </svg>
+              <div>
+                <p class="font-bold">数字で見る xylph-icons</p>
+                <p class="text-sm">1,234種類のアイコン × 6 variants = 7,404通りのSVGが即座に使えます。全てMITライセンス、全て無料、全てSVGなので軽量。そしてvariant指定一つで、アプリの印象を自在にコントロール。もうアイコン選びで悩む時代は終わりました。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card bg-base-100 mb-8 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title mb-2 text-2xl">
+              <svg class="text-warning h-8 w-8" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M18.483 16.767A8.5 8.5 0 0 1 8.118 7.081a1 1 0 0 1-.113.097c-.28.213-.63.292-1.33.45l-.635.144c-2.46.557-3.69.835-3.983 1.776c-.292.94.546 1.921 2.223 3.882l.434.507c.476.557.715.836.822 1.18c.107.345.071.717-.001 1.46l-.066.677c-.253 2.617-.38 3.925.386 4.506s1.918.052 4.22-1.009l.597-.274c.654-.302.981-.452 1.328-.452s.674.15 1.329.452l.595.274c2.303 1.06 3.455 1.59 4.22 1.01c.767-.582.64-1.89.387-4.507z"></path>
+                <path fill="currentColor" d="m9.153 5.408l-.328.588c-.36.646-.54.969-.82 1.182q.06-.045.113-.097a8.5 8.5 0 0 0 10.366 9.686l-.02-.19c-.071-.743-.107-1.115 0-1.46c.107-.344.345-.623.822-1.18l.434-.507c1.677-1.96 2.515-2.941 2.222-3.882c-.292-.941-1.522-1.22-3.982-1.776l-.636-.144c-.699-.158-1.049-.237-1.33-.45c-.28-.213-.46-.536-.82-1.182l-.327-.588C13.58 3.136 12.947 2 12 2s-1.58 1.136-2.847 3.408" opacity=".3"></path>
+              </svg>
+              補足：このデモのデフォルト設定について
+            </h2>
+            <p class="text-base-content/70 mb-4">このプロジェクトでは <code class="bg-base-200 rounded px-2 py-1">bold-duotone</code> をデフォルトに設定しています。 なぜか？ <strong>私が好きだから</strong>です。それ以上の理由はありません。</p>
+            <p class="text-base-content/70 mb-4">「いや、ちゃんとした理由があるんでしょ？」と思われるかもしれません。ありません。 強いて言えば、2色使いの立体感が好きなんです。でもそれって結局「好き」じゃないですか。 デザインシステムの選定理由として「好きだから」は弱い？ いいえ、最強です。 なぜなら、好きじゃないものを毎日見続けるのは拷問だからです。</p>
+            <p class="text-base-content/70 mb-4">xylph-icons には6種類のvariantがありますが、どれが「正解」かは存在しません。 あなたのプロジェクト、あなたの好み、あなたのユーザーに合わせて選んでください。 大丈夫、後から変えられます。それがこのパッケージの存在意義なので。</p>
+            <div class="alert alert-soft">
+              <svg class="text-warning h-5 w-5" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M4 9.674C4 5.436 7.358 2 11.5 2S19 5.436 19 9.674a7.74 7.74 0 0 1-2.499 5.72c-.51.467-.889.814-1.157 1.066a15 15 0 0 0-.4.39l-.025.027l-.005.006l-.003.003c-.237.3-.288.376-.318.446s-.053.16-.113.54c-.023.15-.026.406-.026 1.105v.03c0 .409 0 .762-.025 1.051c-.027.306-.087.61-.248.895a2.07 2.07 0 0 1-.75.767c-.278.165-.575.226-.874.254c-.283.026-.628.026-1.028.026h-.058c-.4 0-.745 0-1.028-.026c-.3-.028-.596-.09-.875-.254a2.07 2.07 0 0 1-.749-.767c-.16-.285-.22-.588-.248-.895c-.026-.29-.026-.642-.026-1.051v-.03c0-.699-.002-.955-.026-1.105c-.06-.38-.081-.47-.112-.54c-.03-.07-.081-.147-.318-.446l-.003-.003l-.005-.006l-.025-.027l-.088-.09a15 15 0 0 0-.312-.3c-.268-.252-.647-.599-1.157-1.067A7.74 7.74 0 0 1 4 9.674" opacity=".3"></path>
+                <path fill="currentColor" d="M10.298 13.625a.75.75 0 1 0-1.299.75a2.76 2.76 0 0 0 1.632 1.271V17a.75.75 0 0 0 1.5 0v-1.353a2.76 2.76 0 0 0 1.632-1.271a.75.75 0 0 0-1.299-.751a1.249 1.249 0 0 1-2.166 0m-.384 6.05h3.17a4 4 0 0 1-.014.258c-.018.209-.05.285-.071.323a.7.7 0 0 1-.25.255c-.037.022-.111.054-.316.073c-.214.02-.496.02-.934.02c-.437 0-.72 0-.934-.02c-.204-.019-.279-.05-.316-.073a.7.7 0 0 1-.25-.255c-.02-.038-.052-.114-.07-.323a5 5 0 0 1-.015-.259"></path>
+              </svg>
+              <span>人生もアイコンも、やり直しがきくうちにやり直せ。</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card bg-base-100 mb-8 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title mb-2 text-2xl">
+              <svg class="text-secondary h-8 w-8" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M16.471 16.471c4.939-4.939 6.94-10.944 4.471-13.413c-2.469-2.47-8.474-.468-13.413 4.47c-4.939 4.94-6.94 10.945-4.471 13.414c2.47 2.47 8.475.468 13.413-4.47" opacity=".3"></path>
+                <path fill="currentColor" d="M7.529 16.471C2.59 11.533.589 5.527 3.058 3.058c2.469-2.47 8.474-.468 13.413 4.47c4.939 4.94 6.94 10.945 4.471 13.414c-2.47 2.47-8.475.468-13.413-4.47" opacity=".3"></path>
+                <path fill="currentColor" d="M14.5 12a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0"></path>
+              </svg>
+              Xylph シリーズについて
+            </h2>
+            <p class="text-base-content/70 mb-4"><strong>Xylph（ジルフ）</strong>は「変幻自在」をテーマにしたオープンソースの総合WEBフレームワークです。 xylph-icons はその第一弾。アイコンという小さな要素から、「後から変えられる」という設計思想を体現しています。</p>
+            <p class="text-base-content/70 mb-4">今後も、同じ思想に基づいたパッケージを順次公開予定です。 「一度決めたら変えられない」という呪縛から、開発者を解放するために。</p>
+            <p class="text-base-content/70 text-center mt-8">
+              <a href="#" onclick="document.getElementById('subscribe-modal').showModal(); return false;" class="morphing-link inline-flex items-center gap-1">
+                <span class="morphing-icon inline-block" style="width: 1.25em; height: 1.25em">
+                  <svg class="w-full h-full" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M14.2 3H9.8C5.652 3 3.577 3 2.289 4.318S1 7.758 1 12s0 6.364 1.289 7.682S5.652 21 9.8 21h4.4c4.148 0 6.223 0 7.511-1.318S23 16.242 23 12s0-6.364-1.289-7.682S18.348 3 14.2 3" opacity=".3"></path>
+                    <path fill="currentColor" d="M19.128 8.033a.825.825 0 0 0-1.056-1.268l-2.375 1.98c-1.026.855-1.738 1.447-2.34 1.833c-.582.375-.977.5-1.357.5s-.774-.125-1.357-.5c-.601-.386-1.314-.978-2.34-1.834L5.928 6.765a.825.825 0 0 0-1.056 1.268l2.416 2.014c.975.812 1.765 1.47 2.463 1.92c.726.466 1.434.762 2.25.762c.814 0 1.522-.296 2.249-.763c.697-.448 1.487-1.107 2.462-1.92z"></path>
+                  </svg>
+                </span>
+                <span class="morphing-text">続報を受け取る</span>
+              </a>
+            </p>
+          </div>
+        </section>
+
+        <dialog id="subscribe-modal" class="modal">
+          <div class="modal-box">
+            <form method="dialog">
+              <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="text-lg font-bold mb-4">Xylph Series の続報を受け取る</h3>
+
+            <div class="space-y-4">
+              <div>
+                <p class="text-base-content/70 text-sm mb-2">X (Twitter) でフォロー</p>
+                <a href="https://x.com/akihiko_takai" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm gap-2">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                  @akihiko_takai
+                </a>
+              </div>
+
+              <div class="divider text-base-content/50 text-xs">または</div>
+
+              <div>
+                <p class="text-base-content/70 text-sm mb-2">メーリングリストに登録</p>
+                <form id="mailing-list-form" class="flex flex-col gap-2 sm:flex-row">
+                  <input type="hidden" name="subject" value="Xylph Series メーリングリスト登録" />
+                  <input type="email" name="email" placeholder="your@email.com" required="" class="input input-bordered input-sm flex-1" />
+                  <button type="submit" class="btn btn-primary btn-sm">登録</button>
+                </form>
+                <p class="text-base-content/50 mt-2 text-xs">スパムは送りません。</p>
+              </div>
+            </div>
+          </div>
+          <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
+
+        <footer class="border-base-300 border-t pt-8 text-center">
+          <a href="/" class="inline-block mb-4 opacity-60 hover:opacity-100 transition-opacity">
+            <img src="/images/brand-logo.png" alt="Yakaze Tech Studio" class="h-6 w-auto mx-auto" />
+          </a>
+          <p class="text-base-content/50 text-sm">この記事は <strong>Yakaze Tech Studio</strong> の高井が制作しました。</p>
+          <p class="text-base-content/40 mt-2 text-xs">© 2024 Yakaze Tech Studio. Xylph Series.</p>
+        </footer>
+      </div>
+    </div>
+
+    <div
+      x-data="{
+        notifications: [],
+        add(e) {
+            this.notifications.push({
+                id: e.timeStamp,
+                type: e.detail.type,
+                content: e.detail.content,
+            })
+        },
+        remove(notification) {
+            this.notifications = this.notifications.filter(i =&gt; i.id !== notification.id)
+        },
+    }"
+      @notify.window="add($event)"
+      class="fixed bottom-0 right-0 flex w-full max-w-sm flex-col space-y-4 pr-4 pb-4 sm:justify-start z-50"
+      role="status"
+      aria-live="polite"
+    >
+      <!-- Notification -->
+      <template x-for="notification in notifications" :key="notification.id">
+        <div
+          x-data="{
+                show: false,
+                init() {
+                    this.$nextTick(() =&gt; this.show = true)
+                    setTimeout(() =&gt; this.transitionOut(), 3000)
+                },
+                transitionOut() {
+                    this.show = false
+                    setTimeout(() =&gt; this.remove(this.notification), 500)
+                },
+            }"
+          x-show="show"
+          x-transition.duration.500ms=""
+          :class="{
+                'alert-base alert-info': notification.type === 'info',
+                'alert-base alert-success': notification.type === 'success',
+                'alert-base alert-error': notification.type === 'error',
+                'alert-base alert-warning': notification.type === 'warning',
+                'alert-base': !['info', 'success', 'error', 'warning'].includes(notification.type)
+            }"
+          class="pointer-events-auto shadow-lg"
+        >
+          <!-- Icon -->
+          <div x-show="notification.type === 'info'">
+            <svg class="w-5 h-5 text-info" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3"></path>
+              <path fill="currentColor" d="M12 17.75a.75.75 0 0 0 .75-.75v-6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75M12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2"></path>
+            </svg>
+          </div>
+
+          <div x-show="notification.type === 'success'">
+            <svg class="w-5 h-5 text-success" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3"></path>
+              <path fill="currentColor" d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"></path>
+            </svg>
+          </div>
+
+          <div x-show="notification.type === 'error'">
+            <svg class="w-5 h-5 text-error" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10" opacity=".3"></path>
+              <path fill="currentColor" d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"></path>
+            </svg>
+          </div>
+
+          <div x-show="notification.type === 'warning'">
+            <svg class="w-5 h-5 text-warning" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M12 3c-2.31 0-3.77 2.587-6.688 7.762l-.364.644c-2.425 4.3-3.638 6.45-2.542 8.022S6.214 21 11.636 21h.728c5.422 0 8.134 0 9.23-1.572s-.117-3.722-2.542-8.022l-.364-.645C15.77 5.587 14.311 3 12 3" opacity=".3"></path>
+              <path fill="currentColor" d="M12 7.25a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0V8a.75.75 0 0 1 .75-.75M12 17a1 1 0 1 0 0-2a1 1 0 0 0 0 2"></path>
+            </svg>
+          </div>
+
+          <!-- Content -->
+          <div class="flex-1">
+            <span x-text="notification.content"></span>
+          </div>
+
+          <!-- Close button -->
+          <button @click="transitionOut()" type="button" class="btn btn-sm btn-circle btn-ghost">
+            <span class="text-lg">×</span>
+          </button>
+        </div>
+      </template>
+    </div>
+    <!-- Livewire Scripts -->
+    <script src="/livewire/livewire.js?id=f084fdfb" data-csrf="J7pqQ2p6jZQa4cEOxbfMWQFPBNMZEH3JFna9PIxK" data-update-uri="/livewire/update" data-navigate-once="true"></script>
+  </body>
+</html>
