@@ -1053,14 +1053,14 @@
               <p class="text-base-content/70 mb-4">以上です。本当にこれだけです。設定ファイルの公開も不要。すぐに使えます。</p>
 
               <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">2. 基本的な使い方</h3>
-              <pre class="mb-6 language-html" tabindex="0"><code class="language-html"><span class="token comment">&lt;!-- 基本形：typeでアイコン名を指定 --&gt;</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>x-i</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>home<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>w-6 h-6<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+              <pre class="mb-6 language-html" tabindex="0"><code class="language-html">&lt;!-- 基本形：typeでアイコン名を指定 --&gt;
+&lt;x-i type="home" class="w-6 h-6" /&gt;
 
-<span class="token comment">&lt;!-- variantを個別に指定したい場合 --&gt;</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>x-i</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>home<span class="token punctuation">"</span></span> <span class="token attr-name">variant</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>linear<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>w-6 h-6<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+&lt;!-- variantを個別に指定したい場合 --&gt;
+&lt;x-i type="home" variant="linear" class="w-6 h-6" /&gt;
 
-<span class="token comment">&lt;!-- Tailwindのクラスで色やサイズを自由に --&gt;</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>x-i</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>heart<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>w-8 h-8 text-red-500<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span></code></pre>
+&lt;!-- Tailwindのクラスで色やサイズを自由に --&gt;
+&lt;x-i type="heart" class="w-8 h-8 text-red-500" /&gt;</code></pre>
 
               <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">3. デフォルトvariantの変更</h3>
               <p class="text-base-content/70 mb-4">アプリ全体のアイコンスタイルを一括で変えたい？ <code class="bg-base-200 rounded px-2 py-1">.env</code> を1行編集するだけです：</p>
@@ -1071,15 +1071,15 @@ ICON_DEFAULT_STYLE=linear</code></pre>
               <p class="text-base-content/70 mb-4">たったこれだけで、アプリ全体のアイコンが一斉に変わります。 grep不要、置換不要、確認作業不要。コーヒーを飲んでいる間に終わります。</p>
 
               <h3 class="text-base-content/80 mb-2 mt-6 font-semibold">4. 利用可能なvariants</h3>
-              <pre class="mb-6 language-php" tabindex="0"><code class="language-php"><span class="token comment">// 6種類のvariantから選べます</span>
-<span class="token variable">$variants</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
-    <span class="token string single-quoted-string">'bold-duotone'</span><span class="token punctuation">,</span>  <span class="token comment">// 2色使いでリッチな印象（デフォルト）</span>
-    <span class="token string single-quoted-string">'bold'</span><span class="token punctuation">,</span>          <span class="token comment">// 塗りつぶしで力強い印象</span>
-    <span class="token string single-quoted-string">'broken'</span><span class="token punctuation">,</span>        <span class="token comment">// 途切れ線で軽やかな印象</span>
-    <span class="token string single-quoted-string">'line-duotone'</span><span class="token punctuation">,</span>  <span class="token comment">// 線＋2色で繊細かつリッチ</span>
-    <span class="token string single-quoted-string">'linear'</span><span class="token punctuation">,</span>        <span class="token comment">// 線のみでミニマルな印象</span>
-    <span class="token string single-quoted-string">'outline'</span><span class="token punctuation">,</span>       <span class="token comment">// アウトラインで繊細な印象</span>
-<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+              <pre class="mb-6 language-php" tabindex="0"><code class="language-php">// 6種類のvariantから選べます
+$variants = [
+    'bold-duotone',  // 2色使いでリッチな印象（デフォルト）
+    'bold',          // 塗りつぶしで力強い印象
+    'broken',        // 途切れ線で軽やかな印象
+    'line-duotone',  // 線＋2色で繊細かつリッチ
+    'linear',        // 線のみでミニマルな印象
+    'outline',       // アウトラインで繊細な印象
+];</code></pre>
             </div>
 
             <div class="alert alert-soft alert-info mt-6">
