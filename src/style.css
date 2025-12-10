@@ -49,11 +49,13 @@
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
-  color: var(--color-primary);
+  color: var(--color-base-content);
+  opacity: 0.6;
   transition: all 0.3s;
 }
 .morphing-link:hover {
-  color: var(--color-secondary);
+  color: var(--color-base-content);
+  opacity: 1;
 }
 .morphing-link .morphing-icon {
   display: inline-block;
