@@ -153,11 +153,9 @@
               </svg>
               第2章：同じUIなのに、全然違う
             </h2>
-            <p class="text-base-content/70 mb-4">ここからが本題です。同じナビゲーション、同じアイコン、同じ配置。 変わるのは「variant」だけ。たったそれだけで、アプリの印象がここまで変わります。</p>
-            <p class="text-base-content/70 mb-4">bold-duotone は「親しみやすいけど安っぽくない」絶妙なバランス。 linear は「洗練されたミニマリズム」を演出。 bold は「力強さと信頼感」を与え、 broken は「軽やかで現代的」な印象を作り出します。</p>
+            <p class="text-base-content/70 mb-4">同じナビゲーション、同じ配置。なのに、アイコンのスタイルひとつで「なんか違う」が生まれる。bold-duotone、linear、bold、broken——それぞれに正解があるはずなのに、どれを選んでも何かが足りない気がする。そんな経験、ありませんか？</p>
             <p class="text-base-content/70 mb-6">
-              どれが正解か？ <strong>それはあなたのアプリが決めることです。</strong>
-              金融アプリなら bold の信頼感が欲しいかもしれない。 ライフスタイルアプリなら broken の軽やかさが合うかもしれない。 でも、今この瞬間に決める必要はありません。後から変えられるので。
+              「結局、どれが正解なんですか？」——もしそう思われたなら、大変恐縮ですが、<strong>その問い自体が罠なのです。</strong>正解は、アプリが育つ中で見えてくるもの。最初から決め打ちする必要はないのです。というより、決め打ちしてはいけないのです。
             </p>
 
             <div class="grid gap-6 lg:grid-cols-2">
@@ -769,25 +767,78 @@ $variants = [
           </div>
         </section>
 
-        <dialog id="subscribe-modal" class="modal">
+        <dialog id="subscribe-modal" class="modal" x-data="{ submitted: false }">
           <div class="modal-box">
             <form method="dialog">
-              <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+              <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="submitted = false">✕</button>
             </form>
-            <h3 class="text-lg font-bold mb-4">Xylph Series の続報を受け取る</h3>
 
-            <div>
-              <p class="text-base-content/70 text-sm mb-2">メーリングリストに登録</p>
-              <form id="mailing-list-form" class="flex flex-col gap-2 sm:flex-row">
-                <input type="hidden" name="subject" value="Xylph Series メーリングリスト登録" />
-                <input type="email" name="email" placeholder="your@email.com" required="" class="input input-bordered input-sm flex-1" />
-                <button type="submit" class="btn btn-primary btn-sm">登録</button>
-              </form>
-              <p class="text-base-content/50 mt-2 text-xs">スパムは送りません。</p>
+            <!-- Registration Form -->
+            <div x-show="!submitted" x-transition>
+              <h3 class="text-lg font-bold mb-1">Xylph Series の続報を受け取る</h3>
+              <p class="text-base-content/50 text-xs mb-4">※ スパムは送りません</p>
+
+              <div class="flex items-center gap-4">
+                <form id="mailing-list-form" class="flex gap-2 flex-1" @submit.prevent="submitted = true; $dispatch('notification', { type: 'success', content: '登録ありがとうございます！' })">
+                  <input type="hidden" name="subject" value="Xylph Series メーリングリスト登録" />
+                  <input type="email" name="email" placeholder="your@email.com" required="" class="input input-bordered input-sm flex-1 min-w-0" />
+                  <button type="submit" class="btn btn-primary btn-sm">登録</button>
+                </form>
+                <div class="flex items-center gap-3 border-l border-base-200 pl-4">
+                  <a href="https://x.com/akihiko_takai" target="_blank" rel="noopener noreferrer" class="text-base-content/40 hover:text-base-content transition-colors">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </a>
+                  <a href="https://www.facebook.com/takai.akihiko" target="_blank" rel="noopener noreferrer" class="text-base-content/40 hover:text-base-content transition-colors">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thank You -->
+            <div x-show="submitted" x-transition x-cloak>
+              <h3 class="text-lg font-bold mb-2 text-center">🎉 ありがとうございます！</h3>
+              <p class="text-base-content/70 text-sm text-center mb-6">リリース情報をお届けします。</p>
+
+              <div class="grid grid-cols-4 gap-2 text-center">
+                <div class="bg-primary/10 rounded-lg p-3">
+                  <p class="font-bold text-xs text-primary">Xylph Icons</p>
+                  <p class="text-[10px] text-success mt-1">Released!</p>
+                </div>
+                <div class="bg-base-200 rounded-lg p-3">
+                  <p class="font-bold text-xs text-base-content/70">Xylph UI</p>
+                  <p class="text-[10px] text-base-content/40 mt-1">Coming</p>
+                </div>
+                <div class="bg-base-200 rounded-lg p-3">
+                  <p class="font-bold text-xs text-base-content/70">Xylph Framework</p>
+                  <p class="text-[10px] text-base-content/40 mt-1">Coming</p>
+                </div>
+                <div class="bg-base-200 rounded-lg p-3">
+                  <p class="font-bold text-xs text-base-content/70">Xylph Studio</p>
+                  <p class="text-[10px] text-base-content/40 mt-1">Coming</p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-center gap-4 mt-6 pt-4 border-t border-base-200">
+                <a href="https://x.com/akihiko_takai" target="_blank" rel="noopener noreferrer" class="text-base-content/50 hover:text-base-content transition-colors">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+                <a href="https://www.facebook.com/takai.akihiko" target="_blank" rel="noopener noreferrer" class="text-base-content/50 hover:text-base-content transition-colors">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
           <form method="dialog" class="modal-backdrop">
-            <button>close</button>
+            <button @click="submitted = false">close</button>
           </form>
         </dialog>
 
