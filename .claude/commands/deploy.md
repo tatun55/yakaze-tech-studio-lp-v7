@@ -26,19 +26,18 @@ git commit -m "コミットメッセージ"
 git push origin main
 ```
 
-## 2. S3にデプロイ
+## 2. ビルド & S3にデプロイ
+
+**重要: Viteでビルドしてdist/の中身のみをデプロイする**
 
 ```bash
 cd /Users/a_t/project/yakaze-tech-studio-lp-v2
 
-aws s3 sync . s3://yakaze-tech-studio-lp \
-  --exclude ".git/*" \
-  --exclude "node_modules/*" \
-  --exclude ".claude/*" \
-  --exclude "package*.json" \
-  --exclude "vite.config.js" \
-  --exclude "*.md" \
-  --delete
+# Viteでビルド
+npm run build
+
+# dist/の中身をS3のルートにデプロイ
+aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete
 ```
 
 ## 3. CloudFrontキャッシュ無効化

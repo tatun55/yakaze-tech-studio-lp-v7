@@ -13,19 +13,18 @@
 
 ## デプロイ手順
 
-### 1. S3にアップロード
+### 1. ビルド & S3にアップロード
+
+**重要: Viteでビルドしてdist/の中身のみをデプロイする**
 
 ```bash
 cd /Users/a_t/project/yakaze-tech-studio-lp-v2
 
-aws s3 sync . s3://yakaze-tech-studio-lp \
-  --exclude ".git/*" \
-  --exclude "node_modules/*" \
-  --exclude ".claude/*" \
-  --exclude "package*.json" \
-  --exclude "vite.config.js" \
-  --exclude "*.md" \
-  --delete
+# Viteでビルド
+npm run build
+
+# dist/の中身をS3のルートにデプロイ
+aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete
 ```
 
 ### 2. CloudFrontキャッシュ無効化
@@ -49,7 +48,7 @@ aws cloudfront get-invalidation \
 ## ワンライナーデプロイ
 
 ```bash
-aws s3 sync . s3://yakaze-tech-studio-lp --exclude ".git/*" --exclude "node_modules/*" --exclude ".claude/*" --exclude "package*.json" --exclude "vite.config.js" --exclude "*.md" --delete && aws cloudfront create-invalidation --distribution-id E1SAT32F3UX5E1 --paths "/*"
+npm run build && aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete && aws cloudfront create-invalidation --distribution-id E1SAT32F3UX5E1 --paths "/*"
 ```
 
 ## GitHubリポジトリ
