@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio | Yakaze Tech Studio</title>
+    <meta name="description" content="Yakaze Tech Studioの制作実績。パンク&グランジ風アートで表現されたポートフォリオ。" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <style>
+      @font-face {
+        font-family: "Hyperwave";
+        src: url("/fonts/Hyperwave.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Have Heart One";
+        src: url("/fonts/HaveHeartOne.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --bg-cream: #faf7f2;
+        --primary: #6b2059;
+        --primary-light: #8a3575;
+        --ink-black: #1a1a1a;
+        --paper-white: #fefdfb;
+        --tape-yellow: #f5e6a3;
+        --tape-pink: #f5c6d6;
+        --marker-pink: #ff6b9d;
+        --marker-yellow: #ffe066;
+        --spray-purple: rgba(107, 32, 89, 0.15);
+        --spray-pink: rgba(254, 149, 246, 0.2);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Noto Sans JP", sans-serif;
+        background-color: var(--bg-cream);
+        color: var(--ink-black);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Noise texture overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1000;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      }
+
+      /* Spray paint backgrounds */
+      .spray-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .spray-1 {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, var(--spray-purple) 0%, transparent 70%);
+        top: -100px;
+        right: -150px;
+      }
+
+      .spray-2 {
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, var(--spray-pink) 0%, transparent 70%);
+        bottom: 200px;
+        left: -200px;
+      }
+
+      .spray-3 {
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255, 230, 102, 0.15) 0%, transparent 70%);
+        top: 50%;
+        right: 10%;
+      }
+
+      /* Navigation */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s ease;
+      }
+
+      .nav.scrolled {
+        background: rgba(250, 247, 242, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e0d5c7;
+      }
+
+      .nav-logo {
+        height: 32px;
+        width: auto;
+      }
+
+      .nav-back {
+        font-family: "Hyperwave", sans-serif;
+        font-size: 1rem;
+        color: var(--primary);
+        text-decoration: none;
+        transition: transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .nav-back:hover {
+        transform: rotate(-3deg) scale(1.05);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 120px 2rem 60px;
+        position: relative;
+      }
+
+      .hero-title {
+        font-family: "Hyperwave", sans-serif;
+        font-size: clamp(4rem, 15vw, 10rem);
+        color: var(--primary);
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        position: relative;
+        transform: rotate(-2deg);
+      }
+
+      .hero-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0.1em;
+        left: 5%;
+        width: 90%;
+        height: 0.15em;
+        background: linear-gradient(90deg, var(--marker-pink), var(--marker-yellow), var(--marker-pink));
+        transform: skewX(-12deg);
+        z-index: -1;
+        opacity: 0.6;
+      }
+
+      .hero-subtitle {
+        font-family: "Have Heart One", cursive;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        color: var(--ink-black);
+        opacity: 0.6;
+        margin-top: 1rem;
+        transform: rotate(1deg);
+      }
+
+      /* Decorative elements */
+      .deco-tape {
+        position: absolute;
+        width: 80px;
+        height: 25px;
+        opacity: 0.7;
+      }
+
+      .deco-tape-1 {
+        background: var(--tape-yellow);
+        top: 20%;
+        left: 10%;
+        transform: rotate(-15deg);
+      }
+
+      .deco-tape-2 {
+        background: var(--tape-pink);
+        bottom: 30%;
+        right: 15%;
+        transform: rotate(25deg);
+      }
+
+      /* Portfolio Section */
+      .portfolio-section {
+        padding: 4rem 2rem 8rem;
+        position: relative;
+      }
+
+      .portfolio-grid {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4rem 2rem;
+        position: relative;
+      }
+
+      @media (max-width: 900px) {
+        .portfolio-grid {
+          grid-template-columns: 1fr;
+          gap: 4rem;
+        }
+      }
+
+      /* Portfolio Card */
+      .portfolio-card {
+        position: relative;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .portfolio-card:nth-child(1) { transform: rotate(-2deg); }
+      .portfolio-card:nth-child(2) { transform: rotate(3deg); margin-top: 3rem; }
+      .portfolio-card:nth-child(3) { transform: rotate(1.5deg); margin-top: -2rem; }
+      .portfolio-card:nth-child(4) { transform: rotate(-3deg); margin-top: 2rem; }
+
+      .portfolio-card:hover {
+        z-index: 10;
+      }
+
+      .portfolio-card:nth-child(1):hover { transform: rotate(-2deg) scale(1.02); }
+      .portfolio-card:nth-child(2):hover { transform: rotate(3deg) scale(1.02); }
+      .portfolio-card:nth-child(3):hover { transform: rotate(1.5deg) scale(1.02); }
+      .portfolio-card:nth-child(4):hover { transform: rotate(-3deg) scale(1.02); }
+
+      /* Card image container with tape effect */
+      .card-image-wrapper {
+        position: relative;
+        background: var(--paper-white);
+        padding: 12px;
+        box-shadow:
+          0 4px 20px rgba(0, 0, 0, 0.08),
+          0 0 0 1px rgba(0, 0, 0, 0.03);
+      }
+
+      /* Tape strips on images */
+      .tape {
+        position: absolute;
+        height: 28px;
+        z-index: 20;
+        opacity: 0.85;
+      }
+
+      .tape-top-left {
+        width: 70px;
+        background: linear-gradient(135deg, var(--tape-yellow) 0%, rgba(245, 230, 163, 0.7) 100%);
+        top: -10px;
+        left: -10px;
+        transform: rotate(-45deg);
+      }
+
+      .tape-top-right {
+        width: 60px;
+        background: linear-gradient(135deg, var(--tape-pink) 0%, rgba(245, 198, 214, 0.7) 100%);
+        top: -10px;
+        right: -10px;
+        transform: rotate(45deg);
+      }
+
+      .tape-bottom-left {
+        width: 55px;
+        background: linear-gradient(135deg, rgba(200, 230, 201, 0.8) 0%, rgba(200, 230, 201, 0.5) 100%);
+        bottom: -10px;
+        left: -10px;
+        transform: rotate(45deg);
+      }
+
+      .tape-bottom-right {
+        width: 65px;
+        background: linear-gradient(135deg, var(--tape-yellow) 0%, rgba(245, 230, 163, 0.6) 100%);
+        bottom: -10px;
+        right: -10px;
+        transform: rotate(-45deg);
+      }
+
+      .card-image {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(10%) contrast(1.05);
+        transition: filter 0.3s ease;
+      }
+
+      .portfolio-card:hover .card-image {
+        filter: grayscale(0%) contrast(1.1);
+      }
+
+      /* Torn paper edge effect */
+      .card-image-wrapper::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        right: 0;
+        height: 10px;
+        background: var(--paper-white);
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10'%3E%3Cpath d='M0 10 L5 3 L10 8 L15 2 L20 7 L25 4 L30 9 L35 1 L40 6 L45 3 L50 8 L55 2 L60 7 L65 4 L70 9 L75 1 L80 6 L85 3 L90 8 L95 2 L100 10 Z' fill='black'/%3E%3C/svg%3E");
+        mask-size: 100px 10px;
+        mask-repeat: repeat-x;
+      }
+
+      /* Card content */
+      .card-content {
+        padding: 1.5rem 0.5rem 0;
+        position: relative;
+      }
+
+      .card-number {
+        font-family: "Hyperwave", sans-serif;
+        font-size: 3.5rem;
+        color: var(--primary);
+        opacity: 0.15;
+        position: absolute;
+        top: -2.5rem;
+        right: 0;
+        line-height: 1;
+      }
+
+      .card-title {
+        font-family: "Noto Serif JP", serif;
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Hand-drawn underline effect */
+      .card-title::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--marker-pink);
+        opacity: 0.5;
+        transform: skewX(-8deg);
+      }
+
+      .card-description {
+        font-size: 0.875rem;
+        color: var(--ink-black);
+        opacity: 0.65;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+
+      .card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .tag {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
+        background: var(--ink-black);
+        color: var(--paper-white);
+        transform: rotate(-1deg);
+        font-weight: 500;
+        letter-spacing: 0.02em;
+      }
+
+      .tag:nth-child(even) {
+        transform: rotate(1deg);
+        background: var(--primary);
+      }
+
+      /* Stamp/Badge decoration */
+      .stamp {
+        position: absolute;
+        font-family: "Hyperwave", sans-serif;
+        font-size: 1rem;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.6;
+        transform: rotate(-15deg);
+      }
+
+      .portfolio-card:nth-child(1) .stamp {
+        top: 20px;
+        right: 20px;
+      }
+
+      .portfolio-card:nth-child(2) .stamp {
+        bottom: 80px;
+        left: 10px;
+        transform: rotate(20deg);
+      }
+
+      .portfolio-card:nth-child(3) .stamp {
+        top: 30px;
+        left: 15px;
+        transform: rotate(-25deg);
+      }
+
+      .portfolio-card:nth-child(4) .stamp {
+        bottom: 90px;
+        right: 15px;
+        transform: rotate(10deg);
+      }
+
+      /* Card link */
+      .card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "Hyperwave", sans-serif;
+        font-size: 1rem;
+        color: var(--primary);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        position: relative;
+      }
+
+      .card-link::before {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.3s ease;
+      }
+
+      .card-link:hover::before {
+        width: 100%;
+      }
+
+      .card-link:hover {
+        transform: translateX(4px);
+      }
+
+      .card-link svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.2s ease;
+      }
+
+      .card-link:hover svg {
+        transform: translateX(4px);
+      }
+
+      /* Sticker decorations */
+      .sticker {
+        position: absolute;
+        font-family: "Hyperwave", sans-serif;
+        font-size: 0.9rem;
+        color: var(--paper-white);
+        background: var(--primary);
+        padding: 0.4rem 0.8rem;
+        z-index: 25;
+      }
+
+      .sticker-new {
+        top: 15px;
+        left: 15px;
+        transform: rotate(-8deg);
+      }
+
+      .sticker-hot {
+        bottom: 60px;
+        right: 20px;
+        transform: rotate(12deg);
+        background: var(--marker-pink);
+        color: var(--ink-black);
+      }
+
+      /* Shake animation on hover */
+      @keyframes shake {
+        0%, 100% { transform: translateX(0) rotate(0); }
+        10% { transform: translateX(-2px) rotate(-1deg); }
+        20% { transform: translateX(2px) rotate(1deg); }
+        30% { transform: translateX(-2px) rotate(0); }
+        40% { transform: translateX(2px) rotate(1deg); }
+        50% { transform: translateX(-2px) rotate(-1deg); }
+        60% { transform: translateX(2px) rotate(0); }
+        70% { transform: translateX(-2px) rotate(1deg); }
+        80% { transform: translateX(2px) rotate(-1deg); }
+        90% { transform: translateX(-2px) rotate(0); }
+      }
+
+      .portfolio-card:hover .stamp {
+        animation: shake 0.5s ease-in-out;
+      }
+
+      /* Floating decoration text */
+      .float-text {
+        position: absolute;
+        font-family: "Have Heart One", cursive;
+        color: rgba(107, 32, 89, 0.12);
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+      }
+
+      .float-text-1 {
+        font-size: 8rem;
+        top: 10%;
+        left: -5%;
+        transform: rotate(-10deg);
+      }
+
+      .float-text-2 {
+        font-size: 6rem;
+        top: 40%;
+        right: -3%;
+        transform: rotate(15deg);
+      }
+
+      .float-text-3 {
+        font-size: 7rem;
+        bottom: 15%;
+        left: 10%;
+        transform: rotate(-5deg);
+      }
+
+      /* Footer */
+      .footer {
+        padding: 3rem 2rem;
+        text-align: center;
+        border-top: 1px solid #e0d5c7;
+        position: relative;
+        z-index: 1;
+      }
+
+      .footer-text {
+        font-family: "Have Heart One", cursive;
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+
+      .footer-copyright {
+        font-size: 0.7rem;
+        color: var(--ink-black);
+        opacity: 0.4;
+      }
+
+      /* Reveal animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-delay-1 { transition-delay: 0.1s; }
+      .reveal-delay-2 { transition-delay: 0.2s; }
+      .reveal-delay-3 { transition-delay: 0.3s; }
+      .reveal-delay-4 { transition-delay: 0.4s; }
+
+      /* Scribble/doodle decorations */
+      .scribble {
+        position: absolute;
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      .scribble-arrow {
+        width: 80px;
+        height: 40px;
+      }
+
+      .scribble-circle {
+        width: 100px;
+        height: 100px;
+        border: 3px dashed var(--primary);
+        border-radius: 50%;
+        opacity: 0.2;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 600px) {
+        .hero-title {
+          font-size: 3rem;
+        }
+
+        .portfolio-grid {
+          padding: 0 0.5rem;
+        }
+
+        .portfolio-card {
+          transform: rotate(0) !important;
+          margin-top: 0 !important;
+        }
+
+        .portfolio-card:hover {
+          transform: scale(1.01) !important;
+        }
+
+        .stamp {
+          width: 50px;
+          height: 50px;
+          font-size: 0.8rem;
+        }
+
+        .float-text {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Spray paint blobs -->
+    <div class="spray-blob spray-1"></div>
+    <div class="spray-blob spray-2"></div>
+    <div class="spray-blob spray-3"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+      <a href="/">
+        <img src="/images/brand-logo.png" alt="Yakaze Tech Studio" class="nav-logo" />
+      </a>
+      <a href="/" class="nav-back">Back to Home</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="deco-tape deco-tape-1"></div>
+      <div class="deco-tape deco-tape-2"></div>
+
+      <h1 class="hero-title reveal">WORKS</h1>
+      <p class="hero-subtitle reveal reveal-delay-1">Our Creative Portfolio</p>
+    </header>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section">
+      <!-- Floating decoration text -->
+      <div class="float-text float-text-1">Create</div>
+      <div class="float-text float-text-2">Design</div>
+      <div class="float-text float-text-3">Build</div>
+
+      <div class="portfolio-grid">
+        <!-- Portfolio Item 1 -->
+        <article class="portfolio-card reveal">
+          <div class="card-image-wrapper">
+            <div class="tape tape-top-left"></div>
+            <div class="tape tape-top-right"></div>
+            <img src="/images/portfolio-1.png" alt="Project 1" class="card-image" />
+          </div>
+          <div class="stamp">No.01</div>
+          <div class="sticker sticker-new">NEW!</div>
+          <div class="card-content">
+            <span class="card-number">01</span>
+            <h2 class="card-title">E-Commerce Platform</h2>
+            <p class="card-description">
+              Next.jsとStripeを活用した、モダンなEコマースプラットフォーム。
+              ユーザー体験を重視したUI設計と高速なパフォーマンスを実現。
+            </p>
+            <div class="card-tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">Stripe</span>
+              <span class="tag">Tailwind</span>
+            </div>
+            <a href="https://example.com" target="_blank" rel="noopener" class="card-link">
+              View Project
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Portfolio Item 2 -->
+        <article class="portfolio-card reveal reveal-delay-1">
+          <div class="card-image-wrapper">
+            <div class="tape tape-top-left"></div>
+            <div class="tape tape-bottom-right"></div>
+            <img src="/images/portfolio-2.png" alt="Project 2" class="card-image" />
+          </div>
+          <div class="stamp">No.02</div>
+          <div class="card-content">
+            <span class="card-number">02</span>
+            <h2 class="card-title">AI Dashboard</h2>
+            <p class="card-description">
+              機械学習モデルの管理・可視化ダッシュボード。
+              リアルタイムデータ分析とインタラクティブなチャート機能を搭載。
+            </p>
+            <div class="card-tags">
+              <span class="tag">React</span>
+              <span class="tag">D3.js</span>
+              <span class="tag">Python</span>
+            </div>
+            <a href="https://example.com" target="_blank" rel="noopener" class="card-link">
+              View Project
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Portfolio Item 3 -->
+        <article class="portfolio-card reveal reveal-delay-2">
+          <div class="card-image-wrapper">
+            <div class="tape tape-top-right"></div>
+            <div class="tape tape-bottom-left"></div>
+            <img src="/images/portfolio-3.png" alt="Project 3" class="card-image" />
+          </div>
+          <div class="stamp">No.03</div>
+          <div class="sticker sticker-hot">HOT!</div>
+          <div class="card-content">
+            <span class="card-number">03</span>
+            <h2 class="card-title">Mobile Healthcare App</h2>
+            <p class="card-description">
+              ヘルスケア領域のiOS/Androidアプリ。
+              ウェアラブルデバイス連携と直感的なUXで健康管理をサポート。
+            </p>
+            <div class="card-tags">
+              <span class="tag">Flutter</span>
+              <span class="tag">Firebase</span>
+              <span class="tag">HealthKit</span>
+            </div>
+            <a href="https://example.com" target="_blank" rel="noopener" class="card-link">
+              View Project
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Portfolio Item 4 -->
+        <article class="portfolio-card reveal reveal-delay-3">
+          <div class="card-image-wrapper">
+            <div class="tape tape-top-left"></div>
+            <div class="tape tape-top-right"></div>
+            <div class="tape tape-bottom-right"></div>
+            <img src="/images/portfolio-4.png" alt="Project 4" class="card-image" />
+          </div>
+          <div class="stamp">No.04</div>
+          <div class="card-content">
+            <span class="card-number">04</span>
+            <h2 class="card-title">SaaS Booking System</h2>
+            <p class="card-description">
+              予約管理SaaSプラットフォーム。
+              マルチテナント対応とAPI連携で様々な業種に対応可能な柔軟性。
+            </p>
+            <div class="card-tags">
+              <span class="tag">Laravel</span>
+              <span class="tag">Vue.js</span>
+              <span class="tag">AWS</span>
+            </div>
+            <a href="https://example.com" target="_blank" rel="noopener" class="card-link">
+              View Project
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">Let's Create Something Amazing Together</p>
+      <p class="footer-copyright">All rights reserved Yakaze Tech Studio</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      // Navbar scroll effect
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      });
+
+      // Reveal on scroll
+      const revealElements = document.querySelectorAll('.reveal');
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Keep card rotations after reveal
+            const card = entry.target;
+            if (card.classList.contains('portfolio-card')) {
+              const index = Array.from(card.parentElement.children).indexOf(card);
+              const rotations = [-2, 3, 1.5, -3];
+              const margins = ['0', '3rem', '-2rem', '2rem'];
+              card.style.transform = `rotate(${rotations[index]}deg)`;
+              card.style.marginTop = margins[index];
+            }
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // Parallax effect on spray blobs
+      document.addEventListener('mousemove', (e) => {
+        const blobs = document.querySelectorAll('.spray-blob');
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+        blobs.forEach((blob, i) => {
+          const factor = (i + 1) * 0.5;
+          blob.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
+        });
+      });
+
+      // Add random micro-rotations to tags
+      document.querySelectorAll('.tag').forEach(tag => {
+        const randomRotation = (Math.random() - 0.5) * 6;
+        tag.style.transform = `rotate(${randomRotation}deg)`;
+      });
+    </script>
+  </body>
+</html>

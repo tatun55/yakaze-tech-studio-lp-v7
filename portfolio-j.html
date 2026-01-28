@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio | Yakaze Tech Studio</title>
+    <meta name="description" content="Yakaze Tech Studioの制作実績ポートフォリオ。実験的でアート的なデザインアプローチで表現。" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <style>
+      @font-face {
+        font-family: "Hyperwave";
+        src: url("/fonts/Hyperwave.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Have Heart One";
+        src: url("/fonts/HaveHeartOne.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --bg: #faf7f2;
+        --primary: #6b2059;
+        --text: #1a1a1a;
+        --text-muted: rgba(26, 26, 26, 0.5);
+        --border: #e0d5c7;
+        --accent-pink: #fe95f6;
+        --accent-purple: #9c4dcc;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Noto Sans JP", sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* Custom Cursor */
+      .cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--primary);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+        mix-blend-mode: difference;
+      }
+
+      .cursor-dot {
+        position: fixed;
+        width: 6px;
+        height: 6px;
+        background: var(--primary);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.08s ease-out;
+      }
+
+      .cursor.hover {
+        width: 50px;
+        height: 50px;
+        border-color: var(--accent-pink);
+        background: rgba(254, 149, 246, 0.1);
+      }
+
+      /* Infinite Marquee */
+      .marquee-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+
+      .marquee-track {
+        position: absolute;
+        white-space: nowrap;
+        will-change: transform;
+        animation: marquee-scroll 40s linear infinite;
+      }
+
+      .marquee-track:nth-child(1) {
+        top: 5%;
+        animation-duration: 35s;
+      }
+
+      .marquee-track:nth-child(2) {
+        top: 30%;
+        animation-direction: reverse;
+        animation-duration: 45s;
+      }
+
+      .marquee-track:nth-child(3) {
+        top: 55%;
+        animation-duration: 50s;
+      }
+
+      .marquee-track:nth-child(4) {
+        top: 80%;
+        animation-direction: reverse;
+        animation-duration: 38s;
+      }
+
+      .marquee-text {
+        display: inline-block;
+        font-family: "Have Heart One", cursive;
+        font-size: clamp(4rem, 12vw, 10rem);
+        color: rgba(254, 149, 246, 0.08);
+        padding-right: 100px;
+        user-select: none;
+      }
+
+      @keyframes marquee-scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* Navigation */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 1.5rem 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        mix-blend-mode: difference;
+      }
+
+      .nav-logo {
+        font-family: "Hyperwave", sans-serif;
+        font-size: 1.2rem;
+        color: white;
+        text-decoration: none;
+        letter-spacing: 0.05em;
+      }
+
+      .nav-back {
+        font-size: 0.75rem;
+        color: white;
+        text-decoration: none;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.7;
+        transition: opacity 0.3s;
+      }
+
+      .nav-back:hover {
+        opacity: 1;
+      }
+
+      /* Hero Section */
+      .hero {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .hero-title {
+        font-family: "Hyperwave", sans-serif;
+        font-size: clamp(3rem, 15vw, 12rem);
+        letter-spacing: -0.02em;
+        color: var(--primary);
+        text-align: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-title .glitch {
+        position: relative;
+        display: inline-block;
+      }
+
+      .hero-title .glitch::before,
+      .hero-title .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+      }
+
+      .hero-title .glitch::before {
+        animation: glitch-1 2.5s infinite linear alternate-reverse;
+        color: var(--accent-pink);
+        clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+      }
+
+      .hero-title .glitch::after {
+        animation: glitch-2 2.5s infinite linear alternate-reverse;
+        color: var(--accent-purple);
+        clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+      }
+
+      @keyframes glitch-1 {
+        0%, 100% { transform: translate(0); }
+        20% { transform: translate(-3px, 3px); }
+        40% { transform: translate(-3px, -3px); }
+        60% { transform: translate(3px, 3px); }
+        80% { transform: translate(3px, -3px); }
+      }
+
+      @keyframes glitch-2 {
+        0%, 100% { transform: translate(0); }
+        20% { transform: translate(3px, -3px); }
+        40% { transform: translate(3px, 3px); }
+        60% { transform: translate(-3px, -3px); }
+        80% { transform: translate(-3px, 3px); }
+      }
+
+      .hero-subtitle {
+        font-family: "Have Heart One", cursive;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        color: var(--text-muted);
+        margin-top: 1rem;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards 0.5s;
+      }
+
+      .hero-scroll {
+        position: absolute;
+        bottom: 3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-muted);
+        animation: bounce 2s ease infinite;
+      }
+
+      .hero-scroll span {
+        font-family: "Hyperwave", sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .hero-scroll svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(10px); }
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Horizontal Scroll Section */
+      .portfolio-section {
+        position: relative;
+        z-index: 1;
+        padding: 6rem 0;
+      }
+
+      .portfolio-header {
+        padding: 0 3rem;
+        margin-bottom: 3rem;
+      }
+
+      .portfolio-header h2 {
+        font-family: "Noto Serif JP", serif;
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .portfolio-header h2::before {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 1px;
+        background: var(--primary);
+      }
+
+      .portfolio-header .label {
+        font-family: "Have Heart One", cursive;
+        font-size: 1.2rem;
+        color: var(--primary);
+        margin-left: 1rem;
+      }
+
+      /* Horizontal Scroll Container */
+      .scroll-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .scroll-track {
+        display: flex;
+        gap: 4rem;
+        padding: 2rem 3rem;
+        transition: transform 0.1s ease-out;
+        will-change: transform;
+      }
+
+      /* Portfolio Cards */
+      .portfolio-card {
+        flex-shrink: 0;
+        width: clamp(300px, 40vw, 500px);
+        position: relative;
+        cursor: none;
+      }
+
+      .portfolio-card a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .card-image-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        background: var(--border);
+      }
+
+      /* Mask Effect */
+      .card-image-mask {
+        position: absolute;
+        inset: 0;
+        clip-path: polygon(
+          0 0,
+          100% 0,
+          100% 85%,
+          85% 100%,
+          0 100%
+        );
+        transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .portfolio-card:hover .card-image-mask {
+        clip-path: polygon(
+          5% 5%,
+          95% 5%,
+          95% 80%,
+          80% 95%,
+          5% 95%
+        );
+      }
+
+      .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+        filter: grayscale(30%) contrast(1.1);
+      }
+
+      .portfolio-card:hover .card-image {
+        transform: scale(1.08);
+        filter: grayscale(0%) contrast(1);
+      }
+
+      /* Distortion Effect on Hover */
+      .card-distortion {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          45deg,
+          transparent 0%,
+          rgba(254, 149, 246, 0.1) 50%,
+          transparent 100%
+        );
+        opacity: 0;
+        mix-blend-mode: overlay;
+        transition: opacity 0.3s ease;
+        animation: distort-shimmer 2s ease infinite;
+        animation-play-state: paused;
+      }
+
+      .portfolio-card:hover .card-distortion {
+        opacity: 1;
+        animation-play-state: running;
+      }
+
+      @keyframes distort-shimmer {
+        0%, 100% {
+          background-position: -100% 0;
+        }
+        50% {
+          background-position: 200% 0;
+        }
+      }
+
+      /* Glitch Line Effect */
+      .card-glitch-lines {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .portfolio-card:hover .card-glitch-lines {
+        opacity: 1;
+      }
+
+      .glitch-line {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: rgba(254, 149, 246, 0.5);
+        animation: glitch-scan 0.8s ease infinite;
+      }
+
+      .glitch-line:nth-child(1) { top: 20%; animation-delay: 0s; }
+      .glitch-line:nth-child(2) { top: 45%; animation-delay: 0.2s; }
+      .glitch-line:nth-child(3) { top: 70%; animation-delay: 0.4s; }
+
+      @keyframes glitch-scan {
+        0%, 100% { transform: translateX(-100%); opacity: 0; }
+        50% { transform: translateX(100%); opacity: 1; }
+      }
+
+      /* Card Number */
+      .card-number {
+        position: absolute;
+        top: -2rem;
+        right: 0;
+        font-family: "Hyperwave", sans-serif;
+        font-size: 6rem;
+        color: rgba(107, 32, 89, 0.1);
+        line-height: 1;
+        pointer-events: none;
+        transition: color 0.3s ease, transform 0.4s ease;
+      }
+
+      .portfolio-card:hover .card-number {
+        color: rgba(107, 32, 89, 0.25);
+        transform: translateX(10px) rotate(5deg);
+      }
+
+      /* Card Info */
+      .card-info {
+        padding: 1.5rem 0;
+        position: relative;
+      }
+
+      .card-title {
+        font-family: "Noto Serif JP", serif;
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-title-text {
+        display: inline-block;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .portfolio-card:hover .card-title-text {
+        animation: text-scramble 0.5s ease;
+      }
+
+      @keyframes text-scramble {
+        0% { transform: translateX(0); filter: blur(0); }
+        25% { transform: translateX(-5px); filter: blur(2px); }
+        50% { transform: translateX(5px); filter: blur(1px); }
+        75% { transform: translateX(-2px); filter: blur(0.5px); }
+        100% { transform: translateX(0); filter: blur(0); }
+      }
+
+      .card-category {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .card-category::before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 1px;
+        background: var(--primary);
+        transition: width 0.3s ease;
+      }
+
+      .portfolio-card:hover .card-category::before {
+        width: 40px;
+      }
+
+      /* View More Indicator */
+      .card-view {
+        position: absolute;
+        bottom: 1.5rem;
+        right: 0;
+        font-family: "Hyperwave", sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        color: var(--primary);
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .portfolio-card:hover .card-view {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .card-view-arrow {
+        width: 30px;
+        height: 1px;
+        background: var(--primary);
+        position: relative;
+      }
+
+      .card-view-arrow::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        width: 6px;
+        height: 6px;
+        border-right: 1px solid var(--primary);
+        border-top: 1px solid var(--primary);
+      }
+
+      /* Scroll Progress */
+      .scroll-progress {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+        z-index: 50;
+      }
+
+      .progress-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--border);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .progress-dot.active {
+        background: var(--primary);
+        transform: scale(1.3);
+      }
+
+      /* Scroll Indicator Bar */
+      .scroll-indicator {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--border);
+        z-index: 50;
+      }
+
+      .scroll-indicator-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--accent-pink));
+        width: 0%;
+        transition: width 0.1s ease-out;
+      }
+
+      /* Footer */
+      .footer {
+        position: relative;
+        z-index: 1;
+        padding: 6rem 3rem;
+        text-align: center;
+      }
+
+      .footer-text {
+        font-family: "Have Heart One", cursive;
+        font-size: clamp(2rem, 6vw, 4rem);
+        color: var(--primary);
+        opacity: 0.6;
+        margin-bottom: 2rem;
+      }
+
+      .footer-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.875rem;
+        color: var(--text);
+        text-decoration: none;
+        padding: 1rem 2rem;
+        border: 1px solid var(--border);
+        background: rgba(254, 253, 251, 0.8);
+        transition: all 0.3s ease;
+      }
+
+      .footer-link:hover {
+        border-color: var(--primary);
+        background: rgba(107, 32, 89, 0.05);
+      }
+
+      .footer-link svg {
+        width: 16px;
+        height: 16px;
+        transition: transform 0.3s ease;
+      }
+
+      .footer-link:hover svg {
+        transform: translateX(5px);
+      }
+
+      /* Mouse Follower Effect */
+      .mouse-follower {
+        position: fixed;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(254, 149, 246, 0.15) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+        transform: translate(-50%, -50%);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        body {
+          cursor: auto;
+        }
+
+        .cursor, .cursor-dot {
+          display: none;
+        }
+
+        .nav {
+          padding: 1rem 1.5rem;
+        }
+
+        .portfolio-header {
+          padding: 0 1.5rem;
+        }
+
+        .scroll-track {
+          padding: 1rem 1.5rem;
+          gap: 2rem;
+        }
+
+        .portfolio-card {
+          width: 85vw;
+        }
+
+        .card-number {
+          font-size: 4rem;
+          top: -1.5rem;
+        }
+
+        .footer {
+          padding: 4rem 1.5rem;
+        }
+
+        .mouse-follower {
+          display: none;
+        }
+      }
+
+      /* Noise Overlay */
+      .noise-overlay {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9998;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      /* Loading Animation */
+      .page-loader {
+        position: fixed;
+        inset: 0;
+        background: var(--bg);
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+
+      .page-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loader-text {
+        font-family: "Hyperwave", sans-serif;
+        font-size: 2rem;
+        color: var(--primary);
+        animation: loader-pulse 1s ease infinite;
+      }
+
+      @keyframes loader-pulse {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.05); }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+      <span class="loader-text">Portfolio</span>
+    </div>
+
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Mouse Follower -->
+    <div class="mouse-follower" id="mouseFollower"></div>
+
+    <!-- Infinite Marquee Background -->
+    <div class="marquee-container">
+      <div class="marquee-track">
+        <span class="marquee-text">Portfolio Works Creative Design Digital Experience Innovation </span>
+        <span class="marquee-text">Portfolio Works Creative Design Digital Experience Innovation </span>
+      </div>
+      <div class="marquee-track">
+        <span class="marquee-text">Experimental Art Technology Future Vision Transform </span>
+        <span class="marquee-text">Experimental Art Technology Future Vision Transform </span>
+      </div>
+      <div class="marquee-track">
+        <span class="marquee-text">Yakaze Tech Studio Development Solution Growth </span>
+        <span class="marquee-text">Yakaze Tech Studio Development Solution Growth </span>
+      </div>
+      <div class="marquee-track">
+        <span class="marquee-text">Next Generation Innovation Disruption Leap Forward </span>
+        <span class="marquee-text">Next Generation Innovation Disruption Leap Forward </span>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <a href="/" class="nav-logo">Yakaze</a>
+      <a href="/" class="nav-back">Back to Home</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1 class="hero-title">
+        <span class="glitch" data-text="Portfolio">Portfolio</span>
+      </h1>
+      <p class="hero-subtitle">Selected Works & Case Studies</p>
+      <div class="hero-scroll">
+        <span>Scroll</span>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section">
+      <div class="portfolio-header">
+        <h2>
+          Works
+          <span class="label">Our Creations</span>
+        </h2>
+      </div>
+
+      <div class="scroll-container" id="scrollContainer">
+        <div class="scroll-track" id="scrollTrack">
+          <!-- Portfolio Card 1 -->
+          <article class="portfolio-card" data-cursor="hover">
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+              <span class="card-number">01</span>
+              <div class="card-image-wrapper">
+                <div class="card-image-mask">
+                  <img src="/images/portfolio-1.png" alt="Portfolio Project 1" class="card-image" loading="lazy" />
+                </div>
+                <div class="card-distortion"></div>
+                <div class="card-glitch-lines">
+                  <div class="glitch-line"></div>
+                  <div class="glitch-line"></div>
+                  <div class="glitch-line"></div>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">
+                  <span class="card-title-text">Creative Web Application</span>
+                </h3>
+                <p class="card-category">Web Development</p>
+                <span class="card-view">
+                  View Project
+                  <span class="card-view-arrow"></span>
+                </span>
+              </div>
+            </a>
+          </article>
+
+          <!-- Portfolio Card 2 -->
+          <article class="portfolio-card" data-cursor="hover">
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+              <span class="card-number">02</span>
+              <div class="card-image-wrapper">
+                <div class="card-image-mask">
+                  <img src="/images/portfolio-2.png" alt="Portfolio Project 2" class="card-image" loading="lazy" />
+                </div>
+                <div class="card-distortion"></div>
+                <div class="card-glitch-lines">
+                  <div class="glitch-line"></div>
+                  <div class="glitch-line"></div>
+                  <div class="glitch-line"></div>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">
+                  <span class="card-title-text">Mobile Experience Design</span>
+                </h3>
+                <p class="card-category">iOS & Android App</p>
+                <span class="card-view">
+                  View Project
+                  <span class="card-view-arrow"></span>
+                </span>
+              </div>
+            </a>
+          </article>
+
+          <!-- Portfolio Card 3 -->
+          <article class="portfolio-card" data-cursor="hover">
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+              <span class="card-number">03</span>
+              <div class="card-image-wrapper">
+                <div class="card-image-mask">
+                  <img src="/images/portfolio-3.png" alt="Portfolio Project 3" class="card-image" loading="lazy" />
+                </div>
+                <div class="card-distortion"></div>
+                <div class="card-glitch-lines">
+                  <div class="glitch-line"></div>
+                  <div class="glitch-line"></div>
+                  <div class="glitch-line"></div>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">
+                  <span class="card-title-text">AI-Powered Platform</span>
+                </h3>
+                <p class="card-category">AI Integration</p>
+                <span class="card-view">
+                  View Project
+                  <span class="card-view-arrow"></span>
+                </span>
+              </div>
+            </a>
+          </article>
+
+          <!-- Portfolio Card 4 -->
+          <article class="portfolio-card" data-cursor="hover">
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+              <span class="card-number">04</span>
+              <div class="card-image-wrapper">
+                <div class="card-image-mask">
+                  <img src="/images/portfolio-4.png" alt="Portfolio Project 4" class="card-image" loading="lazy" />
+                </div>
+                <div class="card-distortion"></div>
+                <div class="card-glitch-lines">
+                  <div class="glitch-line"></div>
+                  <div class="glitch-line"></div>
+                  <div class="glitch-line"></div>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">
+                  <span class="card-title-text">Digital Transformation</span>
+                </h3>
+                <p class="card-category">Enterprise Solution</p>
+                <span class="card-view">
+                  View Project
+                  <span class="card-view-arrow"></span>
+                </span>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scroll Progress Dots -->
+    <div class="scroll-progress" id="scrollProgress">
+      <div class="progress-dot active" data-index="0"></div>
+      <div class="progress-dot" data-index="1"></div>
+      <div class="progress-dot" data-index="2"></div>
+      <div class="progress-dot" data-index="3"></div>
+    </div>
+
+    <!-- Scroll Indicator Bar -->
+    <div class="scroll-indicator">
+      <div class="scroll-indicator-bar" id="scrollIndicatorBar"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">Let's Create Something Amazing</p>
+      <a href="/" class="footer-link">
+        Contact Us
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </footer>
+
+    <script>
+      // Page Loader
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.getElementById('pageLoader').classList.add('hidden');
+        }, 800);
+      });
+
+      // Custom Cursor
+      const cursor = document.getElementById('cursor');
+      const cursorDot = document.getElementById('cursorDot');
+      const mouseFollower = document.getElementById('mouseFollower');
+      let mouseX = 0, mouseY = 0;
+      let cursorX = 0, cursorY = 0;
+      let dotX = 0, dotY = 0;
+      let followerX = 0, followerY = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateCursor() {
+        // Smooth cursor movement
+        cursorX += (mouseX - cursorX) * 0.15;
+        cursorY += (mouseY - cursorY) * 0.15;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+
+        // Dot follows more closely
+        dotX += (mouseX - dotX) * 0.25;
+        dotY += (mouseY - dotY) * 0.25;
+        cursorDot.style.left = dotX + 'px';
+        cursorDot.style.top = dotY + 'px';
+
+        // Mouse follower (larger glow)
+        followerX += (mouseX - followerX) * 0.05;
+        followerY += (mouseY - followerY) * 0.05;
+        mouseFollower.style.left = followerX + 'px';
+        mouseFollower.style.top = followerY + 'px';
+
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      // Hover effect on cards
+      const hoverElements = document.querySelectorAll('[data-cursor="hover"]');
+      hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursor.classList.add('hover');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor.classList.remove('hover');
+        });
+      });
+
+      // Horizontal Scroll
+      const scrollContainer = document.getElementById('scrollContainer');
+      const scrollTrack = document.getElementById('scrollTrack');
+      const scrollProgress = document.getElementById('scrollProgress');
+      const scrollIndicatorBar = document.getElementById('scrollIndicatorBar');
+      const progressDots = scrollProgress.querySelectorAll('.progress-dot');
+      const cards = scrollTrack.querySelectorAll('.portfolio-card');
+
+      let currentScroll = 0;
+      let maxScroll = 0;
+      let isScrolling = false;
+      let scrollTimeout;
+
+      function calculateMaxScroll() {
+        const trackWidth = scrollTrack.scrollWidth;
+        const containerWidth = scrollContainer.clientWidth;
+        maxScroll = trackWidth - containerWidth;
+      }
+
+      function updateScroll(delta) {
+        currentScroll = Math.max(0, Math.min(maxScroll, currentScroll + delta));
+        scrollTrack.style.transform = `translateX(-${currentScroll}px)`;
+
+        // Update progress bar
+        const progress = (currentScroll / maxScroll) * 100;
+        scrollIndicatorBar.style.width = progress + '%';
+
+        // Update progress dots
+        const cardIndex = Math.round((currentScroll / maxScroll) * (cards.length - 1));
+        progressDots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === cardIndex);
+        });
+      }
+
+      // Wheel scroll
+      scrollContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+
+        // Use deltaY for horizontal scrolling
+        const delta = e.deltaY * 2;
+        updateScroll(delta);
+      }, { passive: false });
+
+      // Touch scroll support
+      let touchStartX = 0;
+      let touchStartScroll = 0;
+
+      scrollContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartScroll = currentScroll;
+      }, { passive: true });
+
+      scrollContainer.addEventListener('touchmove', (e) => {
+        const touchX = e.touches[0].clientX;
+        const diff = touchStartX - touchX;
+        currentScroll = Math.max(0, Math.min(maxScroll, touchStartScroll + diff));
+        scrollTrack.style.transform = `translateX(-${currentScroll}px)`;
+
+        // Update progress
+        const progress = (currentScroll / maxScroll) * 100;
+        scrollIndicatorBar.style.width = progress + '%';
+
+        const cardIndex = Math.round((currentScroll / maxScroll) * (cards.length - 1));
+        progressDots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === cardIndex);
+        });
+      }, { passive: true });
+
+      // Click on progress dots
+      progressDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          const targetScroll = (index / (cards.length - 1)) * maxScroll;
+          animateScroll(targetScroll);
+        });
+      });
+
+      function animateScroll(target) {
+        const start = currentScroll;
+        const distance = target - start;
+        const duration = 600;
+        let startTime = null;
+
+        function animation(currentTime) {
+          if (!startTime) startTime = currentTime;
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          // Easing function
+          const eased = 1 - Math.pow(1 - progress, 3);
+          currentScroll = start + (distance * eased);
+
+          scrollTrack.style.transform = `translateX(-${currentScroll}px)`;
+          scrollIndicatorBar.style.width = ((currentScroll / maxScroll) * 100) + '%';
+
+          if (progress < 1) {
+            requestAnimationFrame(animation);
+          }
+        }
+
+        requestAnimationFrame(animation);
+      }
+
+      // Initialize
+      window.addEventListener('load', calculateMaxScroll);
+      window.addEventListener('resize', calculateMaxScroll);
+
+      // Smooth scroll for hero to portfolio
+      const heroSection = document.querySelector('.hero');
+      heroSection.addEventListener('click', () => {
+        document.querySelector('.portfolio-section').scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+
+      // Parallax effect on marquee
+      let marqueeOffset = 0;
+      window.addEventListener('scroll', () => {
+        marqueeOffset = window.scrollY * 0.3;
+        const tracks = document.querySelectorAll('.marquee-track');
+        tracks.forEach((track, index) => {
+          const direction = index % 2 === 0 ? 1 : -1;
+          track.style.transform = `translateX(${marqueeOffset * direction * 0.1}px)`;
+        });
+      });
+
+      // Image load error fallback
+      document.querySelectorAll('.card-image').forEach(img => {
+        img.addEventListener('error', function() {
+          this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23e0d5c7" width="400" height="300"/%3E%3Ctext x="200" y="150" text-anchor="middle" fill="%236b2059" font-family="sans-serif" font-size="14"%3EImage%3C/text%3E%3C/svg%3E';
+        });
+      });
+    </script>
+  </body>
+</html>

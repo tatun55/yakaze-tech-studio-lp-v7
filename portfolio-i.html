@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>制作実績 | Yakaze Tech Studio</title>
+    <meta name="description" content="Yakaze Tech Studioの制作実績をご紹介。Webサービス・iOS/Androidアプリ・AI導入の開発事例をご覧ください。" />
+    <meta name="keywords" content="制作実績,ポートフォリオ,アプリ開発,Webサービス開発,受託開発,AI開発" />
+    <meta name="author" content="Yakaze Tech Studio株式会社" />
+    <link rel="canonical" href="https://yakaze.com/portfolio" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yakaze.com/portfolio" />
+    <meta property="og:site_name" content="Yakaze Tech Studio" />
+    <meta property="og:title" content="制作実績 | Yakaze Tech Studio" />
+    <meta property="og:description" content="Yakaze Tech Studioの制作実績をご紹介。Webサービス・iOS/Androidアプリ・AI導入の開発事例をご覧ください。" />
+    <meta property="og:image" content="https://yakaze.com/images/ogp.jpg" />
+    <meta property="og:locale" content="ja_JP" />
+
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@akihiko_takai" />
+    <meta name="twitter:creator" content="@akihiko_takai" />
+    <meta name="twitter:title" content="制作実績 | Yakaze Tech Studio" />
+    <meta name="twitter:description" content="Yakaze Tech Studioの制作実績をご紹介。Webサービス・iOS/Androidアプリ・AI導入の開発事例をご覧ください。" />
+    <meta name="twitter:image" content="https://yakaze.com/images/ogp.jpg" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      @font-face {
+        font-family: "Hyperwave";
+        src: url("/fonts/Hyperwave.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Have Heart One";
+        src: url("/fonts/HaveHeartOne.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --bg: #faf7f2;
+        --card-bg: #fefdfb;
+        --primary: #6b2059;
+        --primary-glow: rgba(107, 32, 89, 0.6);
+        --neon-pink: #ff2d95;
+        --neon-purple: #9d4edd;
+        --neon-cyan: #00f5ff;
+        --text-dark: #1a1a1a;
+        --text-muted: rgba(26, 26, 26, 0.5);
+        --border: #e0d5c7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Noto Sans JP", sans-serif;
+        background-color: var(--bg);
+        color: var(--text-dark);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* ===== FLOATING HYPERWAVE BACKGROUND ===== */
+      .hyperwave-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+
+      .hyperwave-float {
+        position: absolute;
+        font-family: "Hyperwave", sans-serif;
+        color: rgba(254, 149, 246, 0.12);
+        white-space: nowrap;
+        user-select: none;
+        animation: floatText 40s linear infinite;
+      }
+
+      .hyperwave-float:nth-child(1) {
+        font-size: 8vw;
+        top: 5%;
+        left: -20%;
+        animation-duration: 35s;
+      }
+
+      .hyperwave-float:nth-child(2) {
+        font-size: 12vw;
+        top: 25%;
+        left: -30%;
+        animation-duration: 50s;
+        animation-delay: -10s;
+      }
+
+      .hyperwave-float:nth-child(3) {
+        font-size: 6vw;
+        top: 50%;
+        left: -15%;
+        animation-duration: 45s;
+        animation-delay: -20s;
+      }
+
+      .hyperwave-float:nth-child(4) {
+        font-size: 10vw;
+        top: 70%;
+        left: -25%;
+        animation-duration: 55s;
+        animation-delay: -5s;
+      }
+
+      .hyperwave-float:nth-child(5) {
+        font-size: 7vw;
+        top: 85%;
+        left: -20%;
+        animation-duration: 38s;
+        animation-delay: -15s;
+      }
+
+      @keyframes floatText {
+        0% {
+          transform: translateX(0) rotate(-5deg);
+        }
+        100% {
+          transform: translateX(150vw) rotate(-5deg);
+        }
+      }
+
+      /* ===== NAVIGATION ===== */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 1rem 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .navbar.scrolled {
+        background: rgba(250, 247, 242, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .navbar-inner {
+        max-width: 80rem;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo img {
+        height: 2rem;
+        width: auto;
+      }
+
+      .nav-links {
+        display: none;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      @media (min-width: 768px) {
+        .nav-links {
+          display: flex;
+        }
+      }
+
+      .mobile-menu-btn {
+        display: block;
+        padding: 0.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      @media (min-width: 768px) {
+        .mobile-menu-btn {
+          display: none;
+        }
+      }
+
+      /* ===== MAIN CAROUSEL SECTION ===== */
+      .carousel-section {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        z-index: 1;
+      }
+
+      /* Header area */
+      .carousel-header {
+        padding: 6rem 1.5rem 2rem;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      .section-label {
+        font-family: "Hyperwave", sans-serif;
+        font-size: 0.875rem;
+        color: var(--primary);
+        letter-spacing: 0.25em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+        opacity: 0;
+        animation: fadeIn 0.8s ease forwards 0.3s;
+      }
+
+      .section-label::before,
+      .section-label::after {
+        content: '';
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        opacity: 0.4;
+      }
+
+      .main-title {
+        font-family: "Noto Serif JP", serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        position: relative;
+        display: inline-block;
+        opacity: 0;
+        animation: titleReveal 1s ease 0.3s forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes titleReveal {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ===== FULLSCREEN CAROUSEL ===== */
+      .carousel-container {
+        flex: 1;
+        position: relative;
+        padding: 1rem 0 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .carousel {
+        position: relative;
+        width: 100%;
+        max-width: 1400px;
+        height: 70vh;
+        min-height: 500px;
+        perspective: 2000px;
+        margin: 0 auto;
+      }
+
+      .carousel-track {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+      }
+
+      .carousel-slide {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        max-width: 900px;
+        height: 85%;
+        transform: translate(-50%, -50%);
+        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .carousel-slide.active {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotateY(0deg) scale(1);
+        z-index: 10;
+        pointer-events: auto;
+      }
+
+      .carousel-slide.prev {
+        opacity: 0.4;
+        transform: translate(-130%, -50%) rotateY(25deg) scale(0.75);
+        z-index: 5;
+        filter: blur(2px);
+        pointer-events: none;
+      }
+
+      .carousel-slide.next {
+        opacity: 0.4;
+        transform: translate(30%, -50%) rotateY(-25deg) scale(0.75);
+        z-index: 5;
+        filter: blur(2px);
+        pointer-events: none;
+      }
+
+      /* Slide Card */
+      .slide-card {
+        width: 100%;
+        height: 100%;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.4s ease;
+      }
+
+      .carousel-slide.active .slide-card {
+        box-shadow:
+          0 25px 80px -20px rgba(107, 32, 89, 0.25),
+          0 0 60px -30px var(--neon-pink);
+      }
+
+      .carousel-slide.active .slide-card:hover {
+        border-color: var(--primary);
+        box-shadow:
+          0 30px 100px -20px rgba(107, 32, 89, 0.35),
+          0 0 100px -20px var(--neon-pink),
+          0 0 40px -10px var(--neon-purple);
+      }
+
+      /* Glitch overlay on hover */
+      .slide-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255, 45, 149, 0.03) 50%,
+          transparent 100%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      .carousel-slide.active .slide-card:hover::before {
+        opacity: 1;
+        animation: glitchScan 2s linear infinite;
+      }
+
+      @keyframes glitchScan {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Image section */
+      .slide-image {
+        position: relative;
+        height: 55%;
+        overflow: hidden;
+        background: linear-gradient(135deg, #2a1a35, #1a1a2e);
+      }
+
+      .slide-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .carousel-slide.active .slide-card:hover .slide-image img {
+        transform: scale(1.08);
+      }
+
+      /* Neon frame effect */
+      .slide-image::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border: 2px solid transparent;
+        transition: all 0.4s ease;
+        pointer-events: none;
+      }
+
+      .carousel-slide.active .slide-card:hover .slide-image::after {
+        border-color: var(--neon-pink);
+        box-shadow:
+          inset 0 0 20px rgba(255, 45, 149, 0.3),
+          0 0 20px rgba(255, 45, 149, 0.2);
+      }
+
+      /* Project number */
+      .project-number {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        font-family: "Hyperwave", sans-serif;
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.15);
+        line-height: 1;
+        transition: all 0.4s ease;
+      }
+
+      .carousel-slide.active .slide-card:hover .project-number {
+        color: rgba(255, 45, 149, 0.6);
+        text-shadow: 0 0 30px var(--neon-pink);
+      }
+
+      /* External link badge */
+      .external-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.4s ease;
+      }
+
+      .carousel-slide.active .slide-card:hover .external-badge {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .external-badge svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: var(--primary);
+      }
+
+      /* Content section */
+      .slide-content {
+        flex: 1;
+        padding: 1.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+      }
+
+      .slide-tag {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border: 1px solid var(--border);
+        font-size: 0.625rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-muted);
+        margin-bottom: 0.75rem;
+        background: var(--bg);
+        width: fit-content;
+      }
+
+      .slide-title {
+        font-family: "Noto Serif JP", serif;
+        font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+        transition: color 0.3s;
+      }
+
+      .carousel-slide.active .slide-card:hover .slide-title {
+        color: var(--primary);
+      }
+
+      .slide-description {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+
+      .slide-cta {
+        margin-top: auto;
+        padding-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--primary);
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.4s ease;
+      }
+
+      .carousel-slide.active .slide-card:hover .slide-cta {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .slide-cta svg {
+        width: 1rem;
+        height: 1rem;
+        transition: transform 0.3s;
+      }
+
+      .carousel-slide.active .slide-card:hover .slide-cta svg {
+        transform: translateX(4px);
+      }
+
+      /* ===== CAROUSEL CONTROLS ===== */
+      .carousel-controls {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        z-index: 20;
+      }
+
+      .carousel-btn {
+        width: 3.5rem;
+        height: 3.5rem;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .carousel-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .carousel-btn:hover {
+        border-color: var(--primary);
+        transform: scale(1.1);
+      }
+
+      .carousel-btn:hover::before {
+        opacity: 0.1;
+      }
+
+      .carousel-btn svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: var(--text-dark);
+        position: relative;
+        z-index: 1;
+        transition: color 0.3s;
+      }
+
+      .carousel-btn:hover svg {
+        color: var(--primary);
+      }
+
+      /* Slide indicators */
+      .carousel-indicators {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .indicator {
+        width: 2rem;
+        height: 3px;
+        background: var(--border);
+        cursor: pointer;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .indicator::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--neon-pink), var(--primary));
+        transition: width 0.4s ease;
+      }
+
+      .indicator.active {
+        width: 3rem;
+      }
+
+      .indicator.active::after {
+        width: 100%;
+      }
+
+      /* ===== CTA SECTION ===== */
+      .cta-section {
+        padding: 4rem 1.5rem 6rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-text {
+        font-family: "Noto Serif JP", serif;
+        font-size: 1.125rem;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .cta-text.visible {
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      .cta-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .cta-buttons.visible {
+        animation: fadeInUp 0.6s ease 0.2s forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.875rem 2rem;
+        background: var(--primary);
+        color: white;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover {
+        background: #8a2c73;
+        box-shadow: 0 0 30px rgba(107, 32, 89, 0.4);
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.875rem 2rem;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        color: var(--text-dark);
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      /* Script tagline */
+      .script-tagline {
+        margin-top: 3rem;
+        font-family: "Have Heart One", cursive;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        color: var(--primary);
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .script-tagline.visible {
+        animation: fadeInUp 0.6s ease 0.4s forwards;
+      }
+
+      /* ===== FOOTER ===== */
+      .footer {
+        padding: 2rem 1.5rem;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .footer-logo {
+        height: 1.75rem;
+        width: auto;
+        margin-bottom: 1rem;
+      }
+
+      .footer-services {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+      }
+
+      .footer-copyright {
+        font-size: 0.625rem;
+        color: rgba(26, 26, 26, 0.3);
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .carousel {
+          height: 60vh;
+          min-height: 450px;
+        }
+
+        .carousel-slide {
+          width: 90%;
+        }
+
+        .carousel-slide.prev {
+          transform: translate(-110%, -50%) scale(0.7);
+          opacity: 0.2;
+        }
+
+        .carousel-slide.next {
+          transform: translate(10%, -50%) scale(0.7);
+          opacity: 0.2;
+        }
+
+        .slide-image {
+          height: 45%;
+        }
+
+        .slide-content {
+          padding: 1rem 1.25rem;
+        }
+
+        .project-number {
+          font-size: 2rem;
+        }
+
+        .carousel-controls {
+          bottom: 1rem;
+          gap: 1rem;
+        }
+
+        .carousel-btn {
+          width: 2.75rem;
+          height: 2.75rem;
+        }
+      }
+
+      /* ===== MOBILE MENU ===== */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: rgba(250, 247, 242, 0.98);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 1.5rem;
+        z-index: 99;
+      }
+
+      .mobile-menu.open {
+        display: block;
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 0.75rem 0;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .mobile-menu a:last-child {
+        border-bottom: none;
+      }
+
+      .mobile-menu a:hover {
+        color: var(--primary);
+      }
+
+      /* Placeholder for missing images */
+      .placeholder-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #2a1a35 0%, #1a1a2e 50%, #0f0f1a 100%);
+        color: rgba(255, 255, 255, 0.3);
+        font-family: "Hyperwave", sans-serif;
+        font-size: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .placeholder-image::before {
+        content: '';
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 10px,
+          rgba(107, 32, 89, 0.05) 10px,
+          rgba(107, 32, 89, 0.05) 20px
+        );
+        animation: patternMove 20s linear infinite;
+      }
+
+      @keyframes patternMove {
+        0% {
+          transform: translate(-50%, -50%);
+        }
+        100% {
+          transform: translate(0%, 0%);
+        }
+      }
+
+      .placeholder-image span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .placeholder-image .placeholder-sub {
+        font-family: "Noto Sans JP", sans-serif;
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+        opacity: 0.5;
+      }
+
+      /* Zoom badge for modal */
+      .zoom-badge {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+      }
+
+      .carousel-slide.active .slide-card:hover .zoom-badge {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .zoom-badge svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: var(--primary);
+      }
+
+      /* Clickable slide card */
+      .slide-card[data-modal-src] {
+        cursor: pointer;
+      }
+
+      /* Image Modal */
+      .image-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .image-modal.active {
+        display: flex;
+      }
+
+      .image-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .image-modal.active .image-modal-backdrop {
+        opacity: 1;
+      }
+
+      .image-modal-content {
+        position: relative;
+        max-width: 90vw;
+        max-height: 90vh;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .image-modal.active .image-modal-content {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .image-modal-img {
+        max-width: 100%;
+        max-height: 85vh;
+        object-fit: contain;
+        border-radius: 4px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      .image-modal-close {
+        position: absolute;
+        top: -3rem;
+        right: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .image-modal-close:hover {
+        background: white;
+        color: var(--text-dark);
+        border-color: white;
+      }
+
+      .image-modal-close svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      .image-modal-title {
+        position: absolute;
+        bottom: -2.5rem;
+        left: 0;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Floating Hyperwave Background -->
+    <div class="hyperwave-bg" aria-hidden="true">
+      <div class="hyperwave-float">Innovation Design Create Future Dreams</div>
+      <div class="hyperwave-float">Portfolio Works Craft Vision Build</div>
+      <div class="hyperwave-float">Technology Art Digital Experience</div>
+      <div class="hyperwave-float">Brave Inspire Evolve Transform</div>
+      <div class="hyperwave-float">Shine Rise Disrupt Leap Forward</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+      <div class="navbar-inner">
+        <a href="/" class="logo">
+          <img src="/images/brand-logo.png" alt="Yakaze Tech Studio" />
+        </a>
+        <div class="nav-links">
+          <a href="/#target">課題</a>
+          <a href="/#solution">ソリューション</a>
+          <a href="/#services">実績</a>
+          <a href="/#contact">お問い合わせ</a>
+        </div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="メニュー">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="/#target">課題</a>
+      <a href="/#solution">ソリューション</a>
+      <a href="/#services">実績</a>
+      <a href="/#contact">お問い合わせ</a>
+    </div>
+
+    <!-- Main Carousel Section -->
+    <section class="carousel-section">
+      <header class="carousel-header">
+        <span class="section-label">Track Record</span>
+        <h1 class="main-title">制作実績</h1>
+      </header>
+
+      <div class="carousel-container">
+        <div class="carousel">
+          <div class="carousel-track">
+            <!-- Slide 1 -->
+            <div class="carousel-slide active" data-index="0">
+              <article class="slide-card" data-modal-src="/signers.png" data-modal-title="signers - 手話通訳プラットフォーム">
+                <div class="slide-image">
+                  <img src="/signers.png" alt="signers - 手話通訳プラットフォーム" style="object-position: top;" />
+                  <span class="project-number">01</span>
+                  <div class="zoom-badge">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="slide-content">
+                  <span class="slide-tag">Web Service</span>
+                  <h3 class="slide-title">signers - 手話通訳プラットフォーム</h3>
+                  <p class="slide-description">いつでも、どこでも、手話通訳を。スマホから手話通訳者とつながる、オンデマンド手話通訳プラットフォーム。</p>
+                </div>
+              </article>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-slide next" data-index="1">
+              <article class="slide-card">
+                <div class="slide-image">
+                  <div class="placeholder-image">
+                    <span>Project 02</span>
+                    <span class="placeholder-sub">Mobile Application</span>
+                  </div>
+                  <span class="project-number">02</span>
+                </div>
+                <div class="slide-content">
+                  <span class="slide-tag">Mobile App</span>
+                  <h3 class="slide-title">フィットネス習慣化アプリ</h3>
+                  <p class="slide-description">iOS/Android両対応のフィットネスアプリ。ゲーミフィケーション要素で継続率を向上。リリース3ヶ月で5万DL達成。</p>
+                </div>
+              </article>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-slide" data-index="2">
+              <article class="slide-card">
+                <div class="slide-image">
+                  <div class="placeholder-image">
+                    <span>Project 03</span>
+                    <span class="placeholder-sub">AI / DX Solution</span>
+                  </div>
+                  <span class="project-number">03</span>
+                </div>
+                <div class="slide-content">
+                  <span class="slide-tag">AI / DX</span>
+                  <h3 class="slide-title">AI議事録自動生成システム</h3>
+                  <p class="slide-description">会議音声からAIが自動で議事録を生成。要点抽出とタスク割り当てまで自動化し、会議後の作業時間を80%削減しました。</p>
+                </div>
+              </article>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="carousel-slide prev" data-index="3">
+              <article class="slide-card">
+                <div class="slide-image">
+                  <div class="placeholder-image">
+                    <span>Project 04</span>
+                    <span class="placeholder-sub">E-Commerce</span>
+                  </div>
+                  <span class="project-number">04</span>
+                </div>
+                <div class="slide-content">
+                  <span class="slide-tag">E-Commerce</span>
+                  <h3 class="slide-title">D2Cブランド ECサイト</h3>
+                  <p class="slide-description">オーガニックコスメブランドのECサイト。ブランドの世界観を表現したデザインと、スムーズな購入体験でCVRを2.3倍に改善。</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Carousel Controls -->
+          <div class="carousel-controls">
+            <button class="carousel-btn prev-btn" aria-label="前へ">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div class="carousel-indicators">
+              <div class="indicator active" data-index="0"></div>
+              <div class="indicator" data-index="1"></div>
+              <div class="indicator" data-index="2"></div>
+              <div class="indicator" data-index="3"></div>
+            </div>
+            <button class="carousel-btn next-btn" aria-label="次へ">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <p class="cta-text">
+        あなたのプロジェクトも、<br class="md-hidden" />次の実績に加わりませんか？
+      </p>
+      <div class="cta-buttons">
+        <a href="/#contact" class="btn-primary">
+          お問い合わせ
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a href="/" class="btn-secondary">トップに戻る</a>
+      </div>
+      <p class="script-tagline">Create Something Amazing Together.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <a href="/">
+        <img src="/images/brand-logo.png" alt="Yakaze Tech Studio" class="footer-logo" />
+      </a>
+      <div class="footer-services">
+        <span>AI開発</span>
+        <span>・</span>
+        <span>受託開発</span>
+        <span>・</span>
+        <span>Webサービス</span>
+        <span>・</span>
+        <span>アプリ開発</span>
+      </div>
+      <div class="footer-copyright">All rights reserved &copy; Yakaze Tech Studio</div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+      <div class="image-modal-backdrop" id="imageModalBackdrop"></div>
+      <div class="image-modal-content">
+        <button class="image-modal-close" id="imageModalClose">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <img src="" alt="" class="image-modal-img" id="imageModalImg" />
+        <p class="image-modal-title" id="imageModalTitle"></p>
+      </div>
+    </div>
+
+    <script>
+      // Navbar scroll effect
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+      });
+
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+        });
+      });
+
+      // Carousel functionality
+      const slides = document.querySelectorAll('.carousel-slide');
+      const indicators = document.querySelectorAll('.indicator');
+      const prevBtn = document.querySelector('.prev-btn');
+      const nextBtn = document.querySelector('.next-btn');
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+      let isAnimating = false;
+      let autoPlayInterval;
+
+      function updateCarousel() {
+        slides.forEach((slide, index) => {
+          slide.classList.remove('active', 'prev', 'next');
+
+          if (index === currentIndex) {
+            slide.classList.add('active');
+          } else if (index === (currentIndex - 1 + totalSlides) % totalSlides) {
+            slide.classList.add('prev');
+          } else if (index === (currentIndex + 1) % totalSlides) {
+            slide.classList.add('next');
+          }
+        });
+
+        indicators.forEach((indicator, index) => {
+          indicator.classList.toggle('active', index === currentIndex);
+        });
+      }
+
+      function goToSlide(index) {
+        if (isAnimating || index === currentIndex) return;
+        isAnimating = true;
+        currentIndex = index;
+        updateCarousel();
+        setTimeout(() => {
+          isAnimating = false;
+        }, 800);
+        resetAutoPlay();
+      }
+
+      function nextSlide() {
+        goToSlide((currentIndex + 1) % totalSlides);
+      }
+
+      function prevSlide() {
+        goToSlide((currentIndex - 1 + totalSlides) % totalSlides);
+      }
+
+      // Event listeners
+      nextBtn.addEventListener('click', nextSlide);
+      prevBtn.addEventListener('click', prevSlide);
+
+      indicators.forEach(indicator => {
+        indicator.addEventListener('click', () => {
+          const index = parseInt(indicator.dataset.index);
+          goToSlide(index);
+        });
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+      });
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+      const carousel = document.querySelector('.carousel');
+
+      carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, { passive: true });
+
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+      }
+
+      // Auto-play
+      function startAutoPlay() {
+        autoPlayInterval = setInterval(nextSlide, 6000);
+      }
+
+      function resetAutoPlay() {
+        clearInterval(autoPlayInterval);
+        startAutoPlay();
+      }
+
+      // Pause on hover
+      carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoPlayInterval);
+      });
+
+      carousel.addEventListener('mouseleave', () => {
+        startAutoPlay();
+      });
+
+      // Initialize
+      startAutoPlay();
+
+      // CTA section scroll animation
+      const ctaText = document.querySelector('.cta-text');
+      const ctaButtons = document.querySelector('.cta-buttons');
+      const scriptTagline = document.querySelector('.script-tagline');
+
+      const ctaObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.3 });
+
+      ctaObserver.observe(ctaText);
+      ctaObserver.observe(ctaButtons);
+      ctaObserver.observe(scriptTagline);
+
+      // Image Modal functionality
+      const imageModal = document.getElementById('imageModal');
+      const imageModalBackdrop = document.getElementById('imageModalBackdrop');
+      const imageModalClose = document.getElementById('imageModalClose');
+      const imageModalImg = document.getElementById('imageModalImg');
+      const imageModalTitle = document.getElementById('imageModalTitle');
+
+      // Get all clickable slide cards with modal data
+      const modalCards = document.querySelectorAll('.slide-card[data-modal-src]');
+
+      modalCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const src = card.dataset.modalSrc;
+          const title = card.dataset.modalTitle || '';
+
+          imageModalImg.src = src;
+          imageModalImg.alt = title;
+          imageModalTitle.textContent = title;
+
+          imageModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      function closeImageModal() {
+        imageModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      imageModalClose.addEventListener('click', closeImageModal);
+      imageModalBackdrop.addEventListener('click', closeImageModal);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) {
+          closeImageModal();
+        }
+      });
+    </script>
+  </body>
+</html>
