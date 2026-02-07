@@ -13,7 +13,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        icons: 'xylph-icons.html'
+        icons: 'xylph-icons.html',
+        privacy: 'privacy-policy.html'
       }
     }
   }
