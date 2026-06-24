@@ -3,6 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Analytics 4（G-MK9CPVBVQ3・公開 ID・サイト固定）。anonymize_ip でIP匿名化。 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MK9CPVBVQ3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MK9CPVBVQ3', { anonymize_ip: true });
+    </script>
+
     <title>Yakaze Tech Studio | 試着して育てる開発</title>
     <meta name="description" content="Yakaze Tech Studioは「試着して育てる開発」で、Webサービス・iOS/Androidアプリ・AI導入を支援。動くものを触りながら一緒に育てる次世代アプローチ。東京都TIB Studio採択。" />
     <meta name="keywords" content="アプリ開発,Webサービス開発,受託開発,AI開発,DX推進,iOS開発,Android開発,MVP開発,スタートアップ,東京" />
@@ -358,6 +368,46 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open Products Section -->
+    <section id="products" class="py-20 md:py-24 relative overflow-hidden">
+      <div class="absolute left-10 md:left-24 top-12 hyperwave-deco text-[3.5rem] md:text-[6rem]" style="transform: rotate(-7deg)">Ship</div>
+      <div class="max-w-5xl mx-auto px-6 relative z-10">
+        <div class="reveal text-center max-w-2xl mx-auto mb-10 relative">
+          <span class="section-label text-lg md:text-xl">Open Products</span>
+          <h2 class="font-serif text-2xl md:text-3xl font-medium mt-3 mb-4 tracking-tight">つくって、公開しています</h2>
+          <p class="text-sm text-base/55 leading-relaxed">受託で培った技術で、事業者向けの無料Webツールと、開発者向けのオープンソースを公開しています。動くもので、私たちの「作れる」を確かめてください。</p>
+        </div>
+        <div class="reveal grid md:grid-cols-2 gap-4">
+          <!-- ヤカゼ製作所 -->
+          <a href="https://apps.yakaze.com" target="_blank" rel="noopener" class="flat-hover group block border border-border overflow-hidden" style="background-color: #fefdfb">
+            <div class="overflow-hidden border-b border-border-light" style="aspect-ratio: 16/9">
+              <img src="/images/shot-event-radar.png" alt="ヤカゼ製作所のツール" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
+            </div>
+            <div class="p-5">
+              <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">事業者向け・無料Webツール</p>
+              <h3 class="font-serif text-lg font-medium mb-1 flex items-center gap-1.5">ヤカゼ製作所
+                <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </h3>
+              <p class="text-xs text-base/50 leading-relaxed">イノベーションレーダーをはじめ、無料で使えるWebツールを公開しています。</p>
+            </div>
+          </a>
+          <!-- Sparrowhawk Labs -->
+          <a href="https://sparrowhawk-labs.dev" target="_blank" rel="noopener" class="flat-hover group block border border-border overflow-hidden" style="background-color: #fefdfb">
+            <div class="overflow-hidden border-b border-border-light" style="aspect-ratio: 16/9">
+              <img src="/images/shot-pinion-ui.png" alt="Sparrowhawk Labs のOSS" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
+            </div>
+            <div class="p-5">
+              <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">開発者向け・オープンソース</p>
+              <h3 class="font-serif text-lg font-medium mb-1 flex items-center gap-1.5">Sparrowhawk&nbsp;Labs
+                <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </h3>
+              <p class="text-xs text-base/50 leading-relaxed">pinion-ui / pinion-icons など、開発で磨いた技術をOSSとして公開しています。</p>
+            </div>
+          </a>
         </div>
       </div>
     </section>
@@ -777,6 +827,8 @@
           </div>
           <!-- Links -->
           <div class="flex items-center gap-4 text-[10px] text-base/40">
+            <a href="https://apps.yakaze.com" target="_blank" rel="noopener" class="hover:text-primary transition-colors">ヤカゼ製作所</a>
+            <a href="https://sparrowhawk-labs.dev" target="_blank" rel="noopener" class="hover:text-primary transition-colors">Sparrowhawk Labs</a>
             <a href="/privacy-policy" class="hover:text-primary transition-colors">プライバシーポリシー</a>
           </div>
           <!-- Copyright -->
