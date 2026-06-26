@@ -376,38 +376,64 @@
     <section id="products" class="py-20 md:py-24 relative overflow-hidden">
       <div class="absolute left-10 md:left-24 top-12 hyperwave-deco text-[3.5rem] md:text-[6rem]" style="transform: rotate(-7deg)">Ship</div>
       <div class="max-w-5xl mx-auto px-6 relative z-10">
-        <div class="reveal text-center max-w-2xl mx-auto mb-10 relative">
-          <span class="section-label text-lg md:text-xl">Open Products</span>
-          <h2 class="font-serif text-2xl md:text-3xl font-medium mt-3 mb-4 tracking-tight">つくって、公開しています</h2>
-          <p class="text-sm text-base/55 leading-relaxed">受託で培った技術で、事業者向けの無料Webツールと、開発者向けのオープンソースを公開しています。動くもので、私たちの「作れる」を確かめてください。</p>
-        </div>
-        <div class="reveal grid md:grid-cols-2 gap-4">
-          <!-- ヤカゼ製作所 -->
-          <a href="https://apps.yakaze.com" target="_blank" rel="noopener" class="flat-hover group block border border-border overflow-hidden" style="background-color: #fefdfb">
-            <div class="overflow-hidden border-b border-border-light" style="aspect-ratio: 16/9">
-              <img src="/images/shot-event-radar.png" alt="ヤカゼ製作所のツール" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
+        <div class="grid md:grid-cols-[2fr_3fr] gap-10 md:gap-12 items-start">
+          <!-- Left - Heading -->
+          <div class="reveal relative">
+            <span class="section-label op-eyebrow text-lg md:text-xl">Open Products
+              <svg class="op-swoosh" viewBox="0 0 320 20" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M3 14 C 70 6, 150 5, 208 10 C 248 13, 288 11, 315 6" />
+              </svg>
+            </span>
+            <h2 class="font-serif text-2xl md:text-3xl font-medium mt-3 mb-4 tracking-tight">つくって、公開しています</h2>
+            <p class="text-sm text-base/55 leading-relaxed">受託で培った技術で、事業者向けの無料Webツールと、開発者向けのオープンソースを公開しています。動くもので、私たちの「作れる」を確かめてください。</p>
+          </div>
+
+          <!-- Right - Stacked Cards -->
+          <div class="reveal space-y-5 md:space-y-6">
+            <!-- YAKAZE TECH GARAGE -->
+            <div class="op-card-wrap group relative">
+              <a href="/apps/" class="flat-hover relative flex flex-col sm:flex-row border border-border overflow-hidden" style="background-color: #fefdfb">
+                <div class="overflow-hidden border-b sm:border-b-0 sm:border-r border-border-light sm:w-[42%] sm:flex-shrink-0" style="aspect-ratio: 16/9">
+                  <img src="/images/shot-tech-garage.jpg" alt="YAKAZE TECH GARAGE（yakaze.com/apps）の画面" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
+                </div>
+                <div class="p-5 flex flex-col justify-center">
+                  <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">事業者向け・無料Webツール</p>
+                  <span class="op-title-wrap relative inline-block self-start mb-1">
+                    <h3 class="font-serif text-lg font-medium flex items-center gap-1.5">YAKAZE&nbsp;TECH&nbsp;GARAGE
+                      <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    </h3>
+                    <svg class="op-sketch op-title-underline" viewBox="0 0 220 12" preserveAspectRatio="none" aria-hidden="true">
+                      <path class="op-stroke" d="M2 7 C 54 2, 130 2, 176 6 C 198 8, 210 7, 218 4" />
+                    </svg>
+                  </span>
+                  <p class="text-xs text-base/50 leading-relaxed">イノベーションレーダーをはじめ、無料で使えるWebツールを公開しています。</p>
+                </div>
+              </a>
+              <span class="op-tag op-tag-a">try it</span>
             </div>
-            <div class="p-5">
-              <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">事業者向け・無料Webツール</p>
-              <h3 class="font-serif text-lg font-medium mb-1 flex items-center gap-1.5">ヤカゼ製作所
-                <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </h3>
-              <p class="text-xs text-base/50 leading-relaxed">イノベーションレーダーをはじめ、無料で使えるWebツールを公開しています。</p>
+
+            <!-- Sparrowhawk Labs -->
+            <div class="op-card-wrap group relative">
+              <a href="https://sparrowhawk-labs.dev" target="_blank" rel="noopener" class="flat-hover relative flex flex-col sm:flex-row border border-border overflow-hidden" style="background-color: #fefdfb">
+                <div class="overflow-hidden border-b sm:border-b-0 sm:border-r border-border-light sm:w-[42%] sm:flex-shrink-0" style="aspect-ratio: 16/9">
+                  <img src="/images/shot-pinion-ui.jpg" alt="Sparrowhawk Labs のOSS（pinion-ui playground）の画面" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
+                </div>
+                <div class="p-5 flex flex-col justify-center">
+                  <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">開発者向け・オープンソース</p>
+                  <span class="op-title-wrap relative inline-block self-start mb-1">
+                    <h3 class="font-serif text-lg font-medium flex items-center gap-1.5">Sparrowhawk&nbsp;Labs
+                      <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    </h3>
+                    <svg class="op-sketch op-title-underline" viewBox="0 0 220 12" preserveAspectRatio="none" aria-hidden="true">
+                      <path class="op-stroke" d="M2 7 C 54 2, 130 2, 176 6 C 198 8, 210 7, 218 4" />
+                    </svg>
+                  </span>
+                  <p class="text-xs text-base/50 leading-relaxed">pinion-ui / pinion-icons など、開発で磨いた技術をOSSとして公開しています。</p>
+                </div>
+              </a>
+              <span class="op-tag op-tag-b">open source</span>
             </div>
-          </a>
-          <!-- Sparrowhawk Labs -->
-          <a href="https://sparrowhawk-labs.dev" target="_blank" rel="noopener" class="flat-hover group block border border-border overflow-hidden" style="background-color: #fefdfb">
-            <div class="overflow-hidden border-b border-border-light" style="aspect-ratio: 16/9">
-              <img src="/images/shot-pinion-ui.png" alt="Sparrowhawk Labs のOSS" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
-            </div>
-            <div class="p-5">
-              <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">開発者向け・オープンソース</p>
-              <h3 class="font-serif text-lg font-medium mb-1 flex items-center gap-1.5">Sparrowhawk&nbsp;Labs
-                <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </h3>
-              <p class="text-xs text-base/50 leading-relaxed">pinion-ui / pinion-icons など、開発で磨いた技術をOSSとして公開しています。</p>
-            </div>
-          </a>
+          </div>
         </div>
       </div>
     </section>
@@ -827,7 +853,7 @@
           </div>
           <!-- Links -->
           <div class="flex items-center gap-4 text-[10px] text-base/40">
-            <a href="https://apps.yakaze.com" target="_blank" rel="noopener" class="hover:text-primary transition-colors">ヤカゼ製作所</a>
+            <a href="/apps/" class="hover:text-primary transition-colors">YAKAZE TECH GARAGE</a>
             <a href="https://sparrowhawk-labs.dev" target="_blank" rel="noopener" class="hover:text-primary transition-colors">Sparrowhawk Labs</a>
             <a href="/privacy-policy" class="hover:text-primary transition-colors">プライバシーポリシー</a>
           </div>
@@ -1005,6 +1031,19 @@
       closeBookingX.addEventListener("click", closeModal);
       closeBookingBtn.addEventListener("click", closeModal);
       bookingOverlay.addEventListener("click", closeModal);
+
+      // Open Products: derive exact dash length so the hand-drawn underline
+      // reveal (draw-on-hover) is precise instead of a guessed dasharray.
+      document.querySelectorAll(".op-sketch .op-stroke").forEach((el) => {
+        try {
+          const len = el.getTotalLength();
+          if (len && isFinite(len) && len > 0) {
+            el.style.setProperty("--len", len.toFixed(1) + "px");
+          }
+        } catch (e) {
+          el.style.setProperty("--len", "240px");
+        }
+      });
 
       // Close on Escape key
       document.addEventListener("keydown", (e) => {

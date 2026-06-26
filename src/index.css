@@ -222,3 +222,110 @@ html {
 .modal-link-btn:hover .modal-link-badge {
   opacity: 1;
 }
+
+/* ──────────────────────────────────────────────────────────────
+   Open Products — Layered Sketch (hand-drawn pink accents)
+   Tones reuse the LP palette: plum-pink ink #6b2059 + stroke #d65fae.
+   ────────────────────────────────────────────────────────────── */
+
+/* Hand-drawn eyebrow: plum ink + swoosh that draws in when revealed */
+.op-eyebrow {
+  position: relative;
+  color: #6b2059;
+}
+.op-swoosh {
+  position: absolute;
+  left: -2px;
+  right: -14px;
+  bottom: -9px;
+  height: 14px;
+  overflow: visible;
+  pointer-events: none;
+}
+.op-swoosh path {
+  fill: none;
+  stroke: #d65fae;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 340;
+  stroke-dashoffset: 340;
+}
+.revealed .op-swoosh path {
+  animation: opDraw 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards;
+}
+@keyframes opDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Card title underline: drawn in on hover/focus via getTotalLength dasharray */
+.op-title-underline {
+  position: absolute;
+  left: -2px;
+  bottom: -5px;
+  width: calc(100% + 6px);
+  height: 11px;
+  overflow: visible;
+  pointer-events: none;
+}
+.op-sketch path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.op-stroke {
+  stroke: #d65fae;
+  stroke-width: 2.4;
+  stroke-dasharray: var(--len, 240);
+  stroke-dashoffset: var(--len, 240);
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.op-card-wrap:hover .op-stroke,
+.op-card-wrap:focus-within .op-stroke {
+  stroke-dashoffset: 0;
+}
+
+/* Floating handwriting tag — pops on hover */
+.op-tag {
+  position: absolute;
+  z-index: 4;
+  top: -14px;
+  right: 16px;
+  pointer-events: none;
+  font-family: "Have Heart One", cursive;
+  color: #6b2059;
+  font-size: 1.35rem;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.45s ease 0.1s,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+.op-tag-a {
+  transform: rotate(-7deg) translateY(6px);
+}
+.op-tag-b {
+  transform: rotate(6deg) translateY(6px);
+}
+.op-card-wrap:hover .op-tag-a,
+.op-card-wrap:focus-within .op-tag-a {
+  opacity: 1;
+  transform: rotate(-7deg) translateY(0);
+}
+.op-card-wrap:hover .op-tag-b,
+.op-card-wrap:focus-within .op-tag-b {
+  opacity: 1;
+  transform: rotate(6deg) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .op-swoosh path,
+  .op-stroke {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .op-tag {
+    opacity: 1 !important;
+  }
+}
