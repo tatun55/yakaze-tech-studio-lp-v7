@@ -329,3 +329,129 @@ html {
     opacity: 1 !important;
   }
 }
+
+/* ──────────────────────────────────────────────────────────────
+   Comparison modal — Positioning Map (replaces the verbose table)
+   X = price (left:high → right:low) · Y = 10-year value (low → high)
+   ────────────────────────────────────────────────────────────── */
+.pmap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #fefdfb;
+  border: 1px solid var(--color-border);
+  background-image:
+    linear-gradient(to right, rgba(224, 213, 199, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(224, 213, 199, 0.4) 1px, transparent 1px);
+  background-size: 12.5% 12.5%;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .pmap {
+    aspect-ratio: 4 / 3;
+  }
+}
+/* center cross (the two axes) */
+.pmap::before,
+.pmap::after {
+  content: "";
+  position: absolute;
+  background: rgba(176, 156, 132, 0.55);
+  pointer-events: none;
+}
+.pmap::before {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+}
+.pmap::after {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+}
+
+/* a plotted point is a zero-size anchor placed at left%/bottom% */
+.pmap-pt {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.pmap-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 9999px;
+  background: currentColor;
+}
+.pmap-name {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  font-family: var(--font-family-serif);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-base);
+}
+
+/* Yakaze emphasis: larger dot + ring + soft pulse */
+.pmap-dot-hero {
+  width: 18px;
+  height: 18px;
+}
+.pmap-dot-hero::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  border: 1.5px solid currentColor;
+  opacity: 0.45;
+}
+.pmap-pulse {
+  animation: pmapPulse 2.4s ease-in-out infinite;
+}
+@keyframes pmapPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(107, 32, 89, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 11px rgba(107, 32, 89, 0);
+  }
+}
+.pmap-name-hero {
+  color: #6b2059;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* y-axis title, vertical Japanese text (upright, top-to-bottom) */
+.pmap-yaxis {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* small square legend swatch */
+.pmap-key {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pmap-pulse {
+    animation: none !important;
+  }
+}
