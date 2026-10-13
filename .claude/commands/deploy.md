@@ -37,7 +37,7 @@ cd /Users/a_t/project/yakaze-tech-studio-lp-v2
 npm run build
 
 # dist/の中身をS3のルートにデプロイ
-aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete --exclude "apps/*" --exclude "founder-compass/*"
+aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete --exclude "apps/*" --exclude "founder-compass*"
 ```
 
 ## 3. CloudFrontキャッシュ無効化

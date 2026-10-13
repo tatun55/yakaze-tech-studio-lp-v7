@@ -24,7 +24,7 @@ cd /Users/a_t/project/yakaze-tech-studio-lp-v7
 npm run build
 
 # dist/の中身をS3のルートにデプロイ
-aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete --exclude "apps/*" --exclude "founder-compass/*"
+aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete --exclude "apps/*" --exclude "founder-compass*"
 ```
 
 ### 2. CloudFrontキャッシュ無効化
@@ -48,7 +48,7 @@ aws cloudfront get-invalidation \
 ## ワンライナーデプロイ
 
 ```bash
-npm run build && aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete --exclude "apps/*" --exclude "founder-compass/*" && aws cloudfront create-invalidation --distribution-id E1SAT32F3UX5E1 --paths "/*"
+npm run build && aws s3 sync dist/ s3://yakaze-tech-studio-lp/ --delete --exclude "apps/*" --exclude "founder-compass*" && aws cloudfront create-invalidation --distribution-id E1SAT32F3UX5E1 --paths "/*"
 ```
 
 ## GitHubリポジトリ
@@ -68,5 +68,5 @@ npm run dev
 - フォントファイルは `/fonts/` ディレクトリ
 - 画像は `/images/` ディレクトリ
 - 外部サービス: Web3Forms（問い合わせ）, TimeRex（予約）
-- **`founder-compass/` プレフィックスも別管理**（`yakaze.com/founder-compass/` = 診断「ファウンダー・コンパス」、repo=~/project/founder-pain-survey の `./build.sh --publish` と集計 `scripts/build_stats.py`）。`apps/*` と同じく **`--exclude "founder-compass/*"` を必ず付ける**（2026-10-13 追加）
+- **`founder-compass/` プレフィックスと `founder-compass.html`（末尾 / なしの転送）も別管理**（`yakaze.com/founder-compass/` = 診断「ファウンダー・コンパス」、repo=~/project/founder-pain-survey の `./build.sh --publish` と集計 `scripts/build_stats.py`）。`apps/*` と同じく **`--exclude "founder-compass*"` を必ず付ける**（2026-10-13 追加）
 - **`apps/` プレフィックスは別管理**（`yakaze.com/apps` = 案1 ORBIT 3Dリンク集、repo=yakaze-seisakusho）。本LPの `npm run build` の `dist/` には含まれないため、**`s3 sync --delete` で消さないよう必ず `--exclude "apps/*"` を付ける**（過去に未指定で apps/ を全削除した事故あり）。apps の更新は別途 `aws s3 sync <apps-dist>/ s3://yakaze-tech-studio-lp/apps/` → `cloudfront create-invalidation --paths "/apps/*"`。
