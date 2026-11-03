@@ -289,6 +289,44 @@
       </div>
     </section>
 
+    <!-- Try-on Video Section -->
+    <section id="video" class="py-12 md:py-16 relative overflow-hidden">
+      <div class="absolute right-10 md:right-24 top-8 hyperwave-deco text-[3.5rem] md:text-[6rem]" style="transform: rotate(6deg)">Play</div>
+      <div class="max-w-5xl mx-auto px-6 relative z-10">
+        <div class="grid md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-center">
+          <!-- Left - Heading -->
+          <div class="reveal relative">
+            <span class="section-label op-eyebrow text-lg md:text-xl">In 15 Seconds
+              <svg class="op-swoosh" viewBox="0 0 320 20" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M3 14 C 70 6, 150 5, 208 10 C 248 13, 288 11, 315 6" />
+              </svg>
+            </span>
+            <h2 class="font-serif text-2xl md:text-3xl font-medium mt-3 tracking-tight">15秒で分かる動画</h2>
+          </div>
+          <!-- Right - Card: opens #tryon-video-modal. The mp4 is only requested when the modal opens -->
+          <div class="reveal flex md:justify-end">
+            <button id="open-tryon-video" type="button" class="tv-card flat-hover group relative flex w-full max-w-md text-left border border-border overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" style="background-color: #fefdfb" aria-haspopup="dialog" aria-controls="tryon-video-modal">
+              <span class="relative block w-[46%] flex-shrink-0 overflow-hidden border-r border-border-light" style="aspect-ratio: 16/9">
+                <img src="/videos/shichaku-card.jpg" alt="" width="640" height="360" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+                <span class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                  <span class="tv-play-mark">
+                    <svg class="w-3.5 h-3.5 ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z" /></svg>
+                  </span>
+                </span>
+              </span>
+              <span class="flex flex-col justify-center min-w-0 p-4 md:px-5">
+                <span class="text-[10px] text-base/40 tracking-wide mb-1">この開発の進め方を</span>
+                <span class="font-serif text-base md:text-lg font-medium flex items-center gap-1.5">15 秒で見る
+                  <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </span>
+                <span class="text-xs text-base/50 leading-relaxed mt-1">音声はオフで始まります</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Services Section - 実績 -->
     <section id="services" class="py-20 md:py-24 relative overflow-hidden">
       <!-- Hyperwave background decoration -->
@@ -385,31 +423,53 @@
               </svg>
             </span>
             <h2 class="font-serif text-2xl md:text-3xl font-medium mt-3 mb-4 tracking-tight">公開中のプロダクト</h2>
-            <p class="text-sm text-base/55 leading-relaxed">受託開発で得た技術を活かして、無料で使えるWebツールやオープンソースを公開しています。</p>
+            <p class="text-sm text-base/55 leading-relaxed">受託開発で得た技術を活かして、Webサービスやオープンソースを公開しています。</p>
           </div>
 
           <!-- Right - Stacked Cards -->
           <div class="reveal space-y-5 md:space-y-6">
-            <!-- YAKAZE TECH GARAGE -->
+            <!-- SendSignal -->
             <div class="op-card-wrap group relative">
-              <a href="/apps/" class="flat-hover relative flex flex-col sm:flex-row border border-border overflow-hidden" style="background-color: #fefdfb">
+              <a href="https://sendsignal.yakaze.com" target="_blank" rel="noopener" class="flat-hover relative flex flex-col sm:flex-row border border-border overflow-hidden" style="background-color: #fefdfb">
                 <div class="overflow-hidden border-b sm:border-b-0 sm:border-r border-border-light sm:w-[42%] sm:flex-shrink-0" style="aspect-ratio: 16/9">
-                  <img src="/images/shot-tech-garage.jpg" alt="YAKAZE TECH GARAGE（yakaze.com/apps）の画面" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
+                  <img src="/images/shot-sendsignal.jpg" alt="SendSignal（sendsignal.yakaze.com）の画面" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
                 </div>
                 <div class="p-5 flex flex-col justify-center">
-                  <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">事業者向け・無料Webツール</p>
+                  <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">事業者向け・Webサービス（β）</p>
                   <span class="op-title-wrap relative inline-block self-start mb-1">
-                    <h3 class="font-serif text-lg font-medium flex items-center gap-1.5">YAKAZE&nbsp;TECH&nbsp;GARAGE
+                    <h3 class="font-serif text-lg font-medium flex items-center gap-1.5">SendSignal
                       <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                     </h3>
                     <svg class="op-sketch op-title-underline" viewBox="0 0 220 12" preserveAspectRatio="none" aria-hidden="true">
                       <path class="op-stroke" d="M2 7 C 54 2, 130 2, 176 6 C 198 8, 210 7, 218 4" />
                     </svg>
                   </span>
-                  <p class="text-xs text-base/50 leading-relaxed">イノベーションレーダーをはじめ、無料で使えるWebツールを公開しています。</p>
+                  <p class="text-xs text-base/50 leading-relaxed">SNS投稿や社外向けの文章を外に出す前に、危ない箇所をAIが見つけます。</p>
                 </div>
               </a>
               <span class="op-tag op-tag-a">try it</span>
+            </div>
+
+            <!-- イノベーションレーダー -->
+            <div class="op-card-wrap group relative">
+              <a href="https://innovation-radar.run" target="_blank" rel="noopener" class="flat-hover relative flex flex-col sm:flex-row border border-border overflow-hidden" style="background-color: #fefdfb">
+                <div class="overflow-hidden border-b sm:border-b-0 sm:border-r border-border-light sm:w-[42%] sm:flex-shrink-0" style="aspect-ratio: 16/9">
+                  <img src="/images/shot-innovation-radar.jpg" alt="イノベーションレーダー（innovation-radar.run）の画面" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]" />
+                </div>
+                <div class="p-5 flex flex-col justify-center">
+                  <p class="text-[10px] text-base/40 uppercase tracking-wide mb-1">起業家向け・イベント情報</p>
+                  <span class="op-title-wrap relative inline-block self-start mb-1">
+                    <h3 class="font-serif text-lg font-medium flex items-center gap-1.5">イノベーションレーダー
+                      <svg class="h-4 w-4 text-base/30 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    </h3>
+                    <svg class="op-sketch op-title-underline" viewBox="0 0 220 12" preserveAspectRatio="none" aria-hidden="true">
+                      <path class="op-stroke" d="M2 7 C 54 2, 130 2, 176 6 C 198 8, 210 7, 218 4" />
+                    </svg>
+                  </span>
+                  <p class="text-xs text-base/50 leading-relaxed">起業・新規事業・AIなどのイベントや交流会を厳選し、時系列で届けています。</p>
+                </div>
+              </a>
+              <span class="op-tag op-tag-b">take a look</span>
             </div>
 
             <!-- Sparrowhawk Labs -->
@@ -638,8 +698,8 @@
       <!-- Overlay -->
       <div id="comparison-modal-overlay" class="modal-backdrop absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
       <!-- Modal Content -->
-      <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div id="comparison-modal-content" class="modal-content relative w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-border" style="background-color: #faf7f2">
+      <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+        <div id="comparison-modal-content" class="pointer-events-auto modal-content relative w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-border" style="background-color: #faf7f2">
           <!-- Close Button (Top Right) -->
           <button id="close-comparison-modal-x" class="absolute top-5 right-5 z-10 w-8 h-8 flex items-center justify-center text-base/30 hover:text-base/60 transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -724,6 +784,42 @@
       </div>
     </div>
 
+    <!-- Try-on Video Modal: one <video>, src/poster are set by JS on open (16:9 on md+, 9:16 below) -->
+    <div id="tryon-video-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-label="試着して育てる開発の紹介動画（15 秒）">
+      <!-- Overlay -->
+      <div id="tryon-video-overlay" class="modal-backdrop absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+      <!-- Modal Content -->
+      <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+        <div id="tryon-video-content" class="modal-content tv-box relative pointer-events-auto" data-orient="landscape">
+          <!-- Close (sits above the box, on the backdrop) -->
+          <button id="close-tryon-video" type="button" class="absolute -top-10 right-0 w-8 h-8 flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="閉じる">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <!-- Stage -->
+          <div class="tv-stage relative">
+            <video id="tryon-video" class="tv-video" muted playsinline preload="none" aria-label="試着して育てる開発を説明する 15 秒の動画。字幕つき"></video>
+          </div>
+
+          <!-- Controls -->
+          <div class="tv-bar flex items-center justify-between gap-3 px-3 py-2.5 border-t border-border" style="background-color: #faf7f2">
+            <button id="tryon-video-sound" type="button" class="tv-sound" aria-pressed="false">
+              <svg class="tv-ico-off w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 5 6 9H3v6h3l5 4z" /><path d="M22 9l-6 6M16 9l6 6" />
+              </svg>
+              <svg class="tv-ico-on w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
+              </svg>
+              <span class="tv-sound-label">音声をオンにする</span>
+            </button>
+            <button id="tryon-video-toggle" type="button" class="px-2 py-1 text-xs text-base/55 hover:text-base/90 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">一時停止</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Booking Modal -->
     <div id="booking-modal" class="fixed inset-0 z-[100] hidden">
       <!-- Overlay -->
@@ -772,7 +868,8 @@
           </div>
           <!-- Links -->
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] text-base/40">
-            <a href="/apps/" class="hover:text-primary transition-colors">YAKAZE TECH GARAGE</a>
+            <a href="https://sendsignal.yakaze.com" target="_blank" rel="noopener" class="hover:text-primary transition-colors">SendSignal</a>
+            <a href="https://innovation-radar.run" target="_blank" rel="noopener" class="hover:text-primary transition-colors">イノベーションレーダー</a>
             <a href="https://vectl.ai" target="_blank" rel="noopener" class="hover:text-primary transition-colors">VectL</a>
             <a href="https://vectl.ai/blog" target="_blank" rel="noopener" class="hover:text-primary transition-colors">VectL Magazine</a>
             <a href="https://sparrowhawk-labs.dev" target="_blank" rel="noopener" class="hover:text-primary transition-colors">Sparrowhawk Labs</a>
@@ -931,6 +1028,123 @@
       closeComparisonBtn.addEventListener("click", closeComparisonModal);
       comparisonOverlay.addEventListener("click", closeComparisonModal);
 
+      // Try-on Video Modal
+      // One <video>; src/poster are chosen by viewport width on open, removed on close so nothing stays loaded.
+      const tvModal = document.getElementById("tryon-video-modal");
+      const tvOpenBtn = document.getElementById("open-tryon-video");
+      const tvCloseBtn = document.getElementById("close-tryon-video");
+      const tvOverlay = document.getElementById("tryon-video-overlay");
+      const tvContent = document.getElementById("tryon-video-content");
+      const tvVideo = document.getElementById("tryon-video");
+      const tvSoundBtn = document.getElementById("tryon-video-sound");
+      const tvSoundLabel = tvSoundBtn.querySelector(".tv-sound-label");
+      const tvToggleBtn = document.getElementById("tryon-video-toggle");
+      const tvSources = {
+        landscape: { src: "/videos/shichaku-16x9.mp4", poster: "/videos/shichaku-16x9-poster.jpg" },
+        portrait: { src: "/videos/shichaku-9x16.mp4", poster: "/videos/shichaku-9x16-poster.jpg" },
+      };
+      const tvReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let tvLastFocus = null;
+
+      function tvIsOpen() {
+        return !tvModal.classList.contains("hidden");
+      }
+
+      function tvSetSound(on) {
+        tvVideo.muted = !on;
+        tvSoundBtn.classList.toggle("is-on", on);
+        tvSoundBtn.setAttribute("aria-pressed", on ? "true" : "false");
+        tvSoundLabel.textContent = on ? "音声をオフにする" : "音声をオンにする";
+      }
+
+      function tvUpdateToggle() {
+        tvToggleBtn.textContent = tvVideo.ended ? "もう一度見る" : tvVideo.paused ? "再生" : "一時停止";
+      }
+
+      function tvPlayPause() {
+        if (tvVideo.ended) {
+          tvVideo.currentTime = 0;
+          tvVideo.play().catch(() => {});
+        } else if (tvVideo.paused) {
+          tvVideo.play().catch(() => {});
+        } else {
+          tvVideo.pause();
+        }
+      }
+
+      function openTryonVideo() {
+        const orient = window.matchMedia("(min-width: 768px)").matches ? "landscape" : "portrait";
+        tvContent.dataset.orient = orient;
+        tvVideo.poster = tvSources[orient].poster;
+        tvVideo.src = tvSources[orient].src;
+        tvSetSound(false);
+        tvLastFocus = document.activeElement;
+        tvModal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        void tvOverlay.offsetWidth;
+        requestAnimationFrame(() => {
+          tvOverlay.classList.add("active");
+          tvContent.classList.add("active");
+        });
+        tvVideo.play().catch(() => {});
+        tvUpdateToggle();
+        tvSoundBtn.focus();
+      }
+
+      function closeTryonVideo() {
+        if (!tvIsOpen()) return;
+        tvVideo.pause();
+        tvVideo.removeAttribute("src");
+        tvVideo.removeAttribute("poster");
+        tvVideo.load(); // stops the download and resets to the first frame
+        tvSetSound(false);
+        tvModal.classList.add("modal-closing");
+        tvOverlay.classList.remove("active");
+        tvContent.classList.remove("active");
+        const finish = () => {
+          tvModal.classList.add("hidden");
+          tvModal.classList.remove("modal-closing");
+          document.body.style.overflow = "";
+          (tvLastFocus || tvOpenBtn).focus();
+        };
+        if (tvReduceMotion.matches) finish();
+        else setTimeout(finish, 300);
+      }
+
+      tvOpenBtn.addEventListener("click", openTryonVideo);
+      tvCloseBtn.addEventListener("click", closeTryonVideo);
+      tvOverlay.addEventListener("click", closeTryonVideo);
+      tvVideo.addEventListener("click", tvPlayPause);
+      tvToggleBtn.addEventListener("click", tvPlayPause);
+      ["play", "pause", "ended"].forEach((ev) => tvVideo.addEventListener(ev, tvUpdateToggle));
+      tvSoundBtn.addEventListener("click", () => {
+        const on = tvVideo.muted;
+        tvSetSound(on);
+        // The clip is 15 s with narration: turning sound on restarts it so nothing is missed
+        if (on) {
+          tvVideo.currentTime = 0;
+          tvVideo.play().catch(() => {});
+        }
+      });
+
+      // Keep Tab inside the dialog while it is open
+      tvModal.addEventListener("keydown", (e) => {
+        if (e.key !== "Tab") return;
+        const focusables = [tvCloseBtn, tvSoundBtn, tvToggleBtn];
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        } else if (!focusables.includes(document.activeElement)) {
+          e.preventDefault();
+          first.focus();
+        }
+      });
+
       // Booking Modal
       const bookingModal = document.getElementById("booking-modal");
       const openBookingBtn = document.getElementById("open-booking-modal");
@@ -974,6 +1188,9 @@
           }
           if (!comparisonModal.classList.contains("hidden")) {
             closeComparisonModal();
+          }
+          if (tvIsOpen()) {
+            closeTryonVideo();
           }
         }
       });

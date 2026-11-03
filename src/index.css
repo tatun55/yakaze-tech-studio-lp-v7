@@ -206,6 +206,119 @@ html {
               transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal-content,
+  .modal-closing .modal-backdrop,
+  .modal-closing .modal-content {
+    transition: none !important;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Try-on video — small landscape card + modal player
+   Card borrows the product-card language (border, #fefdfb, serif).
+   Modal box = video stage + one control bar; the box is sized so
+   that stage + bar always fit the viewport in either orientation.
+   ────────────────────────────────────────────────────────────── */
+
+/* Play mark on the card thumbnail */
+.tv-play-mark {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: rgba(26, 26, 26, 0.35);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.tv-card:hover .tv-play-mark,
+.tv-card:focus-visible .tv-play-mark {
+  background: rgba(26, 26, 26, 0.55);
+  transform: scale(1.06);
+}
+
+/* Modal box: width derives from the orientation and the available height */
+.tv-box {
+  --tv-bar: 3.75rem;        /* control bar height, see .tv-bar */
+  --tv-vh: 82vh;            /* height budget for stage + bar */
+  background-color: #faf7f2;
+}
+@supports (height: 1dvh) {
+  .tv-box {
+    --tv-vh: 82dvh;
+  }
+}
+.tv-box[data-orient="landscape"] {
+  width: min(48rem, calc(100vw - 2rem), calc((var(--tv-vh) - var(--tv-bar)) * 16 / 9));
+}
+.tv-box[data-orient="portrait"] {
+  width: min(calc(100vw - 2rem), calc((var(--tv-vh) - var(--tv-bar)) * 9 / 16));
+}
+.tv-stage {
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+}
+.tv-box[data-orient="portrait"] .tv-stage {
+  aspect-ratio: 9 / 16;
+}
+.tv-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+.tv-bar {
+  min-height: var(--tv-bar);
+}
+
+/* Sound button: loud while muted (the one thing we want noticed), quiet once sound is on */
+.tv-sound {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  font-size: var(--font-size-sm);
+  line-height: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background-color: #c8352a;
+  border: 1px solid #c8352a;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.tv-sound:hover {
+  background-color: #b02e24;
+  border-color: #b02e24;
+}
+.tv-sound:focus-visible {
+  outline: 2px solid #c8352a;
+  outline-offset: 2px;
+}
+.tv-sound.is-on {
+  color: rgba(26, 26, 26, 0.6);
+  background-color: transparent;
+  border-color: var(--color-border);
+}
+.tv-sound.is-on:hover {
+  color: rgba(26, 26, 26, 0.9);
+  border-color: #000;
+}
+.tv-sound.is-on:focus-visible {
+  outline-color: #000;
+}
+.tv-sound .tv-ico-on,
+.tv-sound.is-on .tv-ico-off {
+  display: none;
+}
+.tv-sound.is-on .tv-ico-on {
+  display: block;
+}
+
 .modal-link-badge {
   font-family: "Hyperwave", sans-serif;
   position: absolute;
