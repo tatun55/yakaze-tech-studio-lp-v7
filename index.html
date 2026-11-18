@@ -146,6 +146,14 @@
               <a href="#contact" class="inline-flex items-center justify-center px-5 py-2.5 border border-border text-base text-sm font-medium link-flat hover:border-primary" style="background-color: #fefdfb"> 資料請求 </a>
             </div>
 
+            <!-- Try-on video link: opens #tryon-video-modal -->
+            <div class="reveal animate-fade-in-up animate-delay-300 mt-4">
+              <button type="button" data-open-tryon-video data-video-source="hero" aria-haspopup="dialog" aria-controls="tryon-video-modal" class="inline-flex items-center gap-1.5 text-sm text-base/70 underline underline-offset-4 decoration-border hover:text-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" /></svg>
+                開発の進め方を動画で見る（15秒）
+              </button>
+            </div>
+
             <!-- Badges -->
             <div class="reveal animate-fade-in-up animate-delay-400 mt-10 flex flex-wrap gap-4 items-center">
               <div class="flex items-center gap-2 px-3 py-2 border border-border" style="background-color: #fefdfb">
@@ -519,25 +527,17 @@
             <div class="border border-border p-6 md:p-8 h-full relative" style="background-color: #fefdfb">
               <span class="absolute -top-3 -right-2 z-10" style="font-family: 'Hyperwave', sans-serif; color: #6b2059; transform: rotate(6deg); font-size: 1.625rem">FREE!!</span>
               <!-- Try-on video: opens #tryon-video-modal. The mp4 is only requested when the modal opens -->
-              <button id="open-tryon-video" type="button" class="tv-card group flex items-center gap-3 sm:gap-4 w-full mb-6 pb-6 border-b border-border-light text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" aria-haspopup="dialog" aria-controls="tryon-video-modal">
-                <span class="relative block w-24 sm:w-32 flex-shrink-0 overflow-hidden border border-border-light" style="aspect-ratio: 16/9">
-                  <img src="/videos/shichaku-card.jpg" alt="" width="640" height="360" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
-                  <span class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
-                    <span class="tv-play-mark">
-                      <svg class="w-3.5 h-3.5 ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z" /></svg>
-                    </span>
-                  </span>
-                </span>
-                <span class="flex flex-col min-w-0">
-                  <span class="text-sm text-base/70 break-keep transition-colors group-hover:text-primary">開発の進め方を<wbr />動画で</span>
-                  <span class="text-xs text-base/45 leading-relaxed mt-0.5">15秒・音声オフ</span>
+              <button type="button" data-open-tryon-video data-video-source="contact" aria-haspopup="dialog" aria-controls="tryon-video-modal" class="tv-card group block w-full mb-6 pb-6 border-b border-border-light text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                <span class="relative block w-full overflow-hidden border border-border-light" style="aspect-ratio: 16/9"><img src="/videos/shichaku-16x9-poster.jpg" alt="" width="1280" height="720" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" /><span class="absolute inset-0 flex items-center justify-center" aria-hidden="true"><span class="tv-play-mark !w-14 !h-14"><svg class="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z" /></svg></span></span></span>
+                <span class="flex items-baseline justify-between gap-3 mt-3">
+                  <span class="text-sm text-base/70 transition-colors group-hover:text-primary">開発の進め方を動画で</span>
+                  <span class="text-xs text-base/45 flex-shrink-0">15秒・音声オフ</span>
                 </span>
               </button>
               <div class="mb-4">
-                <h3 class="font-serif text-xl font-medium mb-2">まずは話を聞いてみませんか？</h3>
+                <h3 class="font-serif text-xl font-medium mb-2 break-keep">まずは話を<wbr />聞いてみませんか？</h3>
                 <p class="text-sm text-base/50 leading-relaxed">
-                  30分のオンライン相談で、開発コストを抑えながら<br />
-                  品質を上げる独自のノウハウをお伝えします。
+                  30分のオンライン相談で、開発コストを抑えながら<br class="hidden sm:inline" />品質を上げる独自のノウハウをお伝えします。
                 </p>
               </div>
               <ul class="text-sm text-base/60 space-y-2 mb-6">
@@ -1009,7 +1009,7 @@
       // Try-on Video Modal
       // One <video>; src/poster are chosen by viewport width on open, removed on close so nothing stays loaded.
       const tvModal = document.getElementById("tryon-video-modal");
-      const tvOpenBtn = document.getElementById("open-tryon-video");
+      const tvOpenBtns = document.querySelectorAll("[data-open-tryon-video]");
       const tvCloseBtn = document.getElementById("close-tryon-video");
       const tvOverlay = document.getElementById("tryon-video-overlay");
       const tvContent = document.getElementById("tryon-video-content");
@@ -1050,13 +1050,13 @@
         }
       }
 
-      function openTryonVideo() {
+      function openTryonVideo(trigger) {
         const orient = window.matchMedia("(min-width: 768px)").matches ? "landscape" : "portrait";
         tvContent.dataset.orient = orient;
         tvVideo.poster = tvSources[orient].poster;
         tvVideo.src = tvSources[orient].src;
         tvSetSound(false);
-        tvLastFocus = document.activeElement;
+        tvLastFocus = trigger; // Safari does not focus a clicked button, so activeElement is unreliable
         tvModal.classList.remove("hidden");
         document.body.style.overflow = "hidden";
         void tvOverlay.offsetWidth;
@@ -1083,13 +1083,19 @@
           tvModal.classList.add("hidden");
           tvModal.classList.remove("modal-closing");
           document.body.style.overflow = "";
-          (tvLastFocus || tvOpenBtn).focus();
+          tvLastFocus.focus();
         };
         if (tvReduceMotion.matches) finish();
         else setTimeout(finish, 300);
       }
 
-      tvOpenBtn.addEventListener("click", openTryonVideo);
+      tvOpenBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          openTryonVideo(btn);
+          // GA4: which link opened the video
+          gtag("event", "video_open", { video_name: "tryon", video_source: btn.dataset.videoSource });
+        });
+      });
       tvCloseBtn.addEventListener("click", closeTryonVideo);
       tvOverlay.addEventListener("click", closeTryonVideo);
       tvVideo.addEventListener("click", tvPlayPause);
