@@ -1146,7 +1146,11 @@
         document.body.style.overflow = "";
       }
 
-      openBookingBtn.addEventListener("click", openModal);
+      openBookingBtn.addEventListener("click", () => {
+        openModal();
+        // GA4: compare consultation intent with video views
+        gtag("event", "booking_open", { booking_source: "contact" });
+      });
       closeBookingX.addEventListener("click", closeModal);
       closeBookingBtn.addEventListener("click", closeModal);
       bookingOverlay.addEventListener("click", closeModal);
